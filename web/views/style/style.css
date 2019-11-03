@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box;
+    margin: 0 ;
+    padding: 0;
+
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+.flex-header{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding: 9px;
+}
+.flex-header>a{
+    color: white;
+}
+.flex-header>a:hover{
+    color: #58c5f0;
+}
+html{
+
+}
+body {
+
+    background-image: url("http://www.pptbackgrounds.org/uploads/elegant-blue-white-design-powerpoint-backgrounds.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.flex-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100VH;
+    margin: 0 auto;
+    width: 1000px;
+}
+header{
+    background:rgb(54, 66, 121);
+}
+footer{
+    height: 50px;
+}
