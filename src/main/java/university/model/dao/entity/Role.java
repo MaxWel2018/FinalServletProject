@@ -15,13 +15,18 @@ public enum Role {
     };
 
     public static Role getRole(String role) {
-        switch (role) {
-            case "user":
-                return USER;
-            case "admin":
-                return ADMIN;
-            default:
-                throw new IllegalArgumentException("This role doesn't exist");
+        if (role != null) {
+            switch (role) {
+                case "user":
+                    return USER;
+                case "admin":
+                    return ADMIN;
+                default:
+                    throw new IllegalArgumentException("This role doesn't exist");
+            }
+
+        } else {
+            throw new IllegalArgumentException("Role is null");
         }
     }
 }

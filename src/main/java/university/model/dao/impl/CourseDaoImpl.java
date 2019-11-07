@@ -2,7 +2,7 @@ package university.model.dao.impl;
 
 import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.contract.CourseDao;
-import university.model.dao.entity.Course;
+import university.model.dao.entity.CourseEntity;
 import university.model.dao.exception.EntityNotFoundException;
 
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 import static university.model.dao.mapper.CourseMapper.mapResultSetToCourse;
 
-public class CourseDaoImpl extends AbstractCrudDaoImpl<Course> implements CourseDao {
+public class CourseDaoImpl extends AbstractCrudDaoImpl<CourseEntity> implements CourseDao {
 
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM course where Course_Id =?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM course ";
@@ -19,23 +19,23 @@ public class CourseDaoImpl extends AbstractCrudDaoImpl<Course> implements Course
     private static final String DELETE_BY_ID = "DELETE FROM course where  Course_Id = ?";
     private static final String INSERT_COURSE = "INSERT  INTO course(course_name) VALUES(?)";
 
-    public CourseDaoImpl(HikariConnectionPool connector) throws SQLException {
+    public CourseDaoImpl(HikariConnectionPool connector) {
         super(connector, INSERT_COURSE, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID);
     }
 
 
     @Override
-    protected Course mapResultSetToEntity(ResultSet resultSet) throws SQLException {
+    protected CourseEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
         return mapResultSetToCourse(resultSet).orElseThrow(() -> new EntityNotFoundException("Course not Found"));
     }
 
     @Override
-    protected void insert(PreparedStatement preparedStatement, Course entity) throws SQLException {
+    protected void insert(PreparedStatement preparedStatement, CourseEntity entity) throws SQLException {
         preparedStatement.setString(1,entity.getName());
     }
 
     @Override
-    protected void updateValues(PreparedStatement preparedStatement, Course entity) throws SQLException {
+    protected void mapForUpdateStatement(PreparedStatement preparedStatement, CourseEntity entity) throws SQLException {
         insert(preparedStatement, entity);
         preparedStatement.setInt(2, entity.getId());
     }

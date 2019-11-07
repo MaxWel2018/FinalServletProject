@@ -1,12 +1,12 @@
 package university.model.dao.contract;
 
-import university.model.dao.entity.Course;
-import university.model.dao.entity.Speciality;
+import university.model.dao.entity.CourseEntity;
+import university.model.dao.entity.SpecialityEntity;
 
 import java.util.List;
 
-public interface SpecialityDao extends CrudDao<Speciality, Integer> {
-    List<Course> getRequiredCoursesList(Integer specialityId);
+public interface SpecialityDao extends CrudDao<SpecialityEntity, Integer> {
+    List<CourseEntity> getRequiredCoursesList(Integer specialityId);
 
     void addCourse(Integer specialityId, Integer courseId);
 

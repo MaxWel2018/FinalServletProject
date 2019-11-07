@@ -1,11 +1,9 @@
 package university.model.dao.impl;
 
-import com.zaxxer.hikari.HikariDataSource;
 import org.apache.log4j.Logger;
 import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.contract.CrudDao;
 import university.model.dao.exception.DataBaseRuntimeException;
-
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,7 +45,7 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E,Integer> {
     };
 
     public AbstractCrudDaoImpl(HikariConnectionPool connector, String saveQuery, String findByIdQuery,
-                               String findAllQuery, String updateQuery, String deleteByIdQuery) throws SQLException {
+                               String findAllQuery, String updateQuery, String deleteByIdQuery) {
         this.connector = connector;
         this.saveQuery = saveQuery;
         this.findByIdQuery = findByIdQuery;
@@ -95,7 +93,7 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E,Integer> {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
 
-            updateValues(preparedStatement, entity);
+            mapForUpdateStatement(preparedStatement, entity);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -146,5 +144,5 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E,Integer> {
 
     protected abstract void insert(PreparedStatement preparedStatement, E entity) throws SQLException;
 
-    protected abstract void updateValues(PreparedStatement preparedStatement, E entity) throws SQLException;
+    protected abstract void mapForUpdateStatement(PreparedStatement preparedStatement, E entity) throws SQLException;
 }

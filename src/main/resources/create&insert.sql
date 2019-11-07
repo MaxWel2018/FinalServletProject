@@ -1,4 +1,4 @@
-DROP DATABASE university;
+DROP DATABASE IF EXISTS university;
 CREATE DATABASE university;
 use university;
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS Users
 (
     User_Id     INT PRIMARY KEY AUTO_INCREMENT,
     Email       VARCHAR(50)   NOT NULL,
-    Password    CHAR(50)      NOT NULL,
+    Password    VARCHAR(50)   NOT NULL,
     First_Name  VARCHAR(1478) NOT NULL,
     Second_Name VARCHAR(700)  NOT NULL,
     Role_Id     INT,
@@ -56,61 +56,38 @@ CREATE TABLE IF NOT EXISTS Exam_Result
 
 CREATE TABLE IF NOT EXISTS Result_For_Speciality
 (
-    Result_For_Speciality INT PRIMARY KEY AUTO_INCREMENT,
-    Final_Grade           SMALLINT NOT NULL,
-    Course_Id             INT      NOT NULL,
-    Speciality_Id         INT      NOT NULL,
-    User_Id               INT      NOT NULL,
+    Result_For_Speciality_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Final_Grade              SMALLINT NOT NULL,
+    Speciality_Id            INT      NOT NULL,
+    User_Id                  INT      NOT NULL,
     FOREIGN KEY (Speciality_Id) REFERENCES Speciality (Speciality_Id),
     FOREIGN KEY (User_Id) REFERENCES Users (User_Id)
 );
 
 # TODO ==============================INSERT===============
 
-INSERT INTO speciality(speciality_name, students_number)
-VALUES ('Computer Since', 30);
-
-INSERT INTO speciality(speciality_name, students_number)
-VALUES ('Computer engineering', 25);
-
-INSERT INTO speciality(speciality_name, students_number)
-VALUES ('Human Resources', 25);
+INSERT INTO Speciality(speciality_name, students_number)
+VALUES ('Computer Since', 30),
+       ('Computer engineering', 25),
+       ('Human Resources', 25);
 
 INSERT INTO course(Course_Name)
-VALUES ('Math');
-
-INSERT INTO course(Course_Name)
-VALUES ('Computer Science');
-
-INSERT INTO course(Course_Name)
-VALUES ('English');
-
-INSERT INTO course(Course_Name)
-VALUES ('Logic');
-
-INSERT INTO course(Course_Name)
-VALUES ('Physics');
+VALUES ('Math'),
+       ('Computer Science'),
+       ('English'),
+       ('Logic'),
+       ('Physics');
 
 INSERT INTO Speciality_Course(course_id, speciality_id)
-VALUES (1,1);
-INSERT INTO Speciality_Course(course_id, speciality_id)
-VALUES (2,1);
-INSERT INTO Speciality_Course(course_id, speciality_id)
-VALUES (4,1);
-
-INSERT INTO Speciality_Course(course_id, speciality_id)
-VALUES (2,2);
-INSERT INTO Speciality_Course(course_id, speciality_id)
-VALUES (3,2);
-INSERT INTO Speciality_Course(course_id, speciality_id)
-VALUES (5,2);
-
-INSERT INTO Speciality_Course(course_id, speciality_id)
-VALUES (4,3);
-INSERT INTO Speciality_Course(course_id, speciality_id)
-VALUES (1,3);
-INSERT INTO Speciality_Course(course_id, speciality_id)
-VALUES (3,3);
+VALUES (1, 1),
+       (2, 1),
+       (4, 1),
+       (2, 2),
+       (3, 2),
+       (5, 2),
+       (4, 3),
+       (1, 3),
+       (3, 3);
 
 
 

@@ -1,10 +1,11 @@
 package university.model.dao.contract;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public interface CrudDao<E,ID> {
+public interface CrudDao<E,ID extends Serializable> {
     void save(E entity);
 
     Optional<E> findById(ID id);
