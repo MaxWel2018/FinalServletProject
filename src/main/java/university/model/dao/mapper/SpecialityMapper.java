@@ -11,6 +11,9 @@ public class SpecialityMapper {
                 .withId(resultSet.getInt("Speciality_Id"))
                 .withName(resultSet.getString("Speciality_Name"))
                 .withStudentsNumber(resultSet.getInt("Students_Number"))
+                .withActivity(resultSet.getString("Activity"))
+                .withBackground(resultSet.getString("Background"))
+                .withEmployments(resultSet.getString("Employments"))
                 .build();
     }
 }

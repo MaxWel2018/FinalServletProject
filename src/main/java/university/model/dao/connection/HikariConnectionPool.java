@@ -10,7 +10,9 @@ import java.util.ResourceBundle;
 
 public class HikariConnectionPool {
     private static final Logger LOGGER = Logger.getLogger(HikariDataSource.class);
+
     private final HikariDataSource dataSource;
+
     public HikariConnectionPool(String configFileName) {
         ResourceBundle resource = ResourceBundle.getBundle(configFileName);
         try {
@@ -23,7 +25,7 @@ public class HikariConnectionPool {
         dataSource.setMaximumPoolSize(Integer.parseInt(resource.getString("dataSource.MaximumPoolSize")));
         dataSource.setLoginTimeout(Integer.parseInt(resource.getString("dataSource.setLoginTimeout")));
         } catch (SQLException e) {
-            LOGGER.error("Connection failed", e);
+            LOGGER.error("Connection failed", e); //TODO новый месседж
             throw new DataBaseRuntimeException(e);
         }
     }

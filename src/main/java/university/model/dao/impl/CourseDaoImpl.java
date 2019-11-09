@@ -16,11 +16,10 @@ public class CourseDaoImpl extends AbstractCrudDaoImpl<CourseEntity> implements 
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM course where Course_Id =?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM course ";
     private static final String UPDATE_QUERY = "UPDATE course SET Course_Name = ? WHERE  Course_Id = ?";
-    private static final String DELETE_BY_ID = "DELETE FROM course where  Course_Id = ?";
     private static final String INSERT_COURSE = "INSERT  INTO course(course_name) VALUES(?)";
 
     public CourseDaoImpl(HikariConnectionPool connector) {
-        super(connector, INSERT_COURSE, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID);
+        super(connector, INSERT_COURSE, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY);
     }
 
 

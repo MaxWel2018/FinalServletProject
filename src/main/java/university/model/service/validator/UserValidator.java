@@ -1,10 +1,10 @@
 package university.model.service.validator;
 
+import university.domain.User;
 import university.model.service.exception.InvalidDateException;
 import university.model.service.exception.InvalidEmailException;
 import university.model.service.exception.InvalidPasswordException;
-import university.domain.User;
-import university.utility.RegexTemplate;
+import university.util.RegexTemplate;
 
 import java.util.Optional;
 import java.util.regex.Pattern;

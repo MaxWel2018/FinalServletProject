@@ -5,12 +5,12 @@
     padding: 0;
 }
 a{
-    text-decoration: none;
+    text-decoration: none;!important;    
     color: white;
 }
 
 a:hover {
-    text-decoration: none;
+    text-decoration: none;!important;
 }
 
 .hidden {
@@ -25,6 +25,47 @@ a:hover {
     justify-content: space-between;
     align-content: center;
     padding: 9px;
+}
+
+#background, #activity, #employments, #name {
+    padding-left: 40px;
+}
+
+.speciality-courses {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 231px;
+    right: 200px;
+    border-radius: 23px;
+    background: #00000047;
+    padding: 20px;
+    color: rgb(0, 123, 255);
+    font-size: 18px;
+    width: 400px;
+    font-weight: bold;
+}
+.speciality-courses-label{
+
+    position: absolute;
+    top: 249px;
+    right: 200px;
+    border-radius: 23px;
+    padding: 20px;
+    color: #ec0000;
+    font-size: 24px;
+    width: 400px;
+    font-weight: bold;
+    z-index: 99;
+}
+
+.spec-item > label {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.content {
+    min-height: 500px;
 }
 .flex-header>a{
     color: white;
@@ -49,15 +90,10 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100VH;
+    min-height: 100VH;
     margin: 0 auto;
     width: 1000px;
 }
-
-.content {
-    height: 100%;
-}
-
 .content > .regist-form > .form-group {
     width: 250px;
 }

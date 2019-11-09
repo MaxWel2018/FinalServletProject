@@ -21,9 +21,7 @@
 
 <body>
 <div class="flex-wrapper">
-    <header>
-        <c:import url="../Header.jsp"/>
-    </header>
+        <c:import url="../part/Header.jsp"/>
     <div class="content">
 
 
@@ -42,7 +40,7 @@
         </form>
     </div>
     <footer>
-        <fmt:message key="all.footer.rights"/>
+        <c:import url="../part/Footer.jsp"/>
     </footer>
 </div>
 </body>

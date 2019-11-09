@@ -2,8 +2,8 @@ package university.controller;
 
 
 import university.command.Command;
-import university.command.user.PagesConstant;
 import university.context.ApplicationContextInjector;
+import university.util.PagesConstant;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

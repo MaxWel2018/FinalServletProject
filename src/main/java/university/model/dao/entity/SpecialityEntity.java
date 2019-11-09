@@ -1,6 +1,5 @@
 package university.model.dao.entity;
 
-import java.util.List;
 import java.util.Objects;
 
 public class SpecialityEntity {
@@ -8,19 +7,41 @@ public class SpecialityEntity {
     private Integer id;
     private String name;
     private Integer studentsNumber;
-
-    private List<CourseEntity> requiredCours;
+    private String activity;
+    private String background;
+    private String employments;
 
     private SpecialityEntity(Builder builder) {
         id = builder.id;
         name = builder.name;
         studentsNumber = builder.studentsNumber;
-
-        requiredCours = builder.requiredCours;
+        activity = builder.activity;
+        background = builder.background;
+        employments = builder.employments;
     }
 
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof SpecialityEntity)) {
+            return false;
+        }
+        SpecialityEntity that = (SpecialityEntity) o;
+        return id.equals(that.id) &&
+                studentsNumber.equals(that.studentsNumber) &&
+                Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     public Integer getId() {
@@ -35,36 +56,25 @@ public class SpecialityEntity {
         return studentsNumber;
     }
 
-
-    public List<CourseEntity> getRequiredCours() {
-        return requiredCours;
+    public String getActivity() {
+        return activity;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof SpecialityEntity)) {
-            return false;
-        }
-        SpecialityEntity that = (SpecialityEntity) o;
-        return id.equals(that.id) &&
-                studentsNumber.equals(that.studentsNumber) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(requiredCours, that.requiredCours);
+    public String getBackground() {
+        return background;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, studentsNumber, requiredCours);
+    public String getEmployments() {
+        return employments;
     }
 
     public static final class Builder {
-        private int id;
+        private Integer id;
         private String name;
-        private int studentsNumber;
-        private List<CourseEntity> requiredCours;
+        private Integer studentsNumber;
+        private String activity;
+        private String background;
+        private String employments;
 
         private Builder() {
         }
@@ -84,9 +94,18 @@ public class SpecialityEntity {
             return this;
         }
 
+        public Builder withActivity(String val) {
+            activity = val;
+            return this;
+        }
 
-        public Builder withRequiredCourses(List<CourseEntity> val) {
-            requiredCours = val;
+        public Builder withBackground(String val) {
+            background = val;
+            return this;
+        }
+
+        public Builder withEmployments(String val) {
+            employments = val;
             return this;
         }
 

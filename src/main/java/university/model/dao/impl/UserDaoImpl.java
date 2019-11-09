@@ -15,13 +15,12 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<UserEntity> implements User
     private static final String FIND_ALL_QUERY = "SELECT * FROM users INNER JOIN role r on users.Role_Id = r.Role_Id";
     private static final String UPDATE_QUERY = "UPDATE users" +
             " SET Email = ?,Password = ?, First_Name = ? ,Second_Name=?, Role_Id = ? WHERE  User_Id = ?";
-    private static final String DELETE_BY_ID = "DELETE FROM users WHERE  User_Id = ?";
     private static final String INSERT_USER = "INSERT INTO users(Email, Password, First_Name, Second_Name, Role_Id) VALUES(?,?,?,?,?)";
     private static final String FIND_BY_EMAIL = "SELECT * FROM users INNER JOIN role r on users.Role_Id = r.Role_Id where Email =?";
 
 
     public UserDaoImpl(HikariConnectionPool connector) {
-        super(connector, INSERT_USER, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID);
+        super(connector, INSERT_USER, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY);
     }
 
     @Override

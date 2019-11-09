@@ -9,10 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E,Integer> {
@@ -24,7 +21,6 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E,Integer> {
     private final String findByIdQuery;
     private final String findAllQuery;
     private final String updateQuery;
-    private final String deleteByIdQuery;
 
     private static final BiConsumer<PreparedStatement, String> STRING_CONSUMER
             = (PreparedStatement pr, String param) -> {
@@ -45,13 +41,12 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E,Integer> {
     };
 
     public AbstractCrudDaoImpl(HikariConnectionPool connector, String saveQuery, String findByIdQuery,
-                               String findAllQuery, String updateQuery, String deleteByIdQuery) {
+                               String findAllQuery, String updateQuery) {
         this.connector = connector;
         this.saveQuery = saveQuery;
         this.findByIdQuery = findByIdQuery;
         this.findAllQuery = findAllQuery;
         this.updateQuery = updateQuery;
-        this.deleteByIdQuery = deleteByIdQuery;
     }
     protected Optional<E> findByIntParam(Integer id, String query) {
         return findByParam(id, query, INT_CONSUMER);
@@ -106,33 +101,18 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E,Integer> {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(findAllQuery)) {
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
-                List<E> entities = new ArrayList<>();
+                Set<E> entities = new HashSet<>();
                 while (resultSet.next()) {
                     entities.add(mapResultSetToEntity(resultSet));
                 }
-                return entities;
+                return new ArrayList<>(entities);
             }
         } catch (SQLException e) {
             LOGGER.error("Connection is failed"+e);
             throw new DataBaseRuntimeException(e);
         }
     }
-    @Override
-    public void deleteById(Integer id) {
-        try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(deleteByIdQuery)) {
-            preparedStatement.setInt(1,id);
 
-            preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            LOGGER.error("");
-            throw new DataBaseRuntimeException(e);
-        }
-    }
-    @Override
-    public void deleteAllByIds(Set<Integer> integers) {
-        integers.forEach(this::deleteById);
-    }
     @Override
     public  Optional<E> findById(Integer id){
         return findByIntParam(id, findByIdQuery);

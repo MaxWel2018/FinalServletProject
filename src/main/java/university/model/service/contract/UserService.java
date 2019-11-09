@@ -1,5 +1,6 @@
 package university.model.service.contract;
 
+import university.domain.SpecialityRequest;
 import university.domain.User;
 
 import java.util.List;
@@ -18,4 +19,7 @@ public interface UserService  {
     void update(User entity);
 
     List<User> findAll();
+
+    List<SpecialityRequest> generateRating(Integer currentPage, Integer recordsPerPage, Integer specialityId);
+
 }

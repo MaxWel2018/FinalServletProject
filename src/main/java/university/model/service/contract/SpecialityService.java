@@ -1,21 +1,23 @@
 package university.model.service.contract;
 
-import university.model.dao.entity.CourseEntity;
+import university.domain.Course;
+import university.domain.Speciality;
 import university.model.dao.entity.SpecialityEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface SpecialityService   {
     void register(SpecialityEntity specialityEntity);
 
-    Optional<SpecialityEntity> findById(Integer id);
+    Speciality findById(Integer id);
 
-    void update(SpecialityEntity entity);
+    void update(Speciality entity);
 
-    List<SpecialityEntity> findAll();
+    List<Speciality> findAll();
 
-    List<CourseEntity> getRequiredCoursesList(Integer specialityId);
+    List<Course> getRequiredCoursesListBySpecId(Integer specialityId);
+
+    Integer countElementOfTableBySpecId(Integer idSpeciality);
 
     void addCourse(Integer specialityId, Integer courseId);
 }

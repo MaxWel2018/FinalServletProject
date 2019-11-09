@@ -3,9 +3,6 @@ package university.model.service.mapper;
 import university.domain.User;
 import university.model.dao.entity.UserEntity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class UserMapper {
 
     public User mapUserEntityToUser(UserEntity entity) {
@@ -29,13 +26,5 @@ public class UserMapper {
                 .build();
     }
 
-    public List<User> mapUserEntityListToUserList(List<UserEntity> entities) {
-        List<User> users = new ArrayList<>();
-        for (UserEntity userEntity : entities) {
-            users.add(mapUserEntityToUser(userEntity));
-        }
 
-        return users;
-
-    }
 }

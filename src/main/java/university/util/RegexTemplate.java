@@ -1,4 +1,4 @@
-package university.utility;
+package university.util;
 
 public final class RegexTemplate {
 

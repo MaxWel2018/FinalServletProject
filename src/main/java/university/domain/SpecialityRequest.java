@@ -4,16 +4,22 @@ import java.util.Objects;
 
 public class SpecialityRequest {
 
-    private Integer id;
-    private Speciality specialityId;
-    private User user;
-    private Integer finalMark;
-    private Boolean confirmed;
+    private final Integer id;
+    private final Integer specialityId;
+    private final String specialityName;
+    private final String userName;
+    private final String userSurName;
+    private final Integer userId;
+    private final Integer finalMark;
+    private final Boolean confirmed;
 
     private SpecialityRequest(Builder builder) {
         id = builder.id;
         specialityId = builder.specialityId;
-        user = builder.userId;
+        specialityName = builder.specialityName;
+        userName = builder.userName;
+        userSurName = builder.userSurName;
+        userId = builder.userId;
         finalMark = builder.finalMark;
         confirmed = builder.confirmed;
     }
@@ -33,26 +39,41 @@ public class SpecialityRequest {
         SpecialityRequest that = (SpecialityRequest) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(specialityId, that.specialityId) &&
-                Objects.equals(user, that.user) &&
+                Objects.equals(specialityName, that.specialityName) &&
+                Objects.equals(userName, that.userName) &&
+                Objects.equals(userSurName, that.userSurName) &&
+                Objects.equals(userId, that.userId) &&
                 Objects.equals(finalMark, that.finalMark) &&
                 Objects.equals(confirmed, that.confirmed);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, specialityId, user, finalMark, confirmed);
+        return Objects.hash(id, specialityId, specialityName, userName, userSurName, userId, finalMark, confirmed);
     }
 
     public Integer getId() {
         return id;
     }
 
-    public Speciality getSpecialityId() {
+    public Integer getSpecialityId() {
         return specialityId;
     }
 
-    public User getUser() {
-        return user;
+    public String getSpecialityName() {
+        return specialityName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getUserSurName() {
+        return userSurName;
+    }
+
+    public Integer getUserId() {
+        return userId;
     }
 
     public Integer getFinalMark() {
@@ -65,8 +86,11 @@ public class SpecialityRequest {
 
     public static final class Builder {
         private Integer id;
-        private Speciality specialityId;
-        private User userId;
+        private Integer specialityId;
+        private String specialityName;
+        private String userName;
+        private String userSurName;
+        private Integer userId;
         private Integer finalMark;
         private Boolean confirmed;
 
@@ -78,12 +102,27 @@ public class SpecialityRequest {
             return this;
         }
 
-        public Builder withSpecialityId(Speciality val) {
+        public Builder withSpecialityId(Integer val) {
             specialityId = val;
             return this;
         }
 
-        public Builder withUserId(User val) {
+        public Builder withSpecialityName(String val) {
+            specialityName = val;
+            return this;
+        }
+
+        public Builder withUserName(String val) {
+            userName = val;
+            return this;
+        }
+
+        public Builder withUserSurName(String val) {
+            userSurName = val;
+            return this;
+        }
+
+        public Builder withUserId(Integer val) {
             userId = val;
             return this;
         }

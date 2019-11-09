@@ -25,6 +25,6 @@ public class EncodingFilter implements Filter {
         req.setAttribute("confirmPassword",newConfirmPass);
         filterChain.doFilter(req, servletResponse);
     }
-
+//TODO команды в контроллер мапер валидатор поднять в модель , контракт на сервис
 
 }

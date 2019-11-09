@@ -19,12 +19,9 @@
 </head>
 <c:import url="../Style.jsp"/>
 
-
 <body>
 <div class="flex-wrapper">
-    <header>
-        <c:import url="../Header.jsp"/>
-    </header>
+        <c:import url="../part/Header.jsp"/>
     <div class="content">
 
         <form class="regist-form" method="post" action="${pageContext.servletContext.contextPath}/login"
@@ -59,9 +56,7 @@
             <button type="submit" class="btn btn-primary"><fmt:message key="reg.regestration"/></button>
         </form>
     </div>
-    <footer>
-        <fmt:message key="all.footer.rights"/>
-    </footer>
+        <c:import url="../part/Footer.jsp"/>
 </div>
 </body>
 </html>

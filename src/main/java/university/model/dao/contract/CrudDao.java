@@ -3,7 +3,6 @@ package university.model.dao.contract;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface CrudDao<E,ID extends Serializable> {
     void save(E entity);
@@ -14,7 +13,4 @@ public interface CrudDao<E,ID extends Serializable> {
 
     void update(E entity);
 
-    void deleteById(ID id);
-
-    void deleteAllByIds(Set<ID> ids);
 }

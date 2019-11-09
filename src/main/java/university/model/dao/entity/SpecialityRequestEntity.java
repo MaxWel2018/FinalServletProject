@@ -4,16 +4,22 @@ import java.util.Objects;
 
 public class SpecialityRequestEntity {
 
-    private Integer id;
-    private SpecialityEntity specialityEntityId;
-    private UserEntity userEntityId;
-    private Integer finalMark;
-    private Boolean confirmed;
+    private final Integer id;
+    private final Integer specialityId;
+    private final String specialityName;
+    private final String userName;
+    private final String userSurName;
+    private final Integer userId;
+    private final Integer finalMark;
+    private final Boolean confirmed;
 
     private SpecialityRequestEntity(Builder builder) {
         id = builder.id;
-        specialityEntityId = builder.specialityEntityId;
-        userEntityId = builder.userEntityId;
+        specialityId = builder.specialityId;
+        specialityName = builder.specialityName;
+        userName = builder.userName;
+        userSurName = builder.userSurName;
+        userId = builder.userId;
         finalMark = builder.finalMark;
         confirmed = builder.confirmed;
     }
@@ -21,6 +27,7 @@ public class SpecialityRequestEntity {
     public static Builder newBuilder() {
         return new Builder();
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -32,27 +39,42 @@ public class SpecialityRequestEntity {
         }
         SpecialityRequestEntity that = (SpecialityRequestEntity) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(specialityEntityId, that.specialityEntityId) &&
-                Objects.equals(userEntityId, that.userEntityId) &&
+                Objects.equals(specialityId, that.specialityId) &&
+                Objects.equals(specialityName, that.specialityName) &&
+                Objects.equals(userName, that.userName) &&
+                Objects.equals(userSurName, that.userSurName) &&
+                Objects.equals(userId, that.userId) &&
                 Objects.equals(finalMark, that.finalMark) &&
                 Objects.equals(confirmed, that.confirmed);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, specialityEntityId, userEntityId, finalMark, confirmed);
+        return Objects.hash(id, specialityId, specialityName, userName, userSurName, userId, finalMark, confirmed);
     }
 
     public Integer getId() {
         return id;
     }
 
-    public SpecialityEntity getSpecialityEntityId() {
-        return specialityEntityId;
+    public Integer getSpecialityId() {
+        return specialityId;
     }
 
-    public UserEntity getUserEntityId() {
-        return userEntityId;
+    public String getSpecialityName() {
+        return specialityName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getUserSurName() {
+        return userSurName;
+    }
+
+    public Integer getUserId() {
+        return userId;
     }
 
     public Integer getFinalMark() {
@@ -65,8 +87,11 @@ public class SpecialityRequestEntity {
 
     public static final class Builder {
         private Integer id;
-        private SpecialityEntity specialityEntityId;
-        private UserEntity userEntityId;
+        private Integer specialityId;
+        private String specialityName;
+        private String userName;
+        private String userSurName;
+        private Integer userId;
         private Integer finalMark;
         private Boolean confirmed;
 
@@ -78,13 +103,28 @@ public class SpecialityRequestEntity {
             return this;
         }
 
-        public Builder withSpecialityId(SpecialityEntity val) {
-            specialityEntityId = val;
+        public Builder withSpecialityId(Integer val) {
+            specialityId = val;
             return this;
         }
 
-        public Builder withUserId(UserEntity val) {
-            userEntityId = val;
+        public Builder withSpecialityName(String val) {
+            specialityName = val;
+            return this;
+        }
+
+        public Builder withUserName(String val) {
+            userName = val;
+            return this;
+        }
+
+        public Builder withUserSurName(String val) {
+            userSurName = val;
+            return this;
+        }
+
+        public Builder withUserId(Integer val) {
+            userId = val;
             return this;
         }
 

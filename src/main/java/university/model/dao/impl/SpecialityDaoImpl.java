@@ -17,29 +17,25 @@ import java.util.List;
 import static university.model.dao.mapper.SpecialityMapper.mapResultSetToSpeciality;
 
 public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> implements SpecialityDao {
-    //    private static final String FIND_BY_ID_QUERY = "";
-//    private static final String FIND_ALL_QUERY = "";
-//    private static final String UPDATE_QUERY = "";
-//    private static final String DELETE_BY_ID = "";
+
     private static final Logger LOGGER = Logger.getLogger(SpecialityDaoImpl.class);
 
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM speciality " +
-            "INNER JOIN speciality_course on speciality.Speciality_Id = speciality_course.Speciality_Id where speciality.Speciality_Id=?";
-    private static final String FIND_ALL_QUERY = "SELECT * FROM speciality " +
-            "INNER JOIN speciality_course on speciality.Speciality_Id = speciality_course.Speciality_Id ";
-    private static final String UPDATE_QUERY = "UPDATE speciality " +
-            "SET Speciality_Name =?, Students_Number =? where Speciality_Id = ?";
-    private static final String DELETE_BY_ID = "DELETE FROM speciality where Speciality_Id = ?";
-    private static final String INSERT_SPECIALITY = "INSERT INTO speciality(speciality_name, students_number) " +
-            "VALUES (?, ?)";
+            " where Speciality_Id=?";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM speciality";
+    private static final String UPDATE_QUERY = "UPDATE speciality  " +
+            "SET Speciality_Name =?, Students_Number =?, Activity = ? ,Background = ? , Employments = ? " +
+            "where Speciality_Id = ?";
+    private static final String INSERT_SPECIALITY = "INSERT INTO speciality(speciality_name, students_number, activity, background, employments) " +
+            "VALUES (?,?,?,?,?)";
     private static final String INSERT_TWO_PARAM_IN_SPECIALITY_COURSE = "INSERT INTO speciality_course(course_id, speciality_id) VALUES (?,?)";
-    private static final String FIND_COURSES_FOR_SPECIALITY_BY_SPECIALITY_ID = "SELECT course.Course_Id, course.Course_Name FROM speciality_course " +
+    private static final String FIND_COURSES_FOR_SPECIALITY_BY_SPECIALITY_ID = "SELECT * FROM speciality_course " +
             "INNER JOIN course c on speciality_course.Course_Id = c.Course_Id" +
             " INNER JOIN speciality s on speciality_course.Speciality_Id = s.Speciality_Id" +
             " where s.Speciality_Id = ?";
 
     public SpecialityDaoImpl(HikariConnectionPool connector) {
-        super(connector, INSERT_SPECIALITY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID);
+        super(connector, INSERT_SPECIALITY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY);
     }
 
     @Override
@@ -51,16 +47,19 @@ public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> imp
     protected void insert(PreparedStatement preparedStatement, SpecialityEntity entity) throws SQLException {
         preparedStatement.setString(1, entity.getName());
         preparedStatement.setInt(2, entity.getStudentsNumber());
+        preparedStatement.setString(3, entity.getActivity());
+        preparedStatement.setString(4, entity.getBackground());
+        preparedStatement.setString(5, entity.getEmployments());
     }
 
     @Override
     protected void mapForUpdateStatement(PreparedStatement preparedStatement, SpecialityEntity entity) throws SQLException {
         insert(preparedStatement, entity);
-        preparedStatement.setInt(3, entity.getId());
+        preparedStatement.setInt(6, entity.getId());
     }
 
     @Override
-    public List<CourseEntity> getRequiredCoursesList(Integer specialityId) {
+    public List<CourseEntity> getRequiredCoursesListBySpecId(Integer specialityId) {
         List<CourseEntity> cours = new ArrayList<>();
 
         try (Connection connection = connector.getConnection();
