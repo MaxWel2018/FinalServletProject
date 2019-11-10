@@ -15,7 +15,7 @@
 <fmt:setBundle basename="internationalization"/>
 <html lang="${param.lang}">
 <head>
-    <title>Profile</title>
+    <title>Results</title>
     <c:import url="/views/Style.jsp"/>
 
 </head>
@@ -24,16 +24,32 @@
     <c:import url="/views/part/Header.jsp"/>
     <div class="content">
 
+        <p style="font-size: 40px;
+    color: #b3d7ff;; text-align: center;"><fmt:message key="result.chose.speciality"/></p>
+        <form style="width: 100%;" method="POST" action="${pageContext.servletContext.contextPath}/result">
+            <input class="hidden" name="command" value="show-rating">
+            <label style="width: 100%;">
+                <select name="selectedSpeciality" style="width: 50%; margin: 20px auto;"
+                        class="selectpicker form-control "
+                        data-style="btn-primary" title="Choose one of the following..."
+                        onchange="submit()">
+                    <c:forEach items="${speciality}" var="spec">
+                        <option  ${select == spec.id ? 'selected' : ''}
+                                value="${spec.id}"> ${spec.name}</option>
+                    </c:forEach>
+                </select>
+            </label>
+        </form>
 
         <div class="${show==false?'hidden':''}">
             <table class="table table-striped table-responsive-md btn-table">
                 <thead>
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Speciality name</th>
-                    <th>Final Mark</th>
-                    <th>Confirmed</th>
+                    <th><fmt:message key="result.user.first.name"/></th>
+                    <th><fmt:message key="result.user.last.name"/></th>
+                    <th><fmt:message key="result.spec.name"/></th>
+                    <th><fmt:message key="result.user.final.mark"/></th>
+                    <th><fmt:message key="result.user.confirmed"/></th>
                 </tr>
                 </thead>
 
@@ -58,7 +74,7 @@
                                 <td ><p class="btn btn-primary" >${i}</p></td>
                             </c:when>
                             <c:otherwise>
-                                <td ><a class="btn btn-outline-success " style="color: black;" href="${pageContext.servletContext.contextPath}\profile?page=${i}">${i}</a></td>
+                                <td ><a class="btn btn-outline-success " style="color: black;" href="${pageContext.servletContext.contextPath}\result?command=show-rating&selectedSpeciality=2&page=${i}">${i}</a></td>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>

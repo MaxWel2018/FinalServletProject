@@ -1,7 +1,7 @@
 package university.controller;
 
 
-import university.command.Command;
+import university.controller.command.Command;
 import university.context.ApplicationContextInjector;
 import university.util.PagesConstant;
 

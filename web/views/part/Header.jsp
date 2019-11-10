@@ -7,18 +7,18 @@
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="internationalization"/>
 <header>
-<form action="" class="flex-header">
+<form  class="flex-header">
     <select   class=" form-control select-size" id="language" name="language"
             onchange="submit()" style="width: 120px;">
         <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
         <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
     </select>
-    <a href="${pageContext.servletContext.contextPath}/home">
+    <a href="${pageContext.servletContext.contextPath}/home?command=info">
         <fmt:message key="home.header.home"/>
     </a>
-    <a href="${pageContext.servletContext.contextPath}/profile"><fmt:message key="home.header.profile"/></a>
-    <a href="#"><fmt:message key="home.header.resultExam"/></a>
 
+    <a href="${pageContext.servletContext.contextPath}/profile"><fmt:message key="home.header.profile"/></a>
+        <a  href="${pageContext.servletContext.contextPath}/result?command=show-speciality"><fmt:message key="home.header.resultExam"/></a>
     <c:choose>
     <c:when test="${isLogin==true}">
         <a class=" btn btn-primary " href="${pageContext.servletContext.contextPath}/logOut"> <fmt:message
@@ -30,11 +30,11 @@
            href="${pageContext.servletContext.contextPath}/views/form/Registration.jsp">
             <fmt:message key="menu.button.registration"/>
         </a>
-        <a class=" btn btn-primary"
+        <a  class=" btn btn-primary"
            href="${pageContext.servletContext.contextPath}/views/form/Authorization.jsp">
             <fmt:message key="menu.button.signIn"/>
         </a>
         </c:otherwise>
         </c:choose>
-</form>
+</div>
 </header>

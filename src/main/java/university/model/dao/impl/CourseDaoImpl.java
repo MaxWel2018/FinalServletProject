@@ -1,7 +1,7 @@
 package university.model.dao.impl;
 
 import university.model.dao.connection.HikariConnectionPool;
-import university.model.dao.contract.CourseDao;
+import university.model.dao.CourseDao;
 import university.model.dao.entity.CourseEntity;
 import university.model.dao.exception.EntityNotFoundException;
 
@@ -25,7 +25,7 @@ public class CourseDaoImpl extends AbstractCrudDaoImpl<CourseEntity> implements 
 
     @Override
     protected CourseEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-        return mapResultSetToCourse(resultSet).orElseThrow(() -> new EntityNotFoundException("Course not Found"));
+        return mapResultSetToCourse(resultSet);
     }
 
     @Override

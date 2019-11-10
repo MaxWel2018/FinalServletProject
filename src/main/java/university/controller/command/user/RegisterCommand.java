@@ -1,8 +1,8 @@
-package university.command.user;
+package university.controller.command.user;
 
-import university.command.Command;
+import university.controller.command.Command;
 import university.domain.User;
-import university.model.service.contract.UserService;
+import university.model.service.UserService;
 import university.util.PagesConstant;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ public class RegisterCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         final String email =  request.getParameter("email");
-        final String firstName = (String) request.getParameter("name");
+        final String firstName = request.getParameter("name");
         final String secondName = request.getParameter("secondName");
 
         final String password1 = (String) request.getAttribute("passwordEncode");

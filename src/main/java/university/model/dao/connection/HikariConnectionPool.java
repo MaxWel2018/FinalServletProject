@@ -25,7 +25,7 @@ public class HikariConnectionPool {
         dataSource.setMaximumPoolSize(Integer.parseInt(resource.getString("dataSource.MaximumPoolSize")));
         dataSource.setLoginTimeout(Integer.parseInt(resource.getString("dataSource.setLoginTimeout")));
         } catch (SQLException e) {
-            LOGGER.error("Connection failed", e); //TODO новый месседж
+            LOGGER.error(" Database access error", e);
             throw new DataBaseRuntimeException(e);
         }
     }

@@ -9,6 +9,11 @@ import java.io.IOException;
 @WebFilter("/login")
 public class EncodingFilter implements Filter {
     @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
+    }
+
+    @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         String password = req.getParameter("password");
@@ -25,6 +30,11 @@ public class EncodingFilter implements Filter {
         req.setAttribute("confirmPassword",newConfirmPass);
         filterChain.doFilter(req, servletResponse);
     }
-//TODO команды в контроллер мапер валидатор поднять в модель , контракт на сервис
+
+    @Override
+    public void destroy() {
+
+    }
+
 
 }

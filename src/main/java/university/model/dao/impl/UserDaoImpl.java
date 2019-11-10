@@ -1,7 +1,7 @@
 package university.model.dao.impl;
 
 import university.model.dao.connection.HikariConnectionPool;
-import university.model.dao.contract.UserDao;
+import university.model.dao.UserDao;
 import university.model.dao.entity.Role;
 import university.model.dao.entity.UserEntity;
 

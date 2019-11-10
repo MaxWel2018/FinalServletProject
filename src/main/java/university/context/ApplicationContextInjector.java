@@ -1,29 +1,31 @@
 package university.context;
 
-import university.command.Command;
-import university.command.user.LoginCommand;
-import university.command.user.RegisterCommand;
+import university.controller.command.Command;
+import university.controller.command.home.SpecialityInfoCommand;
+import university.controller.command.result.ShowRatingCommand;
+import university.controller.command.result.ShowSpecForRatingCommand;
+import university.controller.command.user.LoginCommand;
+import university.controller.command.user.RegisterCommand;
 import university.domain.User;
 import university.model.dao.connection.HikariConnectionPool;
-import university.model.dao.contract.CourseDao;
-import university.model.dao.contract.ResultForSpecialityDao;
-import university.model.dao.contract.SpecialityDao;
-import university.model.dao.contract.UserDao;
+import university.model.dao.CourseDao;
+import university.model.dao.ResultForSpecialityDao;
+import university.model.dao.SpecialityDao;
+import university.model.dao.UserDao;
 import university.model.dao.impl.CourseDaoImpl;
 import university.model.dao.impl.ResultForSpecialityDaoImpl;
 import university.model.dao.impl.SpecialityDaoImpl;
 import university.model.dao.impl.UserDaoImpl;
-import university.model.dao.mapper.SpecialityReqMapper;
-import university.model.service.contract.SpecialityService;
-import university.model.service.contract.UserService;
+import university.model.service.SpecialityService;
+import university.model.service.UserService;
 import university.model.service.impl.SpecialityServiceImpl;
 import university.model.service.impl.UserServiceImpl;
-import university.model.service.mapper.CourseMapperDomain;
-import university.model.service.mapper.SpecialityDomainMapper;
-import university.model.service.mapper.SpecialityReqDomainMapper;
-import university.model.service.mapper.UserMapper;
-import university.model.service.validator.UserValidator;
-import university.model.service.validator.Validator;
+import university.model.mapper.CourseMapper;
+import university.model.mapper.SpecialityMapper;
+import university.model.mapper.SpecialityReqMapper;
+import university.model.mapper.UserMapper;
+import university.model.validator.UserValidator;
+import university.model.validator.Validator;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -42,15 +44,15 @@ public final class ApplicationContextInjector {
 
     private static final CourseDao COURSE_DAO = new CourseDaoImpl(HIKARI_CONNECTION_POOL);
 
-    private static final SpecialityReqDomainMapper SPECIALITY_REQ_DOMAIN_MAPPER = new SpecialityReqDomainMapper();
+    private static final SpecialityReqMapper SPECIALITY_REQ_DOMAIN_MAPPER = new SpecialityReqMapper();
 
-    private static final SpecialityReqMapper SPECIALITY_REQ_MAPPER = new SpecialityReqMapper();
+    private static final university.model.dao.mapper.SpecialityReqMapper SPECIALITY_REQ_MAPPER = new university.model.dao.mapper.SpecialityReqMapper();
 
     private static final ResultForSpecialityDao RESULT_FOR_SPECIALITY_DAO = new ResultForSpecialityDaoImpl(HIKARI_CONNECTION_POOL, SPECIALITY_REQ_MAPPER);
 
-    private static final SpecialityDomainMapper SPECIALITY_DOMAIN_MAPPER = new SpecialityDomainMapper();
+    private static final SpecialityMapper SPECIALITY_DOMAIN_MAPPER = new SpecialityMapper();
 
-    private static final CourseMapperDomain COURSE_MAPPER = new CourseMapperDomain();
+    private static final CourseMapper COURSE_MAPPER = new CourseMapper();
 
     private static final UserService USER_SERVICE = new UserServiceImpl(USER_DAO, USER_VALIDATOR, USER_MAPPER, RESULT_FOR_SPECIALITY_DAO, SPECIALITY_REQ_DOMAIN_MAPPER);
 
@@ -62,7 +64,17 @@ public final class ApplicationContextInjector {
 
     private static final Command REGISTER_COMMAND = new RegisterCommand(USER_SERVICE);
 
+    private static final Command RATING_COMMAND = new ShowSpecForRatingCommand(SPECIALITY_SERVICE);
+
+    private static final Command SHOW_RATING_COMMAND = new ShowRatingCommand(USER_SERVICE,SPECIALITY_SERVICE);
+
+    private static final Command SHOW_SPECIALITY_INFO = new SpecialityInfoCommand(SPECIALITY_SERVICE);
+
     private static final Map<String, Command> USER_COMMAND_NAME_TO_COMMAND = initUserCommand();
+
+    private static final Map<String, Command> HOME_COMMAND_NAME_TO_COMMAND = initHomeCommand();
+
+    private static final Map<String, Command> RATING_COMMAND_NAME_TO_COMMAND = initRatingCommand();
 
     private ApplicationContextInjector() {
 
@@ -72,8 +84,18 @@ public final class ApplicationContextInjector {
         Map<String, Command> userCommandNameToCommand = new HashMap<>();
         userCommandNameToCommand.put("register", REGISTER_COMMAND);
         userCommandNameToCommand.put("login", LOGIN_COMMAND);
-
         return Collections.unmodifiableMap(userCommandNameToCommand);
+    }
+    private static Map<String, Command> initHomeCommand() {
+        Map<String, Command> homeCommandNameToCommand = new HashMap<>();
+        homeCommandNameToCommand.put("info", SHOW_SPECIALITY_INFO);
+        return Collections.unmodifiableMap(homeCommandNameToCommand);
+    }
+    private static Map<String, Command> initRatingCommand() {
+        Map<String, Command> mapRatingCommandToCommand = new HashMap<>();
+        mapRatingCommandToCommand.put("show-speciality", RATING_COMMAND);
+        mapRatingCommandToCommand.put("show-rating", SHOW_RATING_COMMAND);
+        return Collections.unmodifiableMap(mapRatingCommandToCommand);
     }
 
     public static ApplicationContextInjector getInstance() {
@@ -95,6 +117,9 @@ public final class ApplicationContextInjector {
         return SPECIALITY_SERVICE;
     }
 
+    public  Map<String, Command> getHomeCommandNameToCommand() {
+        return HOME_COMMAND_NAME_TO_COMMAND;
+    }
 
     public Map<String, Command> getUserCommands() {
         return USER_COMMAND_NAME_TO_COMMAND;
@@ -112,11 +137,11 @@ public final class ApplicationContextInjector {
         return USER_VALIDATOR;
     }
 
-    public SpecialityReqMapper getSpecialityReqMapper() {
+    public university.model.dao.mapper.SpecialityReqMapper getSpecialityReqMapper() {
         return SPECIALITY_REQ_MAPPER;
     }
 
-    public CourseMapperDomain getCourseMapper() {
+    public CourseMapper getCourseMapper() {
         return COURSE_MAPPER;
     }
 
@@ -126,6 +151,14 @@ public final class ApplicationContextInjector {
 
     public Command getRegisterCommand() {
         return REGISTER_COMMAND;
+    }
+
+    public Command getRatingCommand() {
+        return RATING_COMMAND;
+    }
+
+    public  Map<String, Command> getRatingCommandNameToCommand() {
+        return RATING_COMMAND_NAME_TO_COMMAND;
     }
 
     public Map<String, Command> getUserCommandNameToCommand() {

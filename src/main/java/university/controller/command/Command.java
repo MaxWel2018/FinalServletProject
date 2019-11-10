@@ -1,4 +1,4 @@
-package university.command;
+package university.controller.command;
 
 import javax.servlet.http.HttpServletRequest;
 

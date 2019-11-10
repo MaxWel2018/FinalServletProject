@@ -1,8 +1,8 @@
-package university.command.user;
+package university.controller.command.user;
 
-import university.command.Command;
+import university.controller.command.Command;
 import university.domain.User;
-import university.model.service.contract.UserService;
+import university.model.service.UserService;
 import university.util.PagesConstant;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ public class LoginCommand implements Command {
         request.getSession().setAttribute("isLogin", true);
 
 //        return "view/profile.jsp";
-        return PagesConstant.HOME_PAGE;
+        return PagesConstant.PROFILE_PAGE;
     }
 
 }

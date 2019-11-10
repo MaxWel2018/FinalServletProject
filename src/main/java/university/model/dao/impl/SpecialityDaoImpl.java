@@ -2,7 +2,7 @@ package university.model.dao.impl;
 
 import org.apache.log4j.Logger;
 import university.model.dao.connection.HikariConnectionPool;
-import university.model.dao.contract.SpecialityDao;
+import university.model.dao.SpecialityDao;
 import university.model.dao.entity.CourseEntity;
 import university.model.dao.entity.SpecialityEntity;
 import university.model.dao.exception.DataBaseRuntimeException;

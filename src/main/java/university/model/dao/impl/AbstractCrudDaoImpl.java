@@ -2,7 +2,7 @@ package university.model.dao.impl;
 
 import org.apache.log4j.Logger;
 import university.model.dao.connection.HikariConnectionPool;
-import university.model.dao.contract.CrudDao;
+import university.model.dao.CrudDao;
 import university.model.dao.exception.DataBaseRuntimeException;
 
 import java.sql.Connection;

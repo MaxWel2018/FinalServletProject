@@ -1,11 +1,15 @@
-package university.model.service.mapper;
+package university.model.mapper;
 
+import university.domain.Speciality;
 import university.domain.SpecialityRequest;
+import university.model.dao.entity.SpecialityEntity;
 import university.model.dao.entity.SpecialityRequestEntity;
 
-public class SpecialityReqDomainMapper {
+public class SpecialityReqMapper implements Mapper<SpecialityRequest, SpecialityRequestEntity> {
 
-    public SpecialityRequest mapSpecReqEntityToSpecReq(SpecialityRequestEntity specialityRequestEntity) {
+
+    @Override
+    public SpecialityRequest mapEntityToDomain(SpecialityRequestEntity specialityRequestEntity) {
         return SpecialityRequest.newBuilder()
                 .withConfirmed(specialityRequestEntity.getConfirmed())
                 .withFinalMark(specialityRequestEntity.getFinalMark())
@@ -18,4 +22,8 @@ public class SpecialityReqDomainMapper {
                 .build();
     }
 
+    @Override
+    public SpecialityRequestEntity mapDomainToEntity(SpecialityRequest specialityRequest) {
+        return null;
+    }
 }

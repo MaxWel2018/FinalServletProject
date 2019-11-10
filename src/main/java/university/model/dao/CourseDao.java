@@ -1,4 +1,4 @@
-package university.model.dao.contract;
+package university.model.dao;
 
 import university.model.dao.entity.CourseEntity;
 

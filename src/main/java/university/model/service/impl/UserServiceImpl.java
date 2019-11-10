@@ -3,17 +3,17 @@ package university.model.service.impl;
 import org.apache.log4j.Logger;
 import university.domain.SpecialityRequest;
 import university.domain.User;
-import university.model.dao.contract.ResultForSpecialityDao;
-import university.model.dao.contract.UserDao;
+import university.model.dao.ResultForSpecialityDao;
+import university.model.dao.UserDao;
 import university.model.dao.entity.SpecialityRequestEntity;
 import university.model.dao.entity.UserEntity;
 import university.model.dao.exception.EntityNotFoundException;
-import university.model.service.contract.UserService;
+import university.model.service.UserService;
 import university.model.service.exception.AuthorisationFailException;
 import university.model.service.exception.EntityAlreadyExistException;
-import university.model.service.mapper.SpecialityReqDomainMapper;
-import university.model.service.mapper.UserMapper;
-import university.model.service.validator.Validator;
+import university.model.mapper.SpecialityReqMapper;
+import university.model.mapper.UserMapper;
+import university.model.validator.Validator;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,9 +27,9 @@ public class UserServiceImpl implements UserService {
     private final Validator<User> validator;
     private final UserMapper userMapper;
     private final ResultForSpecialityDao resultForSpecialityDao;
-    private final SpecialityReqDomainMapper specialityRequestEntities;
+    private final SpecialityReqMapper specialityRequestEntities;
 
-    public UserServiceImpl(UserDao userDao, Validator<User> validator, UserMapper userMapper, ResultForSpecialityDao resultForSpecialityDao, SpecialityReqDomainMapper specialityRequestEntities) {
+    public UserServiceImpl(UserDao userDao, Validator<User> validator, UserMapper userMapper, ResultForSpecialityDao resultForSpecialityDao, SpecialityReqMapper specialityRequestEntities) {
         this.userDao = userDao;
         this.validator = validator;
         this.userMapper = userMapper;
@@ -40,14 +40,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return Optional.of(userMapper.mapUserEntityToUser(userDao.findByEmail(email).orElseThrow(() ->
-                new EntityNotFoundException("User with email: " + email + " Dont found "))));
+        return Optional.of(userDao.findByEmail(email).map(userMapper::mapEntityToDomain).orElseThrow(() ->
+                new EntityNotFoundException("User with email: " + email + " Dont found ")));
     }
 
     @Override
     public User login(String email, String password) {
         return userDao.findByEmail(email)
-                .map(userMapper::mapUserEntityToUser)
+                .map(userMapper::mapEntityToDomain)
                 .filter(x -> Objects.equals(x.getPassword(), password))
                 .orElseThrow(() -> new AuthorisationFailException(401));
     }
@@ -58,14 +58,14 @@ public class UserServiceImpl implements UserService {
         if (userDao.findByEmail(user.getEmail()).isPresent()) {
             throw new EntityAlreadyExistException(401);
         }
-        userDao.save(userMapper.mapUserToUserEntity(user));
+        userDao.save(userMapper.mapDomainToEntity(user));
     }
 
     @Override
     public Optional<User> findById(Integer id) {
 
         return Optional.ofNullable(userDao.findById(id)
-                .map(userMapper::mapUserEntityToUser)
+                .map(userMapper::mapEntityToDomain)
                 .orElseThrow(() -> new EntityNotFoundException("User with id=  " + id + " Dont found ")));
     }
 
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
         List<UserEntity> userEntities = userDao.findAll();
         return userEntities.isEmpty() ? Collections.emptyList() : userEntities
                 .stream()
-                .map(userMapper::mapUserEntityToUser)
+                .map(userMapper::mapEntityToDomain)
                 .collect(Collectors.toList());
 
     }
@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
     private List<SpecialityRequest> returnRating(Integer recordsPerPage, Integer start, Integer specialityId) {
         List<SpecialityRequestEntity> requestEntities = resultForSpecialityDao.generateRating(start, recordsPerPage, specialityId);
         return requestEntities.isEmpty() ? Collections.emptyList() : requestEntities.stream()
-                .map(specialityRequestEntities::mapSpecReqEntityToSpecReq)
+                .map(specialityRequestEntities::mapEntityToDomain)
                 .collect(Collectors.toList());
     }
 

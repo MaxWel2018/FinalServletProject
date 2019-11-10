@@ -1,11 +1,11 @@
-package university.model.service.mapper;
+package university.model.mapper;
 
 import university.domain.User;
 import university.model.dao.entity.UserEntity;
 
-public class UserMapper {
-
-    public User mapUserEntityToUser(UserEntity entity) {
+public class UserMapper implements Mapper<User,UserEntity> {
+    @Override
+    public User mapEntityToDomain(UserEntity entity) {
         return User.newBuilder()
                 .withId(entity.getId())
                 .withEmail(entity.getEmail())
@@ -16,7 +16,8 @@ public class UserMapper {
                 .build();
     }
 
-    public UserEntity mapUserToUserEntity(User user) {
+    @Override
+    public UserEntity mapDomainToEntity(User user) {
         return UserEntity.newBuilder()
                 .withEmail(user.getEmail())
                 .withFirstName(user.getFirstName())
@@ -25,6 +26,4 @@ public class UserMapper {
                 .withRole(user.getRole())
                 .build();
     }
-
-
 }

@@ -1,4 +1,4 @@
-package university.model.service.validator;
+package university.model.validator;
 
 import university.domain.User;
 import university.model.service.exception.InvalidDateException;

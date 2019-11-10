@@ -1,4 +1,4 @@
-package university.model.service.contract;
+package university.model.service;
 
 import university.domain.SpecialityRequest;
 import university.domain.User;

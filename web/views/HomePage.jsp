@@ -28,8 +28,9 @@
 
             <p style="font-size: 40px;
     color: #b3d7ff;; text-align: center;"><fmt:message key="home.chose.speciality"/></p>
-            <form style="width: 100%;" method="POST" action="${pageContext.servletContext.contextPath}/">
+            <form style="width: 100%;" method="get" action="${pageContext.servletContext.contextPath}/home">
                 <label style="width: 100%;">
+                    <input class="hidden" name="command" value="info">
                     <select name="selectedSpeciality" style="width: 50%; margin: 20px auto;"
                             class="selectpicker form-control "
                             data-style="btn-primary" title="Choose one of the following..."
