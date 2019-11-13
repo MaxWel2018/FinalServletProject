@@ -6,6 +6,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
 @WebFilter("/login")
 public class EncodingFilter implements Filter {
     @Override
@@ -20,14 +21,14 @@ public class EncodingFilter implements Filter {
         String newPass = null;
         String confirmPassword = req.getParameter("confirmPassword");
         String newConfirmPass = null;
-        if (password!=null) {
-             newPass =  PasswordInCode.passwordEncoded(password);
+        if (password != null) {
+            newPass = PasswordInCode.passwordEncoded(password);
         }
-        if (confirmPassword!=null) {
-            newConfirmPass =  PasswordInCode.passwordEncoded(confirmPassword);
+        if (confirmPassword != null) {
+            newConfirmPass = PasswordInCode.passwordEncoded(confirmPassword);
         }
-        req.setAttribute("passwordEncode",newPass);
-        req.setAttribute("confirmPassword",newConfirmPass);
+        req.setAttribute("passwordEncode", newPass);
+        req.setAttribute("confirmPassword", newConfirmPass);
         filterChain.doFilter(req, servletResponse);
     }
 

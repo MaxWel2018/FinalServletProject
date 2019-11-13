@@ -7,7 +7,7 @@
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="internationalization"/>
 <header>
-<form  class="flex-header">
+<form method="post"  class="flex-header">
     <select   class=" form-control select-size" id="language" name="language"
             onchange="submit()" style="width: 120px;">
         <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>

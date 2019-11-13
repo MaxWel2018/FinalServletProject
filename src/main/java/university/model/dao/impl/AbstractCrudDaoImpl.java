@@ -1,8 +1,8 @@
 package university.model.dao.impl;
 
 import org.apache.log4j.Logger;
-import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.CrudDao;
+import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.exception.DataBaseRuntimeException;
 
 import java.sql.Connection;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.function.BiConsumer;
 
-public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E,Integer> {
+public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
     private static final Logger LOGGER = Logger.getLogger(AbstractCrudDaoImpl.class);
 
 
@@ -48,6 +48,7 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E,Integer> {
         this.findAllQuery = findAllQuery;
         this.updateQuery = updateQuery;
     }
+
     protected Optional<E> findByIntParam(Integer id, String query) {
         return findByParam(id, query, INT_CONSUMER);
 
@@ -56,6 +57,7 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E,Integer> {
     protected Optional<E> findByStringParam(String param, String query) {
         return findByParam(param, query, STRING_CONSUMER);
     }
+
     private <P> Optional<E> findByParam(P param, String query, BiConsumer<PreparedStatement, P> consumer) {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -96,6 +98,7 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E,Integer> {
             throw new DataBaseRuntimeException(e);
         }
     }
+
     @Override
     public List<E> findAll() {
         try (Connection connection = connector.getConnection();
@@ -108,13 +111,13 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E,Integer> {
                 return new ArrayList<>(entities);
             }
         } catch (SQLException e) {
-            LOGGER.error("Connection is failed"+e);
+            LOGGER.error("Connection is failed" + e);
             throw new DataBaseRuntimeException(e);
         }
     }
 
     @Override
-    public  Optional<E> findById(Integer id){
+    public Optional<E> findById(Integer id) {
         return findByIntParam(id, findByIdQuery);
     }
 

@@ -52,7 +52,7 @@ public class UserValidator implements Validator<User> {
         Optional.ofNullable(entity)
                 .map(User::getEmail)
                 .filter(x -> EMAIL_PATTERN.matcher(x).matches())
-                .orElseThrow(()->new InvalidEmailException("Email  invalidate"));
+                .orElseThrow(() -> new InvalidEmailException("Email  invalidate"));
     }
 }
 

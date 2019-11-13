@@ -5,7 +5,7 @@ import university.model.dao.entity.SpecialityRequestEntity;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SpecialityReqMapper {
+public class SpecialityReqResultSetMapper {
     public SpecialityRequestEntity mapResultSetToSpecialityReqEntity(ResultSet resultSet) throws SQLException {
         return SpecialityRequestEntity.newBuilder()
                 .withId(resultSet.getInt("Result_For_Speciality_ID"))

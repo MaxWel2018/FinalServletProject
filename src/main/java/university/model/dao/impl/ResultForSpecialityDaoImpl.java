@@ -1,11 +1,11 @@
 package university.model.dao.impl;
 
 import org.apache.log4j.Logger;
-import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.ResultForSpecialityDao;
+import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.entity.SpecialityRequestEntity;
 import university.model.dao.exception.DataBaseRuntimeException;
-import university.model.dao.mapper.SpecialityReqMapper;
+import university.model.dao.mapper.SpecialityReqResultSetMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,17 +31,17 @@ public class ResultForSpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityRe
     private static final String UPDATE_QUERY = "UPDATE result_for_speciality SET Final_Grade=?, Speciality_Id = ?, User_Id = ?,Confirmed = ? WHERE Result_For_Speciality_ID=?";
     private static final String INSERT_RESULT = "INSERT  INTO result_for_speciality(final_grade, speciality_id, user_id,confirmed) VALUES (?,?,?,?)";
     private static final String SELECT_COUNT_FROM_RESULT_FOR_SPECIALITY_WHERE_SPECIALITY_ID = "SELECT Count(*) FROM result_for_speciality where Speciality_Id =?";
-    private final SpecialityReqMapper specialityReqMapper;
+    private final SpecialityReqResultSetMapper specialityReqResultSetMapper;
 
-    public ResultForSpecialityDaoImpl(HikariConnectionPool connector, SpecialityReqMapper reqMapper) {
+    public ResultForSpecialityDaoImpl(HikariConnectionPool connector, SpecialityReqResultSetMapper reqMapper) {
         super(connector, INSERT_RESULT, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY);
-        this.specialityReqMapper = reqMapper;
+        this.specialityReqResultSetMapper = reqMapper;
     }
 
 
     @Override
     protected SpecialityRequestEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-        return specialityReqMapper.mapResultSetToSpecialityReqEntity(resultSet);
+        return specialityReqResultSetMapper.mapResultSetToSpecialityReqEntity(resultSet);
     }
 
 
@@ -83,7 +83,7 @@ public class ResultForSpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityRe
             preparedStatement.setInt(3, recordsPerPage);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    rating.add(specialityReqMapper.mapResultSetToSpecialityReqEntity(resultSet));
+                    rating.add(specialityReqResultSetMapper.mapResultSetToSpecialityReqEntity(resultSet));
                 }
             }
         } catch (SQLException e) {

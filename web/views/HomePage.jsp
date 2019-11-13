@@ -68,7 +68,7 @@
                     <label>
                         <input type="text" class="hidden" name="id" value="${specialityFounded.id}">
                     </label>
-                    <button type="submit" class="btn btn-primary"><fmt:message key="menu.button.registration"/></button>
+                    <a href="${pageContext.servletContext.contextPath}/home?command=exam-registration" type="submit" class="btn btn-primary"><fmt:message key="menu.button.registration"/></a>
                 </form>
             </div>
         </div>

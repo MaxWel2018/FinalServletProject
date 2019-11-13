@@ -3,7 +3,7 @@ package university.model.mapper;
 import university.domain.User;
 import university.model.dao.entity.UserEntity;
 
-public class UserMapper implements Mapper<User,UserEntity> {
+public class UserMapper implements Mapper<User, UserEntity> {
     @Override
     public User mapEntityToDomain(UserEntity entity) {
         return User.newBuilder()

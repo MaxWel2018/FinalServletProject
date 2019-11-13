@@ -7,9 +7,9 @@ import university.model.dao.SpecialityDao;
 import university.model.dao.entity.CourseEntity;
 import university.model.dao.entity.SpecialityEntity;
 import university.model.dao.exception.EntityNotFoundException;
-import university.model.service.SpecialityService;
 import university.model.mapper.CourseMapper;
 import university.model.mapper.SpecialityMapper;
+import university.model.service.SpecialityService;
 
 import java.util.Collections;
 import java.util.List;

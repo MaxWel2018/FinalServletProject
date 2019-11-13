@@ -23,10 +23,10 @@
 <div class="flex-wrapper">
         <c:import url="../part/Header.jsp"/>
     <div class="content">
-
-
-        <form class="regist-form" method="post" action="${pageContext.servletContext.contextPath}/login" style="color:white; width: 20%; margin: 10px 0 0 30px">
-            <input type="text" class="hidden" name="command" value="login">
+        <form class="regist-form" method="GET" action="${pageContext.servletContext.contextPath}/login" style="color:white; width: 20%; margin: 10px 0 0 30px">
+            <label>
+                <input type="text" class="hidden" name="command" value="login">
+            </label>
             <div class="form-group">
                 <label for="email"> <fmt:message key="reg.email"/></label>
                 <input type="email" class="form-control" name = "email" id="email" aria-describedby="emailHelp" placeholder=
@@ -36,7 +36,7 @@
                 <label for="password"><fmt:message key="reg.password"/></label>
                 <input type="password" class="form-control"  name = "password" id="password" placeholder=<fmt:message key="reg.password"/>>
             </div>
-            <button type="submit" class="btn btn-primary"><fmt:message key="entry.confirm"/></button>
+            <button type="submit" class="btn btn-primary"> <fmt:message key="entry.confirm"/></button>
         </form>
     </div>
     <footer>

@@ -10,8 +10,7 @@ public class ExamResultEntity {
     private Integer mark;
     private Integer courseId;
     private Integer userId;
-    private UserEntity userEntity;
-    private CourseEntity courseEntity;
+
 
     private ExamResultEntity(Builder builder) {
         id = builder.id;
@@ -19,8 +18,7 @@ public class ExamResultEntity {
         mark = builder.mark;
         courseId = builder.courseId;
         userId = builder.userId;
-        userEntity = builder.userEntity;
-        courseEntity = builder.courseEntity;
+
     }
 
     public static Builder newBuilder() {
@@ -48,13 +46,6 @@ public class ExamResultEntity {
         return userId;
     }
 
-    public UserEntity getUserEntity() {
-        return userEntity;
-    }
-
-    public CourseEntity getCourseEntity() {
-        return courseEntity;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -69,14 +60,13 @@ public class ExamResultEntity {
                 courseId == that.courseId &&
                 userId == that.userId &&
                 Objects.equals(date, that.date) &&
-                Objects.equals(mark, that.mark) &&
-                Objects.equals(userEntity, that.userEntity) &&
-                Objects.equals(courseEntity, that.courseEntity);
+                Objects.equals(mark, that.mark);
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, mark, courseId, userId, userEntity, courseEntity);
+        return Objects.hash(id, date, mark, courseId, userId);
     }
 
     public static final class Builder {
@@ -85,8 +75,7 @@ public class ExamResultEntity {
         private Integer mark;
         private Integer courseId;
         private Integer userId;
-        private UserEntity userEntity;
-        private CourseEntity courseEntity;
+
 
         private Builder() {
         }
@@ -116,15 +105,6 @@ public class ExamResultEntity {
             return this;
         }
 
-        public Builder withUser(UserEntity val) {
-            userEntity = val;
-            return this;
-        }
-
-        public Builder withCourse(CourseEntity val) {
-            courseEntity = val;
-            return this;
-        }
 
         public ExamResultEntity build() {
             return new ExamResultEntity(this);

@@ -58,12 +58,16 @@ public class ExamResult {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {return true;}
-        if (!(o instanceof ExamResult)) {return false;}
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ExamResult)) {
+            return false;
+        }
         ExamResult that = (ExamResult) o;
-        return id == that.id &&
-                courseId == that.courseId &&
-                userId == that.userId &&
+        return id.equals(that.id) &&
+                courseId.equals(that.courseId) &&
+                userId.equals(that.userId) &&
                 Objects.equals(date, that.date) &&
                 Objects.equals(mark, that.mark) &&
                 Objects.equals(user, that.user) &&

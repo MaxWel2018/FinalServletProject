@@ -1,8 +1,8 @@
 package university.model.dao.impl;
 
 import org.apache.log4j.Logger;
-import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.SpecialityDao;
+import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.entity.CourseEntity;
 import university.model.dao.entity.SpecialityEntity;
 import university.model.dao.exception.DataBaseRuntimeException;
@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.sql.Date.valueOf;
 import static university.model.dao.mapper.SpecialityMapper.mapResultSetToSpeciality;
 
 public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> implements SpecialityDao {
@@ -23,11 +24,13 @@ public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> imp
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM speciality " +
             " where Speciality_Id=?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM speciality";
-    private static final String UPDATE_QUERY = "UPDATE speciality  " +
-            "SET Speciality_Name =?, Students_Number =?, Activity = ? ,Background = ? , Employments = ? " +
+    private static final String UPDATE_QUERY = "UPDATE speciality " +
+            "SET Speciality_Id = ?, Speciality_Name=?, Students_Number = ?,Activity = ?,Background = ?,Employments = ?," +
+            "Exams_Start = ?,Exams_End= ? " +
             "where Speciality_Id = ?";
-    private static final String INSERT_SPECIALITY = "INSERT INTO speciality(speciality_name, students_number, activity, background, employments) " +
-            "VALUES (?,?,?,?,?)";
+    private static final String INSERT_SPECIALITY = "INSERT " +
+            "INTO speciality(SPECIALITY_NAME, STUDENTS_NUMBER, ACTIVITY, BACKGROUND, EMPLOYMENTS, EXAMS_START, EXAMS_END) " +
+            "VALUES (?,?,?,?,?,?,?)";
     private static final String INSERT_TWO_PARAM_IN_SPECIALITY_COURSE = "INSERT INTO speciality_course(course_id, speciality_id) VALUES (?,?)";
     private static final String FIND_COURSES_FOR_SPECIALITY_BY_SPECIALITY_ID = "SELECT * FROM speciality_course " +
             "INNER JOIN course c on speciality_course.Course_Id = c.Course_Id" +
@@ -50,12 +53,14 @@ public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> imp
         preparedStatement.setString(3, entity.getActivity());
         preparedStatement.setString(4, entity.getBackground());
         preparedStatement.setString(5, entity.getEmployments());
+        preparedStatement.setDate(6, valueOf(entity.getExamsStart()));
+        preparedStatement.setDate(7, valueOf(entity.getExamsEnd()));
     }
 
     @Override
     protected void mapForUpdateStatement(PreparedStatement preparedStatement, SpecialityEntity entity) throws SQLException {
         insert(preparedStatement, entity);
-        preparedStatement.setInt(6, entity.getId());
+        preparedStatement.setInt(8, entity.getId());
     }
 
     @Override
@@ -64,7 +69,7 @@ public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> imp
 
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_COURSES_FOR_SPECIALITY_BY_SPECIALITY_ID)) {
-            preparedStatement.setInt(1,specialityId);
+            preparedStatement.setInt(1, specialityId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     cours.add(mapResultSetToCourse(resultSet));

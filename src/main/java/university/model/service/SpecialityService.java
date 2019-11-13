@@ -6,7 +6,7 @@ import university.model.dao.entity.SpecialityEntity;
 
 import java.util.List;
 
-public interface SpecialityService   {
+public interface SpecialityService {
     void register(SpecialityEntity specialityEntity);
 
     Speciality findById(Integer id);

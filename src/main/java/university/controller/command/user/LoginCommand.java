@@ -16,15 +16,26 @@ public class LoginCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final String email =  request.getParameter("email");
+        final String email = request.getParameter("email");
         String passwordEncode = (String) request.getAttribute("passwordEncode");
         final User user = userService.login(email, passwordEncode);
 
-        request.getSession().setAttribute("user", user);
+        request.getSession().setAttribute("user", mapUserToUserForInfoWithOutPassword(user));
         request.getSession().setAttribute("isLogin", true);
 
-//        return "view/profile.jsp";
-        return PagesConstant.PROFILE_PAGE;
+        return PagesConstant.HOME_PAGE;
+    }
+
+    private User mapUserToUserForInfoWithOutPassword(User user) {
+
+        return User.newBuilder()
+                .withEmail(user.getEmail())
+                .withFirstName(user.getFirstName())
+                .withId(user.getId())
+                .withSecondName(user.getSecondName())
+                .withRole(user.getRole())
+                .build();
+
     }
 
 }

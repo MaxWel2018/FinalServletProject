@@ -14,6 +14,7 @@ public class SpecialityInfoCommand implements Command {
     public SpecialityInfoCommand(SpecialityService specialityService) {
         this.specialityService = specialityService;
     }
+
     @Override
     public String execute(HttpServletRequest req) {
 
@@ -22,7 +23,7 @@ public class SpecialityInfoCommand implements Command {
         String selectedSpeciality = req.getParameter("selectedSpeciality");
         Integer selectedSpecialityID = selectedSpeciality == null ? 1 : Integer.parseInt(selectedSpeciality);
         Speciality speciality = specialityService.findById(selectedSpecialityID);
-        req.setAttribute("specialityFounded", speciality);
+        req.getSession().setAttribute("specialityFounded", speciality);
         return PagesConstant.HOME_PAGE;
     }
 

@@ -1,29 +1,25 @@
 package university.context;
 
 import university.controller.command.Command;
+import university.controller.command.home.RegisterForSpecialityCommand;
 import university.controller.command.home.SpecialityInfoCommand;
-import university.controller.command.result.ShowRatingCommand;
 import university.controller.command.result.ShowSpecForRatingCommand;
 import university.controller.command.user.LoginCommand;
 import university.controller.command.user.RegisterCommand;
 import university.domain.User;
+import university.model.dao.*;
 import university.model.dao.connection.HikariConnectionPool;
-import university.model.dao.CourseDao;
-import university.model.dao.ResultForSpecialityDao;
-import university.model.dao.SpecialityDao;
-import university.model.dao.UserDao;
-import university.model.dao.impl.CourseDaoImpl;
-import university.model.dao.impl.ResultForSpecialityDaoImpl;
-import university.model.dao.impl.SpecialityDaoImpl;
-import university.model.dao.impl.UserDaoImpl;
+import university.model.dao.impl.*;
+import university.model.dao.mapper.SpecialityReqResultSetMapper;
+import university.model.mapper.*;
+import university.model.service.CourseService;
+import university.model.service.ResultService;
 import university.model.service.SpecialityService;
 import university.model.service.UserService;
+import university.model.service.impl.CourseServiceImpl;
+import university.model.service.impl.ResultServiceImpl;
 import university.model.service.impl.SpecialityServiceImpl;
 import university.model.service.impl.UserServiceImpl;
-import university.model.mapper.CourseMapper;
-import university.model.mapper.SpecialityMapper;
-import university.model.mapper.SpecialityReqMapper;
-import university.model.mapper.UserMapper;
 import university.model.validator.UserValidator;
 import university.model.validator.Validator;
 
@@ -44,19 +40,29 @@ public final class ApplicationContextInjector {
 
     private static final CourseDao COURSE_DAO = new CourseDaoImpl(HIKARI_CONNECTION_POOL);
 
-    private static final SpecialityReqMapper SPECIALITY_REQ_DOMAIN_MAPPER = new SpecialityReqMapper();
+    private static final ExamResultDao EXAM_RESULT_DAO = new ExamResultDaoImpl(HIKARI_CONNECTION_POOL);
 
-    private static final university.model.dao.mapper.SpecialityReqMapper SPECIALITY_REQ_MAPPER = new university.model.dao.mapper.SpecialityReqMapper();
+    private static final SpecialityReqMapper SPECIALITY_REQ_MAPPER = new SpecialityReqMapper();
 
-    private static final ResultForSpecialityDao RESULT_FOR_SPECIALITY_DAO = new ResultForSpecialityDaoImpl(HIKARI_CONNECTION_POOL, SPECIALITY_REQ_MAPPER);
+    private static final SpecialityReqResultSetMapper SPECIALITY_REQ_RESULT_SET_MAPPER = new SpecialityReqResultSetMapper();
 
     private static final SpecialityMapper SPECIALITY_DOMAIN_MAPPER = new SpecialityMapper();
 
     private static final CourseMapper COURSE_MAPPER = new CourseMapper();
 
-    private static final UserService USER_SERVICE = new UserServiceImpl(USER_DAO, USER_VALIDATOR, USER_MAPPER, RESULT_FOR_SPECIALITY_DAO, SPECIALITY_REQ_DOMAIN_MAPPER);
+
+    private static final CourseService COURSE_SERVICE = new CourseServiceImpl(COURSE_DAO, COURSE_MAPPER);
+
+
+    private static final ResultForSpecialityDao RESULT_FOR_SPECIALITY_DAO = new ResultForSpecialityDaoImpl(HIKARI_CONNECTION_POOL, SPECIALITY_REQ_RESULT_SET_MAPPER);
 
     private static final SpecialityService SPECIALITY_SERVICE = new SpecialityServiceImpl(SPECIALITY_DAO, SPECIALITY_DOMAIN_MAPPER, COURSE_MAPPER, RESULT_FOR_SPECIALITY_DAO);
+
+    private static final UserService USER_SERVICE = new UserServiceImpl(USER_DAO, USER_VALIDATOR, USER_MAPPER);
+
+    private static final ExamResultMapper EXAM_RESULT_MAPPER = new ExamResultMapper(USER_SERVICE, COURSE_SERVICE);
+
+    private static final ResultService RESULT_SERVICE = new ResultServiceImpl(RESULT_FOR_SPECIALITY_DAO, EXAM_RESULT_DAO, SPECIALITY_REQ_MAPPER, EXAM_RESULT_MAPPER);
 
     private static ApplicationContextInjector applicationContextInjector;
 
@@ -64,11 +70,11 @@ public final class ApplicationContextInjector {
 
     private static final Command REGISTER_COMMAND = new RegisterCommand(USER_SERVICE);
 
-    private static final Command RATING_COMMAND = new ShowSpecForRatingCommand(SPECIALITY_SERVICE);
-
-    private static final Command SHOW_RATING_COMMAND = new ShowRatingCommand(USER_SERVICE,SPECIALITY_SERVICE);
+    private static final Command RATING_COMMAND = new ShowSpecForRatingCommand(RESULT_SERVICE, SPECIALITY_SERVICE);
 
     private static final Command SHOW_SPECIALITY_INFO = new SpecialityInfoCommand(SPECIALITY_SERVICE);
+
+    private static final Command EXAM_REGISTRATION = new RegisterForSpecialityCommand(RESULT_SERVICE);
 
     private static final Map<String, Command> USER_COMMAND_NAME_TO_COMMAND = initUserCommand();
 
@@ -86,15 +92,17 @@ public final class ApplicationContextInjector {
         userCommandNameToCommand.put("login", LOGIN_COMMAND);
         return Collections.unmodifiableMap(userCommandNameToCommand);
     }
+
     private static Map<String, Command> initHomeCommand() {
         Map<String, Command> homeCommandNameToCommand = new HashMap<>();
         homeCommandNameToCommand.put("info", SHOW_SPECIALITY_INFO);
+        homeCommandNameToCommand.put("exam-registration", EXAM_REGISTRATION);
         return Collections.unmodifiableMap(homeCommandNameToCommand);
     }
+
     private static Map<String, Command> initRatingCommand() {
         Map<String, Command> mapRatingCommandToCommand = new HashMap<>();
         mapRatingCommandToCommand.put("show-speciality", RATING_COMMAND);
-        mapRatingCommandToCommand.put("show-rating", SHOW_RATING_COMMAND);
         return Collections.unmodifiableMap(mapRatingCommandToCommand);
     }
 
@@ -117,7 +125,7 @@ public final class ApplicationContextInjector {
         return SPECIALITY_SERVICE;
     }
 
-    public  Map<String, Command> getHomeCommandNameToCommand() {
+    public Map<String, Command> getHomeCommandNameToCommand() {
         return HOME_COMMAND_NAME_TO_COMMAND;
     }
 
@@ -125,7 +133,7 @@ public final class ApplicationContextInjector {
         return USER_COMMAND_NAME_TO_COMMAND;
     }
 
-    public  UserService getUserService() {
+    public UserService getUserService() {
         return USER_SERVICE;
     }
 
@@ -137,8 +145,8 @@ public final class ApplicationContextInjector {
         return USER_VALIDATOR;
     }
 
-    public university.model.dao.mapper.SpecialityReqMapper getSpecialityReqMapper() {
-        return SPECIALITY_REQ_MAPPER;
+    public SpecialityReqResultSetMapper getSpecialityReqMapper() {
+        return SPECIALITY_REQ_RESULT_SET_MAPPER;
     }
 
     public CourseMapper getCourseMapper() {
@@ -157,7 +165,7 @@ public final class ApplicationContextInjector {
         return RATING_COMMAND;
     }
 
-    public  Map<String, Command> getRatingCommandNameToCommand() {
+    public Map<String, Command> getRatingCommandNameToCommand() {
         return RATING_COMMAND_NAME_TO_COMMAND;
     }
 

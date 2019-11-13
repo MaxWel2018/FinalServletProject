@@ -17,7 +17,7 @@ public class RegisterCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final String email =  request.getParameter("email");
+        final String email = request.getParameter("email");
         final String firstName = request.getParameter("name");
         final String secondName = request.getParameter("secondName");
 

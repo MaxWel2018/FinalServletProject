@@ -1,6 +1,6 @@
 package university.model.dao.entity;
 
-import java.util.Objects;
+import java.time.LocalDate;
 
 public class SpecialityEntity {
 
@@ -10,6 +10,8 @@ public class SpecialityEntity {
     private String activity;
     private String background;
     private String employments;
+    private LocalDate examsStart;
+    private LocalDate examsEnd;
 
     private SpecialityEntity(Builder builder) {
         id = builder.id;
@@ -18,31 +20,14 @@ public class SpecialityEntity {
         activity = builder.activity;
         background = builder.background;
         employments = builder.employments;
+        examsStart = builder.examsStart;
+        examsEnd = builder.examsEnd;
     }
 
     public static Builder newBuilder() {
         return new Builder();
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof SpecialityEntity)) {
-            return false;
-        }
-        SpecialityEntity that = (SpecialityEntity) o;
-        return id.equals(that.id) &&
-                studentsNumber.equals(that.studentsNumber) &&
-                Objects.equals(name, that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
 
     public Integer getId() {
         return id;
@@ -68,6 +53,14 @@ public class SpecialityEntity {
         return employments;
     }
 
+    public LocalDate getExamsStart() {
+        return examsStart;
+    }
+
+    public LocalDate getExamsEnd() {
+        return examsEnd;
+    }
+
     public static final class Builder {
         private Integer id;
         private String name;
@@ -75,6 +68,8 @@ public class SpecialityEntity {
         private String activity;
         private String background;
         private String employments;
+        private LocalDate examsStart;
+        private LocalDate examsEnd;
 
         private Builder() {
         }
@@ -106,6 +101,16 @@ public class SpecialityEntity {
 
         public Builder withEmployments(String val) {
             employments = val;
+            return this;
+        }
+
+        public Builder withExamsStart(LocalDate val) {
+            examsStart = val;
+            return this;
+        }
+
+        public Builder withExamsEnd(LocalDate val) {
+            examsEnd = val;
             return this;
         }
 

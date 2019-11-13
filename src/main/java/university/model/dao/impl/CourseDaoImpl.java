@@ -1,9 +1,8 @@
 package university.model.dao.impl;
 
-import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.CourseDao;
+import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.entity.CourseEntity;
-import university.model.dao.exception.EntityNotFoundException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +15,8 @@ public class CourseDaoImpl extends AbstractCrudDaoImpl<CourseEntity> implements 
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM course where Course_Id =?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM course ";
     private static final String UPDATE_QUERY = "UPDATE course SET Course_Name = ? WHERE  Course_Id = ?";
-    private static final String INSERT_COURSE = "INSERT  INTO course(course_name) VALUES(?)";
+    private static final String INSERT_COURSE = "INSERT INTO exam_result(Date, Grade, Course_Id, User_Id)" +
+            " VALUES (?,?,?,?)";
 
     public CourseDaoImpl(HikariConnectionPool connector) {
         super(connector, INSERT_COURSE, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY);
@@ -30,7 +30,7 @@ public class CourseDaoImpl extends AbstractCrudDaoImpl<CourseEntity> implements 
 
     @Override
     protected void insert(PreparedStatement preparedStatement, CourseEntity entity) throws SQLException {
-        preparedStatement.setString(1,entity.getName());
+        preparedStatement.setString(1, entity.getName());
     }
 
     @Override

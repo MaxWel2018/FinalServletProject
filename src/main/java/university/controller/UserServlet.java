@@ -1,8 +1,8 @@
 package university.controller;
 
 
-import university.controller.command.Command;
 import university.context.ApplicationContextInjector;
+import university.controller.command.Command;
 import university.util.PagesConstant;
 
 import javax.servlet.ServletException;
@@ -22,7 +22,7 @@ public class UserServlet extends HttpServlet {
     public UserServlet() {
         final ApplicationContextInjector injector = ApplicationContextInjector.getInstance();
         this.commandNameToCommand = injector.getUserCommands();
-        this.defaultCommand = request -> PagesConstant.ERROR_404_PAGE;
+        this.defaultCommand = request -> PagesConstant.HOME_PAGE;
     }
 
     @Override
