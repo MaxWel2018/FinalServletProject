@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static university.model.dao.mapper.CourseMapper.mapResultSetToCourse;
 
 public class CourseDaoImpl extends AbstractCrudDaoImpl<CourseEntity> implements CourseDao {
 
@@ -18,6 +17,7 @@ public class CourseDaoImpl extends AbstractCrudDaoImpl<CourseEntity> implements 
     private static final String INSERT_COURSE = "INSERT INTO exam_result(Date, Grade, Course_Id, User_Id)" +
             " VALUES (?,?,?,?)";
 
+
     public CourseDaoImpl(HikariConnectionPool connector) {
         super(connector, INSERT_COURSE, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY);
     }
@@ -25,17 +25,19 @@ public class CourseDaoImpl extends AbstractCrudDaoImpl<CourseEntity> implements 
 
     @Override
     protected CourseEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-        return mapResultSetToCourse(resultSet);
+        return new CourseEntity(resultSet.getInt("Course_Id"),
+                resultSet.getString("Course_Name"));
     }
 
     @Override
-    protected void insert(PreparedStatement preparedStatement, CourseEntity entity) throws SQLException {
+    protected void mapForInsertStatement(PreparedStatement preparedStatement, CourseEntity entity) throws SQLException {
         preparedStatement.setString(1, entity.getName());
     }
 
+
     @Override
     protected void mapForUpdateStatement(PreparedStatement preparedStatement, CourseEntity entity) throws SQLException {
-        insert(preparedStatement, entity);
+        mapForInsertStatement(preparedStatement, entity);
         preparedStatement.setInt(2, entity.getId());
     }
 }

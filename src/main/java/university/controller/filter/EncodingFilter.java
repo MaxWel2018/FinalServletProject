@@ -1,4 +1,4 @@
-package university.model.service.filter;
+package university.controller.filter;
 
 import university.model.service.PasswordInCode;
 
@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter("/login")
+@WebFilter("/user")
 public class EncodingFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -27,8 +27,8 @@ public class EncodingFilter implements Filter {
         if (confirmPassword != null) {
             newConfirmPass = PasswordInCode.passwordEncoded(confirmPassword);
         }
-        req.setAttribute("passwordEncode", newPass);
-        req.setAttribute("confirmPassword", newConfirmPass);
+        req.getSession().setAttribute("passwordEncode", newPass);
+        req.getSession().setAttribute("confirmPassword", newConfirmPass);
         filterChain.doFilter(req, servletResponse);
     }
 

@@ -7,6 +7,7 @@ import university.model.dao.ResultForSpecialityDao;
 import university.model.dao.entity.SpecialityRequestEntity;
 import university.model.mapper.ExamResultMapper;
 import university.model.mapper.SpecialityReqMapper;
+import university.model.service.Page;
 import university.model.service.ResultService;
 
 import java.util.Collections;
@@ -41,11 +42,14 @@ public class ResultServiceImpl implements ResultService {
         examResultDao.update(examResultMapper.mapDomainToEntity(examResult));
     }
 
+
     @Override
-    public List<SpecialityRequest> generateRating(Integer currentPage, Integer recordsPerPage, Integer specialityId) {
+    public List<SpecialityRequest> generateRating(Page page, Integer specialityId) {
         Integer defaultStart = 0;
         Integer defaultRecordsPerPage = 10;
 
+        Integer currentPage = page.getCurrentPage();
+        Integer recordsPerPage = page.getRecordsPerPage();
         if (currentPage <= 0 || recordsPerPage <= 0) {
             return returnRating(defaultRecordsPerPage, defaultStart, specialityId);
 

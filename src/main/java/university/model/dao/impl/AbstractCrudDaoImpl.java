@@ -15,13 +15,6 @@ import java.util.function.BiConsumer;
 public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
     private static final Logger LOGGER = Logger.getLogger(AbstractCrudDaoImpl.class);
 
-
-    protected final HikariConnectionPool connector;
-    private final String saveQuery;
-    private final String findByIdQuery;
-    private final String findAllQuery;
-    private final String updateQuery;
-
     private static final BiConsumer<PreparedStatement, String> STRING_CONSUMER
             = (PreparedStatement pr, String param) -> {
         try {
@@ -39,6 +32,12 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
             throw new DataBaseRuntimeException(e);
         }
     };
+
+    protected final HikariConnectionPool connector;
+    private final String saveQuery;
+    private final String findByIdQuery;
+    private final String findAllQuery;
+    private final String updateQuery;
 
     public AbstractCrudDaoImpl(HikariConnectionPool connector, String saveQuery, String findByIdQuery,
                                String findAllQuery, String updateQuery) {
@@ -77,7 +76,7 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(saveQuery)) {
 
-            insert(preparedStatement, entity);
+            mapForInsertStatement(preparedStatement, entity);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Insertion is failed", e);
@@ -125,7 +124,7 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
     protected abstract E mapResultSetToEntity(ResultSet resultSet) throws SQLException;
 
 
-    protected abstract void insert(PreparedStatement preparedStatement, E entity) throws SQLException;
+    protected abstract void mapForInsertStatement(PreparedStatement preparedStatement, E entity) throws SQLException;
 
     protected abstract void mapForUpdateStatement(PreparedStatement preparedStatement, E entity) throws SQLException;
 }

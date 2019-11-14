@@ -44,7 +44,7 @@ public class UserValidator implements Validator<User> {
     private void passwordValidate(User entity) {
         Optional.ofNullable(entity)
                 .map(User::getPassword)
-//                .filter((x -> PASSWORD_PATTERN.matcher(x).matches()))
+                .filter((x -> PASSWORD_PATTERN.matcher(x).matches()))
                 .orElseThrow(() -> new InvalidPasswordException("Password  invalidate"));
     }
 

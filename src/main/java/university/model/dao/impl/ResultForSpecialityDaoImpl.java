@@ -5,7 +5,6 @@ import university.model.dao.ResultForSpecialityDao;
 import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.entity.SpecialityRequestEntity;
 import university.model.dao.exception.DataBaseRuntimeException;
-import university.model.dao.mapper.SpecialityReqResultSetMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,22 +30,20 @@ public class ResultForSpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityRe
     private static final String UPDATE_QUERY = "UPDATE result_for_speciality SET Final_Grade=?, Speciality_Id = ?, User_Id = ?,Confirmed = ? WHERE Result_For_Speciality_ID=?";
     private static final String INSERT_RESULT = "INSERT  INTO result_for_speciality(final_grade, speciality_id, user_id,confirmed) VALUES (?,?,?,?)";
     private static final String SELECT_COUNT_FROM_RESULT_FOR_SPECIALITY_WHERE_SPECIALITY_ID = "SELECT Count(*) FROM result_for_speciality where Speciality_Id =?";
-    private final SpecialityReqResultSetMapper specialityReqResultSetMapper;
 
-    public ResultForSpecialityDaoImpl(HikariConnectionPool connector, SpecialityReqResultSetMapper reqMapper) {
+    public ResultForSpecialityDaoImpl(HikariConnectionPool connector) {
         super(connector, INSERT_RESULT, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY);
-        this.specialityReqResultSetMapper = reqMapper;
     }
 
 
     @Override
-    protected SpecialityRequestEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-        return specialityReqResultSetMapper.mapResultSetToSpecialityReqEntity(resultSet);
+    protected SpecialityRequestEntity mapResultSetToEntity(ResultSet resultSet)  {
+        return mapResultSetToEntity(resultSet);
     }
 
 
     @Override
-    protected void insert(PreparedStatement preparedStatement, SpecialityRequestEntity entity) throws SQLException {
+    protected void mapForInsertStatement(PreparedStatement preparedStatement, SpecialityRequestEntity entity) throws SQLException {
         preparedStatement.setInt(1, entity.getFinalMark());
         preparedStatement.setInt(2, entity.getSpecialityId());
         preparedStatement.setInt(3, entity.getUserId());
@@ -55,7 +52,7 @@ public class ResultForSpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityRe
 
     @Override
     protected void mapForUpdateStatement(PreparedStatement preparedStatement, SpecialityRequestEntity entity) throws SQLException {
-        insert(preparedStatement, entity);
+        mapForInsertStatement(preparedStatement, entity);
         preparedStatement.setInt(5, entity.getId());
     }
 
@@ -83,7 +80,7 @@ public class ResultForSpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityRe
             preparedStatement.setInt(3, recordsPerPage);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    rating.add(specialityReqResultSetMapper.mapResultSetToSpecialityReqEntity(resultSet));
+                    rating.add(mapResultSetToSpecialityReqEntity(resultSet));
                 }
             }
         } catch (SQLException e) {
@@ -91,5 +88,17 @@ public class ResultForSpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityRe
             throw new DataBaseRuntimeException("Generate rating  is failed", e);
         }
         return rating;
+    }
+    private SpecialityRequestEntity mapResultSetToSpecialityReqEntity(ResultSet resultSet) throws SQLException {
+        return SpecialityRequestEntity.newBuilder()
+                .withId(resultSet.getInt("Result_For_Speciality_ID"))
+                .withUserId(resultSet.getInt("User_Id"))
+                .withUserName(resultSet.getString("First_Name"))
+                .withUserSurName(resultSet.getString("Second_Name"))
+                .withSpecialityId(resultSet.getInt("Speciality_Id"))
+                .withSpecialityName(resultSet.getString("Speciality_Name"))
+                .withFinalMark(resultSet.getInt("Final_Grade"))
+                .withConfirmed(resultSet.getBoolean("Confirmed"))
+                .build();
     }
 }

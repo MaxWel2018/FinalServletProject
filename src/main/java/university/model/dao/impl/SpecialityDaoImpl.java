@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.sql.Date.valueOf;
-import static university.model.dao.mapper.SpecialityMapper.mapResultSetToSpeciality;
+import static university.util.Convert.convertDateToLocalDate;
 
 public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> implements SpecialityDao {
 
@@ -37,17 +37,27 @@ public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> imp
             " INNER JOIN speciality s on speciality_course.Speciality_Id = s.Speciality_Id" +
             " where s.Speciality_Id = ?";
 
+
     public SpecialityDaoImpl(HikariConnectionPool connector) {
         super(connector, INSERT_SPECIALITY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY);
     }
 
     @Override
     protected SpecialityEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-        return mapResultSetToSpeciality(resultSet);
+        return SpecialityEntity.newBuilder()
+                .withId(resultSet.getInt("Speciality_Id"))
+                .withName(resultSet.getString("Speciality_Name"))
+                .withStudentsNumber(resultSet.getInt("Students_Number"))
+                .withActivity(resultSet.getString("Activity"))
+                .withBackground(resultSet.getString("Background"))
+                .withEmployments(resultSet.getString("Employments"))
+                .withExamsStart(convertDateToLocalDate(resultSet.getDate("Exams_Start")))
+                .withExamsEnd(convertDateToLocalDate(resultSet.getDate("Exams_End")))
+                .build();
     }
 
     @Override
-    protected void insert(PreparedStatement preparedStatement, SpecialityEntity entity) throws SQLException {
+    protected void mapForInsertStatement(PreparedStatement preparedStatement, SpecialityEntity entity) throws SQLException {
         preparedStatement.setString(1, entity.getName());
         preparedStatement.setInt(2, entity.getStudentsNumber());
         preparedStatement.setString(3, entity.getActivity());
@@ -59,9 +69,10 @@ public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> imp
 
     @Override
     protected void mapForUpdateStatement(PreparedStatement preparedStatement, SpecialityEntity entity) throws SQLException {
-        insert(preparedStatement, entity);
+        mapForInsertStatement(preparedStatement, entity);
         preparedStatement.setInt(8, entity.getId());
     }
+
 
     @Override
     public List<CourseEntity> getRequiredCoursesListBySpecId(Integer specialityId) {

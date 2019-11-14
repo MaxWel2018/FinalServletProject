@@ -41,7 +41,7 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<UserEntity> implements User
     }
 
     @Override
-    protected void insert(PreparedStatement preparedStatement, UserEntity entity) throws SQLException {
+    protected void mapForInsertStatement(PreparedStatement preparedStatement, UserEntity entity) throws SQLException {
         preparedStatement.setString(1, entity.getEmail());
         preparedStatement.setString(2, entity.getPassword());
         preparedStatement.setString(3, entity.getFirstName());
@@ -51,7 +51,7 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<UserEntity> implements User
 
     @Override
     protected void mapForUpdateStatement(PreparedStatement preparedStatement, UserEntity entity) throws SQLException {
-        insert(preparedStatement, entity);
+        mapForInsertStatement(preparedStatement, entity);
         preparedStatement.setInt(6, entity.getId());
     }
 

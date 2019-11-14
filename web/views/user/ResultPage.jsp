@@ -8,12 +8,10 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="language"
-       value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
-       scope="session"/>
-<fmt:setLocale value="${language}"/>
+<fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="internationalization"/>
-<html lang="${param.lang}">
+
+<html lang="${param.language}">
 <head>
     <title>Results</title>
     <c:import url="/views/Style.jsp"/>
@@ -26,7 +24,7 @@
 
         <p style="font-size: 40px;
         color: #b3d7ff;; text-align: center;"><fmt:message key="result.chose.speciality"/></p>
-        <form style="width: 100%;" method="get" action="${pageContext.servletContext.contextPath}/result">
+        <form style="width: 100%;" method="get" action="/user/result">
             <label   style="width: 100%;">
                 <input class="hidden" name="command" value="show-rating">
             <select name="selectedSpeciality" style="width: 50%; margin: 20px auto;"

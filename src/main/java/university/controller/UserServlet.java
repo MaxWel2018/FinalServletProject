@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet("/login")
+@WebServlet("/user")
 public class UserServlet extends HttpServlet {
 
     private final Map<String, Command> commandNameToCommand;
@@ -27,16 +27,22 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final String commandName = req.getParameter("command");
-        final String page = commandNameToCommand.getOrDefault(commandName, defaultCommand).execute(req);
-        req.getRequestDispatcher(page).forward(req, resp);
+        forward(req, resp);
 
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        forward(req, resp);
+    }
+
+    private void forward(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final String commandName = req.getParameter("command");
         final String page = commandNameToCommand.getOrDefault(commandName, defaultCommand).execute(req);
         req.getRequestDispatcher(page).forward(req, resp);
     }
 }
+
+//TODO Сделать страничку Profile
+// После регестрации выкинуть на логинку
+

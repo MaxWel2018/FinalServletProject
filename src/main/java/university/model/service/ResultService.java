@@ -11,6 +11,6 @@ public interface ResultService {
 
     void updateExamResult(ExamResult examResult);
 
-    List<SpecialityRequest> generateRating(Integer currentPage, Integer recordsPerPage, Integer specialityId);
+    List<SpecialityRequest> generateRating(Page page, Integer specialityId);
 
 }
