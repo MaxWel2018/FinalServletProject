@@ -11,7 +11,7 @@ import java.io.IOException;
 @WebFilter(dispatcherTypes = {
         DispatcherType.REQUEST,
         DispatcherType.FORWARD})
-public class SecurityFilter implements Filter {
+public class AdminSecurityFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -24,8 +24,9 @@ public class SecurityFilter implements Filter {
         final User user = (User) request.getSession().getAttribute("user");
         if (user == null || !user.getRole().equals(Role.ADMIN)) {
             request.getRequestDispatcher(PagesConstant.NO_ADMIN_PAGE).forward(request, servletResponse);
+        }else{
+            filterChain.doFilter(request, servletResponse);
         }
-        filterChain.doFilter(request, servletResponse);
     }
 
     @Override

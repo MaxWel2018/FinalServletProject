@@ -4,7 +4,6 @@ package university.controller.filter;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-
 public class LocaleFilter implements Filter {
 
 

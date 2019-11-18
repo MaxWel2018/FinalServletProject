@@ -20,13 +20,42 @@
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>admin</servlet-name>
+        <servlet-class>university.controller.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>admin</servlet-name>
+        <url-pattern>/admin/profile</url-pattern>
+    </servlet-mapping>
 <filter>
     <filter-name>SecurityFilter</filter-name>
-    <filter-class>university.controller.filter.SecurityFilter</filter-class>
+    <filter-class>university.controller.filter.AdminSecurityFilter</filter-class>
 </filter>
     <filter-mapping>
         <filter-name>SecurityFilter</filter-name>
         <url-pattern>/admin/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter>
+        <filter-name>HomeSecurity</filter-name>
+        <filter-class>university.controller.filter.HomeSecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>HomeSecurity</filter-name>
+        <url-pattern>/home</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>ProfileSecurityFilter</filter-name>
+        <filter-class>university.controller.filter.ProfileSecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ProfileSecurityFilter</filter-name>
+        <url-pattern>/user/profile</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>ProfileSecurityFilter</filter-name>
+        <servlet-name>admin</servlet-name>
     </filter-mapping>
     <filter>
         <filter-name>localeFilter</filter-name>

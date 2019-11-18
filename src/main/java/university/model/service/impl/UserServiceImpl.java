@@ -18,7 +18,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class UserServiceImpl implements UserService {
-    private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class);
 
     private final UserDao userDao;
 

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet("/admin/profile")
 public class AdminServlet extends HttpServlet {
     private final Map<String, Command> commandNameToCommand;
     private final Command defaultCommand;

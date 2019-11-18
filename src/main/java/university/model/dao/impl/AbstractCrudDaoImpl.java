@@ -39,7 +39,7 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
     private final String findAllQuery;
     private final String updateQuery;
 
-    public AbstractCrudDaoImpl(HikariConnectionPool connector, String saveQuery, String findByIdQuery,
+    protected AbstractCrudDaoImpl(HikariConnectionPool connector, String saveQuery, String findByIdQuery,
                                String findAllQuery, String updateQuery) {
         this.connector = connector;
         this.saveQuery = saveQuery;
