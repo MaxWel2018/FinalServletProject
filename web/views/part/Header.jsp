@@ -13,8 +13,7 @@
         <a href="/user/home?command=info">
             <fmt:message key="home.header.home"/>
         </a>
-
-        <a href="profile"><fmt:message key="home.header.profile"/></a>
+        <a href="/user/profile?command=show-profile"><fmt:message key="home.header.profile"/></a>
         <a href="/user/result?command=show-speciality"><fmt:message
                 key="home.header.resultExam"/></a>
         <c:choose>

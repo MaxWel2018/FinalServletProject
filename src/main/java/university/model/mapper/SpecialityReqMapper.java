@@ -22,6 +22,15 @@ public class SpecialityReqMapper implements Mapper<SpecialityRequest, Speciality
 
     @Override
     public SpecialityRequestEntity mapDomainToEntity(SpecialityRequest specialityRequest) {
-        return null;
+        return SpecialityRequestEntity.newBuilder()
+                .withConfirmed(specialityRequest.getConfirmed())
+                .withFinalMark(specialityRequest.getFinalMark())
+                .withSpecialityId(specialityRequest.getSpecialityId())
+                .withSpecialityName(specialityRequest.getSpecialityName())
+                .withUserId(specialityRequest.getUserId())
+                .withUserName(specialityRequest.getUserName())
+                .withUserSurName(specialityRequest.getUserSurName())
+                .withId(specialityRequest.getId())
+                .build();
     }
 }

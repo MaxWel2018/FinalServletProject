@@ -9,6 +9,7 @@ public class UserEntity {
     private String secondName;
     private String email;
     private String password;
+    SpecialityEntity specialityEntity;
     private Role role;
 
     private UserEntity(Builder builder) {
@@ -17,7 +18,23 @@ public class UserEntity {
         secondName = builder.secondName;
         email = builder.email;
         password = builder.password;
+        specialityEntity = builder.specialityEntity;
         role = builder.role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserEntity)) return false;
+        UserEntity that = (UserEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(password, that.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, password);
     }
 
     public static Builder newBuilder() {
@@ -45,30 +62,12 @@ public class UserEntity {
         return password;
     }
 
+    public SpecialityEntity getSpecialityEntity() {
+        return specialityEntity;
+    }
+
     public Role getRole() {
         return role;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof UserEntity)) {
-            return false;
-        }
-        UserEntity userEntity = (UserEntity) o;
-        return id.equals(userEntity.id) &&
-                Objects.equals(firstName, userEntity.firstName) &&
-                Objects.equals(secondName, userEntity.secondName) &&
-                Objects.equals(email, userEntity.email) &&
-                Objects.equals(password, userEntity.password) &&
-                role == userEntity.role;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, secondName, email, password, role);
     }
 
     public static final class Builder {
@@ -77,6 +76,7 @@ public class UserEntity {
         private String secondName;
         private String email;
         private String password;
+        private SpecialityEntity specialityEntity;
         private Role role;
 
         private Builder() {
@@ -104,6 +104,11 @@ public class UserEntity {
 
         public Builder withPassword(String val) {
             password = val;
+            return this;
+        }
+
+        public Builder withSpecialityEntity(SpecialityEntity val) {
+            specialityEntity = val;
             return this;
         }
 

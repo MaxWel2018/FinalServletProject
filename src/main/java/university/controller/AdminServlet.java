@@ -1,6 +1,5 @@
 package university.controller;
 
-
 import university.context.ApplicationContextInjector;
 import university.controller.command.Command;
 
@@ -12,22 +11,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet("/user")
-public class UserServlet extends HttpServlet {
-
+@WebServlet("/admin/profile")
+public class AdminServlet extends HttpServlet {
     private final Map<String, Command> commandNameToCommand;
     private final Command defaultCommand;
 
-    public UserServlet() {
-        final ApplicationContextInjector injector = ApplicationContextInjector.getInstance();
-        this.commandNameToCommand = injector.getUserCommands();
-        this.defaultCommand = commandNameToCommand.get("show-auth");
+    public AdminServlet() {
+
+        ApplicationContextInjector applicationContextInjector = ApplicationContextInjector.getInstance();
+        this.commandNameToCommand = applicationContextInjector.getAdminCommand();
+        this.defaultCommand = commandNameToCommand.get("show-profile");
     }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         forward(req, resp);
-
     }
 
     @Override
@@ -41,8 +40,3 @@ public class UserServlet extends HttpServlet {
         req.getRequestDispatcher(page).forward(req, resp);
     }
 }
-
-// TODO: 17.11.2019 Сделать метод в resultForSpecDao
-//TODO который принимает id специальности и возвращает лист результатов( отсортированых)
-// В списке берём первые N Идишников юзера и меняем им значение на тру
-

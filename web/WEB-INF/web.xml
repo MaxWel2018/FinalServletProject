@@ -20,7 +20,14 @@
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
-
+<filter>
+    <filter-name>SecurityFilter</filter-name>
+    <filter-class>university.controller.filter.SecurityFilter</filter-class>
+</filter>
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
     <filter>
         <filter-name>localeFilter</filter-name>
         <filter-class>university.controller.filter.LocaleFilter</filter-class>
@@ -30,6 +37,7 @@
         <filter-name>localeFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
     <error-page>
         <error-code>404</error-code>
         <location>/views/error/Error404.jsp</location>

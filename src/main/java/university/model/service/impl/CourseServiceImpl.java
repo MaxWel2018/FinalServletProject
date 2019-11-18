@@ -6,6 +6,9 @@ import university.model.dao.exception.EntityNotFoundException;
 import university.model.mapper.CourseMapper;
 import university.model.service.CourseService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class CourseServiceImpl implements CourseService {
 
     private final CourseDao courseDao;
@@ -19,7 +22,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course findById(Integer id) {
-        return courseMapper.mapCourseEntityToCourse(courseDao.findById(id).orElseThrow(() -> new EntityNotFoundException("Course not found ")));
+        return courseMapper.mapEntityToDomain(courseDao.findById(id).orElseThrow(() -> new EntityNotFoundException("Course not found ")));
+    }
+
+    @Override
+    public List<Course> findAll() {
+        return courseDao.findAll().stream().map(courseMapper::mapEntityToDomain).collect(Collectors.toList());
     }
 
 }

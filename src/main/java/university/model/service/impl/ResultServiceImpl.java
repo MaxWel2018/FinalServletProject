@@ -1,16 +1,15 @@
 package university.model.service.impl;
 
 import university.domain.ExamResult;
-import university.domain.SpecialityRequest;
 import university.model.dao.ExamResultDao;
 import university.model.dao.ResultForSpecialityDao;
-import university.model.dao.entity.SpecialityRequestEntity;
+import university.model.dao.entity.ExamResultEntity;
+import university.model.dao.exception.EntityNotFoundException;
 import university.model.mapper.ExamResultMapper;
 import university.model.mapper.SpecialityReqMapper;
-import university.model.service.Page;
 import university.model.service.ResultService;
 
-import java.util.Collections;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,30 +41,36 @@ public class ResultServiceImpl implements ResultService {
         examResultDao.update(examResultMapper.mapDomainToEntity(examResult));
     }
 
-
     @Override
-    public List<SpecialityRequest> generateRating(Page page, Integer specialityId) {
-        Integer defaultStart = 0;
-        Integer defaultRecordsPerPage = 10;
-
-        Integer currentPage = page.getCurrentPage();
-        Integer recordsPerPage = page.getRecordsPerPage();
-        if (currentPage <= 0 || recordsPerPage <= 0) {
-            return returnRating(defaultRecordsPerPage, defaultStart, specialityId);
-
-        } else {
-            Integer start = currentPage * recordsPerPage - recordsPerPage;
-            return returnRating(recordsPerPage, start, specialityId);
-        }
-
-
-    }
-
-
-    private List<SpecialityRequest> returnRating(Integer recordsPerPage, Integer start, Integer specialityId) {
-        List<SpecialityRequestEntity> requestEntities = resultForSpecialityDao.generateRating(start, recordsPerPage, specialityId);
-        return requestEntities.isEmpty() ? Collections.emptyList() : requestEntities.stream()
-                .map(specialityRequestEntities::mapEntityToDomain)
+    public List<ExamResult> findAllByCourseIdAndData(Integer id, LocalDate date) {
+        List<ExamResultEntity> allByCourseIdAndData = examResultDao.findAllByCourseIdAndData(id, date);
+        return allByCourseIdAndData.stream()
+                .map(examResultMapper::mapEntityToDomain)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<ExamResult> findAll() {
+       return examResultDao.findAll().stream()
+               .map(examResultMapper::mapEntityToDomain)
+               .collect(Collectors.toList());
+    }
+
+
+
+    @Override
+    public ExamResult findExamResultByUserIdAndCourseId(Integer userId, Integer course) {
+        return examResultMapper.mapEntityToDomain(examResultDao.findByUserIdAndCourseId(userId, course)
+                .orElseThrow(() -> new EntityNotFoundException("Exam result dont found")));
+    }
+
+    @Override
+    public boolean updateGrade(Integer id, Integer grade) {
+        if (id > 0 && grade > 0 && grade<=100) {
+            examResultDao.updateGrade(id, grade);
+            return true;
+        }
+        return false;
+    }
+
 }

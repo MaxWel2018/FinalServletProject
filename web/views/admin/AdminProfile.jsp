@@ -4,7 +4,6 @@
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="internationalization"/>
 <html lang="${param.language}">
-
 <head>
     <title>Profile</title>
     <c:import url="/views/Style.jsp"/>
@@ -15,8 +14,13 @@
 <div class="flex-wrapper">
     <c:import url="/views/part/Header.jsp"/>
     <div class="content">
-        <a style="margin-top: 20px;" class=" btn btn-primary btn-lg" href="/user/profile?command=about"><fmt:message key="user.profile.about"/></a>
 
+
+        <a style="margin-top: 20px;" class=" btn btn-primary btn-lg" href="/admin/profile?command=show-set-grades"><fmt:message key="admin.profile.set.grades"/></a>
+
+        <a style="margin-top: 20px;" class=" btn btn-primary btn-lg" href="/admin/profile?command=update-rating"><fmt:message key="user.profile.update"/></a>
+
+        <a style="margin-top: 20px;" class=" btn btn-primary btn-lg" href="/admin/profile?command=show-enroll"><fmt:message key="user.profile.enroll"/></a>
 
     </div>
     <c:import url="/views/part/Footer.jsp"/>

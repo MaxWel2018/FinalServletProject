@@ -36,7 +36,7 @@ public class SpecialityMapper implements Mapper<Speciality, SpecialityEntity> {
                 requiredCoursesListBySpecId.isEmpty()
                         ? Collections.emptyList()
                         : requiredCoursesListBySpecId.stream()
-                        .map(courseMapper::mapCourseEntityToCourse)
+                        .map(courseMapper::mapEntityToDomain)
                         .collect((Collectors.toList())));
         return builder
                 .build();
@@ -44,6 +44,14 @@ public class SpecialityMapper implements Mapper<Speciality, SpecialityEntity> {
 
     @Override
     public SpecialityEntity mapDomainToEntity(Speciality speciality) {
-        return null;
+        return SpecialityEntity.newBuilder()
+                .withId(speciality.getId())
+                .withName(speciality.getName())
+                .withStudentsNumber(speciality.getStudentsNumber())
+                .withActivity(speciality.getActivity())
+                .withBackground(speciality.getBackground())
+                .withEmployments(speciality.getEmployments())
+                .withExamsStart(speciality.getExamsStart())
+                .build();
     }
 }

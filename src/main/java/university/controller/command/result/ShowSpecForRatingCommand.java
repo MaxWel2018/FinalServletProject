@@ -4,6 +4,7 @@ import university.controller.command.Command;
 import university.domain.Speciality;
 import university.domain.SpecialityRequest;
 import university.model.service.Page;
+import university.model.service.ResultForSpecService;
 import university.model.service.ResultService;
 import university.model.service.SpecialityService;
 import university.util.PagesConstant;
@@ -13,14 +14,16 @@ import java.util.List;
 
 public class ShowSpecForRatingCommand implements Command {
 
-    private final ResultService resultService;
 
     private final SpecialityService specialityService;
 
-    public ShowSpecForRatingCommand( ResultService resultService, SpecialityService specialityService) {
-        this.resultService = resultService;
+    private final ResultForSpecService resultForSpecialityDao;
+
+    public ShowSpecForRatingCommand(SpecialityService specialityService, ResultForSpecService resultForSpecialityDao) {
         this.specialityService = specialityService;
+        this.resultForSpecialityDao = resultForSpecialityDao;
     }
+
     @Override
     public String execute(HttpServletRequest req) {
         showInfo(req);
@@ -38,11 +41,11 @@ public class ShowSpecForRatingCommand implements Command {
         Integer countRow = specialityService.countElementOfTableBySpecId(selectedSpecialityID);
         Integer countElement = getCountElement(recordsPerPage, countRow);
         List<SpecialityRequest> specialityRequests = createSpecialityRequests(selectedSpecialityID, page, recordsPerPage);
-        setAttribute(req, countElement, page, specialityRequests,selectedSpecialityID);
+        setAttribute(req, countElement, page, specialityRequests, selectedSpecialityID);
     }
 
     private List<SpecialityRequest> createSpecialityRequests(Integer selectedSpecialityID, Integer page, Integer recordsPerPage) {
-        return resultService.generateRating(mapToPage(recordsPerPage, page), selectedSpecialityID);
+        return resultForSpecialityDao.generateRating(mapToPage(recordsPerPage, page), selectedSpecialityID);
     }
 
     private int getCountElement(Integer recordsPerPage, Integer countRow) {
@@ -52,7 +55,8 @@ public class ShowSpecForRatingCommand implements Command {
     private Integer convertToInteger(String value) {
         return value == null ? 1 : Integer.parseInt(value);
     }
-    private void setAttribute(HttpServletRequest req, Integer countElement, Integer page, List<SpecialityRequest> specialityRequests,Integer selectedSpecialityID) {
+
+    private void setAttribute(HttpServletRequest req, Integer countElement, Integer page, List<SpecialityRequest> specialityRequests, Integer selectedSpecialityID) {
         req.setAttribute("countElement", countElement);
         req.setAttribute("rating", specialityRequests);
         req.setAttribute("currentPage", page);
@@ -61,6 +65,6 @@ public class ShowSpecForRatingCommand implements Command {
     }
 
     private Page mapToPage(Integer recordsPerPage, Integer page) {
-        return new Page(page,recordsPerPage);
+        return new Page(page, recordsPerPage);
     }
 }

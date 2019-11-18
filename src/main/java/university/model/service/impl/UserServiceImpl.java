@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User entity) {
-        throw new UnsupportedOperationException();
+        userDao.update(userMapper.mapDomainToEntity(entity));
     }
 
 

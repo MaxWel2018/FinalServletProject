@@ -5,8 +5,6 @@ import university.model.dao.entity.ExamResultEntity;
 import university.model.service.CourseService;
 import university.model.service.UserService;
 
-import java.util.Optional;
-
 public class ExamResultMapper implements Mapper<ExamResult, ExamResultEntity> {
     private final UserService userService;
     private final CourseService courseService;
@@ -40,7 +38,6 @@ public class ExamResultMapper implements Mapper<ExamResult, ExamResultEntity> {
                 .withUserId(examResult.getUserId())
                 .build();
     }
-
 
 
 }

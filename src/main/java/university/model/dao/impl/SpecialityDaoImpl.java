@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.sql.Date.valueOf;
-import static university.util.Convert.convertDateToLocalDate;
 
 public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> implements SpecialityDao {
 
@@ -51,8 +50,8 @@ public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> imp
                 .withActivity(resultSet.getString("Activity"))
                 .withBackground(resultSet.getString("Background"))
                 .withEmployments(resultSet.getString("Employments"))
-                .withExamsStart(convertDateToLocalDate(resultSet.getDate("Exams_Start")))
-                .withExamsEnd(convertDateToLocalDate(resultSet.getDate("Exams_End")))
+                .withExamsStart((resultSet.getDate("Exams_Start")).toLocalDate())
+                .withExamsEnd((resultSet.getDate("Exams_End")).toLocalDate())
                 .build();
     }
 

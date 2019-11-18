@@ -4,9 +4,8 @@
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="internationalization"/>
 <html lang="${param.language}">
-
 <head>
-    <title>Profile</title>
+    <title>Enroll Users</title>
     <c:import url="/views/Style.jsp"/>
 </head>
 
@@ -15,7 +14,22 @@
 <div class="flex-wrapper">
     <c:import url="/views/part/Header.jsp"/>
     <div class="content">
-        <a style="margin-top: 20px;" class=" btn btn-primary btn-lg" href="/user/profile?command=about"><fmt:message key="user.profile.about"/></a>
+
+
+        <form style="width: 100%;" method="get" action="/admin/profile">
+            <label   style="width: 100%;">
+                <input class="hidden" name="command" value="enroll">
+                <select name="selectedSpeciality" style="width: 50%; margin: 20px auto;"
+                        class=" selectpicker form-control "
+                        data-style="btn-primary" title="Choose one of the following..."">
+                    <c:forEach items="${speciality}" var="spec">
+                        <option  ${select == spec.id ? 'selected' : ''}
+                                value="${spec.id}"> ${spec.name}</option>
+                    </c:forEach>
+                </select>
+            </label>
+            <input class="btn-primary btn" type="submit" value="Submit">
+        </form>
 
 
     </div>

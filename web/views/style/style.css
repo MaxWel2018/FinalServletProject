@@ -4,6 +4,7 @@
     margin: 0 ;
     padding: 0;
 }
+
 a{
     text-decoration: none;!important;    
     color: white;
@@ -116,6 +117,11 @@ ERRORS_STYLE
     top: 300px;
     width: 1000px;
     color: #364279;
+
+}
+
+.information>p>span {
+    color: white;
 
 }
 

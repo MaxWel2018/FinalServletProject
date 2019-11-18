@@ -18,21 +18,17 @@ public class LoginCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         request.setAttribute("authFailed", false);
-
         final String email = request.getParameter("email");
         String passwordEncode = (String) request.getSession().getAttribute("passwordEncode");
-
         User user;
 
         try {
-               user = userService.login(email, passwordEncode);
+            user = userService.login(email, passwordEncode);
+            request.getSession().setAttribute("user", mapUserToUserForInfoWithOutPassword(user));
+            request.getSession().setAttribute("isLogin", true);
         } catch (AuthorisationFailException e) {
             return reAuth(request);
-
         }
-        request.getSession().setAttribute("user", mapUserToUserForInfoWithOutPassword(user));
-        request.getSession().setAttribute("isLogin", true);
-
         return PagesConstant.PROFILE_PAGE;
     }
 
@@ -42,7 +38,6 @@ public class LoginCommand implements Command {
     }
 
     private User mapUserToUserForInfoWithOutPassword(User user) {
-
         return User.newBuilder()
                 .withEmail(user.getEmail())
                 .withFirstName(user.getFirstName())
@@ -50,7 +45,5 @@ public class LoginCommand implements Command {
                 .withSecondName(user.getSecondName())
                 .withRole(user.getRole())
                 .build();
-
     }
-
 }

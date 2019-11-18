@@ -30,12 +30,19 @@
             <c:forEach items="${specialityFounded.requiredCourses}" var="course">
                 <p style="font-size: 20px;font-weight: 600"> ${course.name}</p>
                 <label>
-                    <input name="${course.id}" type="date" min="${specialityFounded.examsStart}" max="${specialityFounded.examsEnd}">
+                    <input name="${course.id}"  required type="date" min="${specialityFounded.examsStart}" max="${specialityFounded.examsEnd}">
                 </label>
             </c:forEach>
             <p></p>
             <input type="submit" class="btn btn-primary" value=<fmt:message key="home.exam.submit"/>>
         </form>
+        <c:if test="${inCorrectDate ==true}">
+            <div style="height: 100px;width: 600px;text-align: center;background: #004085;color: white;font-size: 48px;position: absolute;top: 300px;left: 400;">
+                <fmt:message key="error.data.inccorrect"/>
+            </div>
+
+        </c:if>
+
     </div>
 
     <c:import url="/views/part/Footer.jsp"/>

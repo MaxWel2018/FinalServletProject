@@ -59,7 +59,13 @@
                         <td> ${rat.getUserSurName()}</td>
                         <td> ${rat.getSpecialityName()}</td>
                         <td> ${rat.getFinalMark()}</td>
-                        <td> ${rat.getConfirmed()}</td>
+                        <c:if test="${rat.getConfirmed()==false}">
+                            <td>❌</td>
+                        </c:if>
+                        <c:if test="${rat.getConfirmed()==true}">
+                            <td>✅</td>
+                        </c:if>
+
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -73,7 +79,7 @@
                             </c:when>
                             <c:otherwise>
                                 <td><a class="btn btn-outline-success " style="color: black;"
-                                       href="${pageContext.servletContext.contextPath}\result?command=show-rating&selectedSpeciality=${select}&page=${i}">${i}</a>
+                                       href="\user\result?command=show-rating&selectedSpeciality=${select}&page=${i}">${i}</a>
                                 </td>
                             </c:otherwise>
                         </c:choose>
