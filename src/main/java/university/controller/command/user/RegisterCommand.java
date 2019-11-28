@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 public class RegisterCommand implements Command {
+
     private final UserService userService;
 
     public RegisterCommand(UserService userService) {

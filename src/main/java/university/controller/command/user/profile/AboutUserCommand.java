@@ -18,7 +18,6 @@ public class AboutUserCommand implements Command {
 
     private final UserService userService;
 
-
     public AboutUserCommand(ResultService resultService, UserService userService) {
         this.resultService = resultService;
         this.userService = userService;

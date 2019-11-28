@@ -13,6 +13,14 @@ import university.domain.User;
 import university.model.dao.*;
 import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.impl.*;
+import university.model.dao.mapper.CourseEntityMapper;
+import university.model.dao.mapper.SpecialityEntityMapper;
+import university.model.dao.mapper.UserEntityMapper;
+import university.model.dao.mapper.RoleEntityMapper;
+import university.model.dao.mapper.impl.CourseEntityMapperImpl;
+import university.model.dao.mapper.impl.RoleEntityMapperImpl;
+import university.model.dao.mapper.impl.SpecialityEntityMapperImpl;
+import university.model.dao.mapper.impl.UserEntityMapperImpl;
 import university.model.mapper.*;
 import university.model.service.*;
 import university.model.service.impl.*;
@@ -24,9 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class ApplicationContextInjector {
-    private static final HikariConnectionPool HIKARI_CONNECTION_POOL = new HikariConnectionPool("bd-config");
 
-    private static final UserDao USER_DAO = new UserDaoImpl(HIKARI_CONNECTION_POOL);
+    private static final HikariConnectionPool HIKARI_CONNECTION_POOL = new HikariConnectionPool("bd-config");
 
     private static final Validator<User> USER_VALIDATOR = new UserValidator();
 
@@ -34,33 +41,41 @@ public final class ApplicationContextInjector {
 
     private static final CourseDao COURSE_DAO = new CourseDaoImpl(HIKARI_CONNECTION_POOL);
 
-    private static final ExamResultDao EXAM_RESULT_DAO = new ExamResultDaoImpl(HIKARI_CONNECTION_POOL);
-
     private static final SpecialityReqMapper SPECIALITY_REQ_MAPPER = new SpecialityReqMapper();
 
     private static final SpecialityMapper SPECIALITY_DOMAIN_MAPPER = new SpecialityMapper();
 
     private static final CourseMapper COURSE_MAPPER = new CourseMapper();
 
+    private static final CourseEntityMapper COURSE_ENTITY_MAPPER = new CourseEntityMapperImpl();
+
     private static final CourseService COURSE_SERVICE = new CourseServiceImpl(COURSE_DAO, COURSE_MAPPER);
 
     private static final ResultForSpecialityDao RESULT_FOR_SPECIALITY_DAO = new ResultForSpecialityDaoImpl(HIKARI_CONNECTION_POOL);
 
-    private static final SpecialityService SPECIALITY_SERVICE = new SpecialityServiceImpl(SPECIALITY_DAO, SPECIALITY_DOMAIN_MAPPER, COURSE_MAPPER, RESULT_FOR_SPECIALITY_DAO);
+    private static final SpecialityService SPECIALITY_SERVICE = new SpecialityServiceImpl(SPECIALITY_DAO, SPECIALITY_DOMAIN_MAPPER,  RESULT_FOR_SPECIALITY_DAO);
 
     private static final SpecialityMapper SPECIALITY_MAPPER = new SpecialityMapper();
 
     private static final UserMapper USER_MAPPER = new UserMapper(SPECIALITY_MAPPER);
 
+    private static final SpecialityEntityMapper SPECIALITY_ENTITY_MAPPER = new SpecialityEntityMapperImpl();
+
+    private static final RoleEntityMapper ROLE_ENTITY_MAPPER = new RoleEntityMapperImpl();
+
+    private static final UserEntityMapper USER_ENTITY_MAPPER = new UserEntityMapperImpl(SPECIALITY_ENTITY_MAPPER, ROLE_ENTITY_MAPPER);
+
+    private static final ExamResultDao EXAM_RESULT_DAO = new ExamResultDaoImpl(HIKARI_CONNECTION_POOL, USER_ENTITY_MAPPER, COURSE_ENTITY_MAPPER);
+
+    private static final UserDao USER_DAO = new UserDaoImpl(HIKARI_CONNECTION_POOL, USER_ENTITY_MAPPER);
+
     private static final UserService USER_SERVICE = new UserServiceImpl(USER_DAO, USER_VALIDATOR, USER_MAPPER);
 
-    private static final ExamResultMapper EXAM_RESULT_MAPPER = new ExamResultMapper(USER_SERVICE, COURSE_SERVICE);
+    private static final ExamResultMapper EXAM_RESULT_MAPPER = new ExamResultMapper(COURSE_MAPPER,USER_MAPPER);
 
     private static final ResultService RESULT_SERVICE = new ResultServiceImpl(RESULT_FOR_SPECIALITY_DAO, EXAM_RESULT_DAO, SPECIALITY_REQ_MAPPER, EXAM_RESULT_MAPPER);
 
     private static final ResultForSpecService RESULT_FOR_SPEC_SERVICE = new ResultForSpecServiceImpl(RESULT_FOR_SPECIALITY_DAO, SPECIALITY_REQ_MAPPER);
-
-    private static ApplicationContextInjector applicationContextInjector;
 
     private static final Command LOGIN_COMMAND = new LoginCommand(USER_SERVICE);
 
@@ -106,9 +121,9 @@ public final class ApplicationContextInjector {
 
     private static final Map<String, Command> USER_PROFILE_COMMAND_NAME_TO_COMMAND = initUserProfileCommand();
 
-
     private static final Map<String, Command> ADMIN_COMMAND_NAME_TO_COMMAND = initAdminCommand();
 
+    private static ApplicationContextInjector applicationContextInjector;
 
     private ApplicationContextInjector() {
 
@@ -224,7 +239,6 @@ public final class ApplicationContextInjector {
     public Map<String, Command> getRatingCommandNameToCommand() {
         return RATING_COMMAND_NAME_TO_COMMAND;
     }
-
 
     public Map<String, Command> getUserProfileCommand() {
         return USER_PROFILE_COMMAND_NAME_TO_COMMAND;

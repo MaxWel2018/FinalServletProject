@@ -1,17 +1,20 @@
 package university.model.dao.entity;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 
 public class SpecialityEntity {
 
-    private Integer id;
-    private String name;
-    private Integer studentsNumber;
-    private String activity;
-    private String background;
-    private String employments;
-    private LocalDate examsStart;
-    private LocalDate examsEnd;
+    private final Integer id;
+    private final String name;
+    private final Integer studentsNumber;
+    private final String activity;
+    private final String background;
+    private final String employments;
+    private final LocalDate examsStart;
+    private final LocalDate examsEnd;
+    private final List<CourseEntity> requiredCourses;
 
     private SpecialityEntity(Builder builder) {
         id = builder.id;
@@ -22,12 +25,34 @@ public class SpecialityEntity {
         employments = builder.employments;
         examsStart = builder.examsStart;
         examsEnd = builder.examsEnd;
+        requiredCourses = builder.requiredCourses;
     }
 
     public static Builder newBuilder() {
         return new Builder();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o){ return true;}
+        if (!(o instanceof SpecialityEntity)) {
+            return false;}
+        SpecialityEntity that = (SpecialityEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(studentsNumber, that.studentsNumber) &&
+                Objects.equals(activity, that.activity) &&
+                Objects.equals(background, that.background) &&
+                Objects.equals(employments, that.employments) &&
+                Objects.equals(examsStart, that.examsStart) &&
+                Objects.equals(examsEnd, that.examsEnd) &&
+                Objects.equals(requiredCourses, that.requiredCourses);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, studentsNumber, activity, background, employments, examsStart, examsEnd, requiredCourses);
+    }
 
     public Integer getId() {
         return id;
@@ -61,6 +86,10 @@ public class SpecialityEntity {
         return examsEnd;
     }
 
+    public List<CourseEntity> getRequiredCourses() {
+        return requiredCourses;
+    }
+
     public static final class Builder {
         private Integer id;
         private String name;
@@ -70,6 +99,7 @@ public class SpecialityEntity {
         private String employments;
         private LocalDate examsStart;
         private LocalDate examsEnd;
+        private List<CourseEntity> requiredCourses;
 
         private Builder() {
         }
@@ -111,6 +141,11 @@ public class SpecialityEntity {
 
         public Builder withExamsEnd(LocalDate val) {
             examsEnd = val;
+            return this;
+        }
+
+        public Builder withRequiredCourses(List<CourseEntity> val) {
+            requiredCourses = val;
             return this;
         }
 

@@ -1,10 +1,8 @@
 package university.model.service.impl;
 
-import university.domain.Course;
 import university.domain.Speciality;
 import university.model.dao.ResultForSpecialityDao;
 import university.model.dao.SpecialityDao;
-import university.model.dao.entity.CourseEntity;
 import university.model.dao.entity.SpecialityEntity;
 import university.model.dao.exception.EntityNotFoundException;
 import university.model.mapper.CourseMapper;
@@ -18,17 +16,13 @@ import java.util.stream.Collectors;
 public class SpecialityServiceImpl implements SpecialityService {
     private final SpecialityDao specialityDao;
     private final SpecialityMapper specialityMapper;
-    private final CourseMapper courseMapper;
     private final ResultForSpecialityDao resultForSpecialityDao;
 
-
-    public SpecialityServiceImpl(SpecialityDao specialityDao, SpecialityMapper specialityMapper, CourseMapper courseMapper, ResultForSpecialityDao resultForSpecialityDao) {
+    public SpecialityServiceImpl(SpecialityDao specialityDao, SpecialityMapper specialityMapper, ResultForSpecialityDao resultForSpecialityDao) {
         this.specialityDao = specialityDao;
         this.specialityMapper = specialityMapper;
-        this.courseMapper = courseMapper;
         this.resultForSpecialityDao = resultForSpecialityDao;
     }
-
 
     @Override
     public void register(SpecialityEntity specialityEntity) {
@@ -58,20 +52,10 @@ public class SpecialityServiceImpl implements SpecialityService {
 
     }
 
-
-    @Override
-    public List<Course> getRequiredCoursesListBySpecId(Integer specialityId) {
-        List<CourseEntity> coursesListBySpecId = specialityDao.getRequiredCoursesListBySpecId(specialityId);
-        return coursesListBySpecId.isEmpty() ? Collections.emptyList() : coursesListBySpecId.stream()
-                .map(courseMapper::mapEntityToDomain)
-                .collect(Collectors.toList());
-    }
-
     @Override
     public Integer countElementOfTableBySpecId(Integer idSpeciality) {
         return resultForSpecialityDao.countElementOfTableBySpecId(idSpeciality);
     }
-
 
 
     @Override

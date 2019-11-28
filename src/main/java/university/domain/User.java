@@ -11,7 +11,7 @@ public class User {
     private String secondName;
     private String email;
     private String password;
-    Speciality speciality;
+    private Speciality speciality;
     private Role role;
 
     private User(Builder builder) {
@@ -27,7 +27,6 @@ public class User {
     public static Builder newBuilder() {
         return new Builder();
     }
-
 
     @Override
     public boolean equals(Object o) {

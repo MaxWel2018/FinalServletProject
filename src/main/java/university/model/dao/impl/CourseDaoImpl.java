@@ -17,11 +17,9 @@ public class CourseDaoImpl extends AbstractCrudDaoImpl<CourseEntity> implements 
     private static final String INSERT_COURSE = "INSERT INTO exam_result(Date, Grade, Course_Id, User_Id)" +
             " VALUES (?,?,?,?)";
 
-
     public CourseDaoImpl(HikariConnectionPool connector) {
         super(connector, INSERT_COURSE, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY);
     }
-
 
     @Override
     protected CourseEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
@@ -33,7 +31,6 @@ public class CourseDaoImpl extends AbstractCrudDaoImpl<CourseEntity> implements 
     protected void mapForInsertStatement(PreparedStatement preparedStatement, CourseEntity entity) throws SQLException {
         preparedStatement.setString(1, entity.getName());
     }
-
 
     @Override
     protected void mapForUpdateStatement(PreparedStatement preparedStatement, CourseEntity entity) throws SQLException {

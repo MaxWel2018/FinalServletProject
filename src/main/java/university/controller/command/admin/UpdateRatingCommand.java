@@ -2,7 +2,7 @@ package university.controller.command.admin;
 
 import university.controller.command.Command;
 import university.domain.ExamResult;
-import university.domain.SpecialityRequest;
+import university.domain.UserResult;
 import university.model.service.ResultForSpecService;
 import university.model.service.ResultService;
 import university.model.service.UserService;
@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class UpdateRatingCommand implements Command {
+
     private final ResultService resultService;
 
     private final ResultForSpecService resultForSpecService;
@@ -41,7 +42,7 @@ public class UpdateRatingCommand implements Command {
     }
 
     private void mapToResultForSpec(Map<Integer, List<ExamResult>> collect, Integer integer) {
-        resultForSpecService.setResultForSpeciality(SpecialityRequest.newBuilder()
+        resultForSpecService.setResultForSpeciality(UserResult.newBuilder()
                 .withSpecialityId(getSpecialityId(integer))
                 .withFinalMark(calculateFinalMark(collect.get(integer)))
                 .withUserId(getUserId(collect, integer))

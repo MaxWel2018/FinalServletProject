@@ -2,7 +2,7 @@ package university.model.dao.entity;
 
 import java.util.Objects;
 
-public class SpecialityRequestEntity {
+public class UserResultEntity {
 
     private final Integer id;
     private final Integer specialityId;
@@ -13,7 +13,7 @@ public class SpecialityRequestEntity {
     private final Integer finalMark;
     private final Boolean confirmed;
 
-    private SpecialityRequestEntity(Builder builder) {
+    private UserResultEntity(Builder builder) {
         id = builder.id;
         specialityId = builder.specialityId;
         specialityName = builder.specialityName;
@@ -28,16 +28,15 @@ public class SpecialityRequestEntity {
         return new Builder();
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof SpecialityRequestEntity)) {
+        if (!(o instanceof UserResultEntity)) {
             return false;
         }
-        SpecialityRequestEntity that = (SpecialityRequestEntity) o;
+        UserResultEntity that = (UserResultEntity) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(specialityId, that.specialityId) &&
                 Objects.equals(specialityName, that.specialityName) &&
@@ -138,8 +137,8 @@ public class SpecialityRequestEntity {
             return this;
         }
 
-        public SpecialityRequestEntity build() {
-            return new SpecialityRequestEntity(this);
+        public UserResultEntity build() {
+            return new UserResultEntity(this);
         }
     }
 }

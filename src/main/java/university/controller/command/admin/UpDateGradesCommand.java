@@ -18,17 +18,17 @@ public class UpDateGradesCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        List<Boolean> isUpdateGrade = new ArrayList<>();
 
         String[] grades = request.getParameterValues("grade");
-        String[] idRecord = request.getParameterValues("idRecord");
-        updateGrade(isUpdateGrade, grades, idRecord);
+        String[] ids = request.getParameterValues("idRecord");
+        updateGrade(grades, ids);
         return PagesConstant.ADMIN_PROFILE;
     }
 
-    private void updateGrade(List<Boolean> isUpdateGrade, String[] grades, String[] idRecord) {
-        for (int i = 0; i < idRecord.length; i++) {
-            isUpdateGrade.add(resultService.updateGrade(Integer.parseInt(grades[i]), Integer.parseInt(idRecord[i])));
+    private void updateGrade( String[] grades, String[] ids) {
+        for (int i = 0; i < ids.length; i++) {
+            resultService.updateGrade(Integer.parseInt(grades[i]), Integer.parseInt(ids[i]));
         }
     }
+
 }

@@ -1,19 +1,22 @@
 package university.model.mapper;
 
+import university.domain.Course;
 import university.domain.ExamResult;
+import university.domain.User;
 import university.model.dao.entity.ExamResultEntity;
-import university.model.service.CourseService;
-import university.model.service.UserService;
+
+import java.util.Optional;
 
 public class ExamResultMapper implements Mapper<ExamResult, ExamResultEntity> {
-    private final UserService userService;
-    private final CourseService courseService;
 
-    public ExamResultMapper(UserService userService, CourseService courseService) {
-        this.userService = userService;
-        this.courseService = courseService;
+    private final CourseMapper courseMapper;
+
+    private final UserMapper userMapper;
+
+    public ExamResultMapper(CourseMapper courseMapper, UserMapper userMapper) {
+        this.courseMapper = courseMapper;
+        this.userMapper = userMapper;
     }
-
 
     @Override
     public ExamResult mapEntityToDomain(ExamResultEntity examResultEntity) {
@@ -23,9 +26,13 @@ public class ExamResultMapper implements Mapper<ExamResult, ExamResultEntity> {
                 .withDate(examResultEntity.getDate())
                 .withMark(examResultEntity.getMark())
                 .withUserId(examResultEntity.getUserId())
-                .withCourse(courseService.findById(examResultEntity.getCourseId()))
-                .withUser(userService.findById(examResultEntity.getUserId()))
+                .withCourse(mapCourseEntityToDomain(examResultEntity))
+                .withUser(mapUserEntityToDomain(examResultEntity))
                 .build();
+    }
+
+    private User mapUserEntityToDomain(ExamResultEntity examResultEntity) {
+        return Optional.ofNullable(userMapper.mapEntityToDomain(examResultEntity.getUserEntity())).orElse(User.newBuilder().build());
     }
 
     @Override
@@ -36,8 +43,13 @@ public class ExamResultMapper implements Mapper<ExamResult, ExamResultEntity> {
                 .withDate(examResult.getDate())
                 .withMark(examResult.getMark())
                 .withUserId(examResult.getUserId())
+                .withUserEntity(userMapper.mapDomainToEntity(examResult.getUser()))
+                .withCourseEntity(courseMapper.mapDomainToEntity(examResult.getCourse()))
                 .build();
     }
 
+    private Course mapCourseEntityToDomain(ExamResultEntity examResultEntity) {
+        return Optional.ofNullable(courseMapper.mapEntityToDomain(examResultEntity.getCourseEntity())).orElse(new Course());
+    }
 
 }

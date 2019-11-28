@@ -2,6 +2,7 @@ package university.model.mapper;
 
 
 import university.context.ApplicationContextInjector;
+import university.domain.Course;
 import university.domain.Speciality;
 import university.model.dao.SpecialityDao;
 import university.model.dao.connection.HikariConnectionPool;
@@ -14,32 +15,35 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SpecialityMapper implements Mapper<Speciality, SpecialityEntity> {
-    private static final ApplicationContextInjector applicationContextInjector = ApplicationContextInjector.getInstance();
-    private final HikariConnectionPool connectionPool = applicationContextInjector.getHikariConnectionPool();
-    private final SpecialityDao specialityDao = new SpecialityDaoImpl(connectionPool);
-    private final CourseMapper courseMapper = new CourseMapper();
+    private final CourseMapper courseMapper;
 
+    public SpecialityMapper() {
+        ApplicationContextInjector injector = ApplicationContextInjector.getInstance();
+        courseMapper = injector.getCourseMapper();
+    }
 
     @Override
     public Speciality mapEntityToDomain(SpecialityEntity specialityEntity) {
-        Speciality.Builder builder = Speciality.newBuilder();
-        builder.withId(specialityEntity.getId());
-        builder.withName(specialityEntity.getName());
-        builder.withStudentsNumber(specialityEntity.getStudentsNumber());
-        builder.withActivity(specialityEntity.getActivity());
-        builder.withBackground(specialityEntity.getBackground());
-        builder.withEmployments(specialityEntity.getEmployments());
-        builder.withExamsStart(specialityEntity.getExamsStart());
-        builder.withExamsEnd(specialityEntity.getExamsEnd());
-        List<CourseEntity> requiredCoursesListBySpecId = specialityDao.getRequiredCoursesListBySpecId(specialityEntity.getId());
-        builder.withRequiredCourses(
-                requiredCoursesListBySpecId.isEmpty()
-                        ? Collections.emptyList()
-                        : requiredCoursesListBySpecId.stream()
-                        .map(courseMapper::mapEntityToDomain)
-                        .collect((Collectors.toList())));
-        return builder
+        return Speciality.newBuilder()
+                .withId(specialityEntity.getId())
+                .withName(specialityEntity.getName())
+                .withStudentsNumber(specialityEntity.getStudentsNumber())
+                .withActivity(specialityEntity.getActivity())
+                .withBackground(specialityEntity.getBackground())
+                .withEmployments(specialityEntity.getEmployments())
+                .withExamsStart(specialityEntity.getExamsStart())
+                .withExamsEnd(specialityEntity.getExamsEnd())
+                .withRequiredCourses(mapSpecEntityToDomain(specialityEntity))
                 .build();
+    }
+
+    private List<Course> mapSpecEntityToDomain(SpecialityEntity specialityEntity) {
+        List<CourseEntity> requiredCourses = specialityEntity.getRequiredCourses();
+        return requiredCourses.isEmpty() ?
+                Collections.emptyList() :
+                requiredCourses.stream()
+                        .map(courseMapper::mapEntityToDomain)
+                        .collect((Collectors.toList()));
     }
 
     @Override

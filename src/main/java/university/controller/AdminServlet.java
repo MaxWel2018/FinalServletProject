@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+
 public class AdminServlet extends HttpServlet {
+
     private final Map<String, Command> commandNameToCommand;
     private final Command defaultCommand;
 
@@ -21,7 +23,6 @@ public class AdminServlet extends HttpServlet {
         this.commandNameToCommand = applicationContextInjector.getAdminCommand();
         this.defaultCommand = commandNameToCommand.get("show-profile");
     }
-
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

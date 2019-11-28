@@ -13,23 +13,23 @@ public class EncodingFilter implements Filter {
     public void init(FilterConfig filterConfig) {
 
     }
-
+//TODO пофиксить копипаст
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
-        String password = req.getParameter("password");
+        getPassword(req, "password", "passwordEncode");
+
+        getPassword(req, "confirmPassword", "confirmPassword");
+        filterChain.doFilter(req, servletResponse);
+    }
+
+    private void getPassword(HttpServletRequest req, String password2, String passwordEncode) {
+        String password = req.getParameter(password2);
         String newPass = null;
-        String confirmPassword = req.getParameter("confirmPassword");
-        String newConfirmPass = null;
         if (password != null) {
             newPass = PasswordInCode.passwordEncoded(password);
         }
-        if (confirmPassword != null) {
-            newConfirmPass = PasswordInCode.passwordEncoded(confirmPassword);
-        }
-        req.getSession().setAttribute("passwordEncode", newPass);
-        req.getSession().setAttribute("confirmPassword", newConfirmPass);
-        filterChain.doFilter(req, servletResponse);
+        req.getSession().setAttribute(passwordEncode, newPass);
     }
 
     @Override

@@ -15,21 +15,16 @@ import java.util.stream.Collectors;
 
 public class ResultServiceImpl implements ResultService {
 
-    private final ResultForSpecialityDao resultForSpecialityDao;
 
     private final ExamResultDao examResultDao;
 
-    private final SpecialityReqMapper specialityRequestEntities;
 
     private final ExamResultMapper examResultMapper;
 
-    public ResultServiceImpl(ResultForSpecialityDao resultForSpecialityDao, ExamResultDao examResultDao, SpecialityReqMapper specialityRequestEntities, ExamResultMapper examResultMapper) {
-        this.resultForSpecialityDao = resultForSpecialityDao;
+    public ResultServiceImpl(ExamResultDao examResultDao, ExamResultMapper examResultMapper) {
         this.examResultDao = examResultDao;
-        this.specialityRequestEntities = specialityRequestEntities;
         this.examResultMapper = examResultMapper;
     }
-
 
     @Override
     public void save(ExamResult examResult) {
@@ -56,11 +51,9 @@ public class ResultServiceImpl implements ResultService {
                .collect(Collectors.toList());
     }
 
-
-
     @Override
-    public ExamResult findExamResultByUserIdAndCourseId(Integer userId, Integer course) {
-        return examResultMapper.mapEntityToDomain(examResultDao.findByUserIdAndCourseId(userId, course)
+    public ExamResult findExamResultByUserIdAndCourseId(Integer userId, Integer courseId) {
+        return examResultMapper.mapEntityToDomain(examResultDao.findByUserIdAndCourseId(userId, courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Exam result dont found")));
     }
 

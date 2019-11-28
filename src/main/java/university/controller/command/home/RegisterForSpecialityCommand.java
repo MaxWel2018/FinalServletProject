@@ -24,7 +24,6 @@ public class RegisterForSpecialityCommand implements Command {
         this.userService = userService;
     }
 
-
     @Override
     public String execute(HttpServletRequest request) {
 
@@ -53,7 +52,6 @@ public class RegisterForSpecialityCommand implements Command {
                 .withEmail(user.getEmail())
                 .build();
     }
-
 
     private ExamResult mapReqToResultExam(HttpServletRequest request, User user, Course course,Speciality speciality) {
         String parameter = request.getParameter(String.valueOf(course.getId()));

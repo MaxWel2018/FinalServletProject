@@ -2,7 +2,7 @@ package university.domain;
 
 import java.util.Objects;
 
-public class SpecialityRequest {
+public class UserResult {
 
     private final Integer id;
     private final Integer specialityId;
@@ -13,7 +13,7 @@ public class SpecialityRequest {
     private final Integer finalMark;
     private final Boolean confirmed;
 
-    private SpecialityRequest(Builder builder) {
+    private UserResult(Builder builder) {
         id = builder.id;
         specialityId = builder.specialityId;
         specialityName = builder.specialityName;
@@ -33,10 +33,10 @@ public class SpecialityRequest {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof SpecialityRequest)) {
+        if (!(o instanceof UserResult)) {
             return false;
         }
-        SpecialityRequest that = (SpecialityRequest) o;
+        UserResult that = (UserResult) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(specialityId, that.specialityId) &&
                 Objects.equals(specialityName, that.specialityName) &&
@@ -137,8 +137,8 @@ public class SpecialityRequest {
             return this;
         }
 
-        public SpecialityRequest build() {
-            return new SpecialityRequest(this);
+        public UserResult build() {
+            return new UserResult(this);
         }
     }
 }

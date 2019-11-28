@@ -9,7 +9,7 @@ public class UserEntity {
     private String secondName;
     private String email;
     private String password;
-    SpecialityEntity specialityEntity;
+    private SpecialityEntity specialityEntity;
     private Role role;
 
     private UserEntity(Builder builder) {
@@ -40,7 +40,6 @@ public class UserEntity {
     public static Builder newBuilder() {
         return new Builder();
     }
-
 
     public Integer getId() {
         return id;

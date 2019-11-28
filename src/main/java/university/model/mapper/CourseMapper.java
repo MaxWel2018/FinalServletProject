@@ -14,5 +14,4 @@ public class CourseMapper implements Mapper<Course, CourseEntity> {
         return new CourseEntity(course.getId(), course.getName());
     }
 
-
 }

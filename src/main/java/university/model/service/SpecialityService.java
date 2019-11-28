@@ -15,8 +15,6 @@ public interface SpecialityService {
 
     List<Speciality> findAll();
 
-    List<Course> getRequiredCoursesListBySpecId(Integer specialityId);
-
     Integer countElementOfTableBySpecId(Integer idSpeciality);
 
     void addCourse(Integer specialityId, Integer courseId);

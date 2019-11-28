@@ -1,6 +1,5 @@
 package university.model.service.impl;
 
-import org.apache.log4j.Logger;
 import university.domain.User;
 import university.model.dao.UserDao;
 import university.model.dao.entity.UserEntity;
@@ -25,7 +24,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
 
-
     public UserServiceImpl(UserDao userDao, Validator<User> validator, UserMapper userMapper) {
         this.userDao = userDao;
         this.validator = validator;
@@ -33,7 +31,6 @@ public class UserServiceImpl implements UserService {
 
 
     }
-
 
     @Override
     public Optional<User> findByEmail(String email) {
@@ -46,14 +43,14 @@ public class UserServiceImpl implements UserService {
         return userDao.findByEmail(email)
                 .map(userMapper::mapEntityToDomain)
                 .filter(x -> Objects.equals(x.getPassword(), password))
-                .orElseThrow(() -> new AuthorisationFailException(401));
+                .orElseThrow(() -> new AuthorisationFailException("Login or password Dont correct"));
     }
 
     @Override
     public void register(User user) {
         validator.validate(user);
         if (userDao.findByEmail(user.getEmail()).isPresent()) {
-            throw new EntityAlreadyExistException(401);
+            throw new EntityAlreadyExistException("A user with this Email is already registered");
         }
         userDao.save(userMapper.mapDomainToEntity(user));
     }

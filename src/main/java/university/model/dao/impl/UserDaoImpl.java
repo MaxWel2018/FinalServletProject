@@ -5,6 +5,7 @@ import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.entity.Role;
 import university.model.dao.entity.SpecialityEntity;
 import university.model.dao.entity.UserEntity;
+import university.model.dao.mapper.UserEntityMapper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,7 +27,6 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<UserEntity> implements User
             "INNER JOIN role r on users.Role_Id = r.Role_Id " +
             "LEFT JOIN speciality s on users.Id_Speciality = s.Speciality_Id " +
             "where Email =?";
-
 
     public UserDaoImpl(HikariConnectionPool connector) {
         super(connector, INSERT_USER, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY);

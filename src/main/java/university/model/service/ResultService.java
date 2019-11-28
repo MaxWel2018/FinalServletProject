@@ -1,7 +1,6 @@
 package university.model.service;
 
 import university.domain.ExamResult;
-import university.domain.SpecialityRequest;
 
 import java.time.LocalDate;
 import java.util.List;

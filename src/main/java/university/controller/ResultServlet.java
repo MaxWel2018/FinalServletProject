@@ -13,6 +13,7 @@ import java.util.Map;
 
 @WebServlet("/user/result")
 public class ResultServlet extends HttpServlet {
+
     private final Map<String, Command> commandNameToCommand;
     private final Command defaultCommand;
 

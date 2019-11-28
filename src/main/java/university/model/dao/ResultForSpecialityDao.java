@@ -1,20 +1,19 @@
 package university.model.dao;
 
-import university.domain.SpecialityRequest;
-import university.model.dao.entity.SpecialityRequestEntity;
+import university.model.dao.entity.UserResultEntity;
 
 import java.util.List;
 
-public interface ResultForSpecialityDao extends CrudDao<SpecialityRequestEntity, Integer> {
+public interface ResultForSpecialityDao extends CrudDao<UserResultEntity, Integer> {
     Integer countElementOfTableBySpecId(Integer idSpeciality);
 
-    List<SpecialityRequestEntity> generateRating(Integer start, Integer recordsPerPage, Integer specialityId);
+    List<UserResultEntity> generateRating(Integer start, Integer recordsPerPage, Integer specialityId);
 
-    void setResultForSpeciality(SpecialityRequestEntity specialityRequestEntity);
+    void setResultForSpeciality(UserResultEntity userResultEntity);
 
-    SpecialityRequestEntity findByUserId(Integer userId);
+    UserResultEntity findByUserId(Integer userId);
 
-    List<SpecialityRequestEntity> findToEnrollmentBySpecId(Integer specId,Integer governmentOrder);
+    List<UserResultEntity> findToEnrollmentBySpecId(Integer specId, Integer governmentOrder);
 
     void updateConfirmedByUserId(Integer id, Boolean confirmed);
 

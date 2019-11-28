@@ -34,7 +34,6 @@ public class Speciality {
         return new Builder();
     }
 
-
     public Integer getId() {
         return id;
     }
@@ -72,7 +71,6 @@ public class Speciality {
     public List<Course> getRequiredCourses() {
         return requiredCourses;
     }
-
 
     public static final class Builder {
         private Integer id;

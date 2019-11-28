@@ -9,6 +9,7 @@ import university.model.service.PasswordInCode;
 import java.util.Optional;
 
 public class UserMapper implements Mapper<User, UserEntity> {
+
     private SpecialityMapper specialityMapper;
 
     public UserMapper(SpecialityMapper specialityMapper) {

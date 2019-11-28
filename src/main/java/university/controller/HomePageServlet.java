@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class HomePageServlet extends HttpServlet {
+
     private final Map<String, Command> commandNameToCommand;
     private final Command defaultCommand;
 

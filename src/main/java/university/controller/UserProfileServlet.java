@@ -13,6 +13,7 @@ import java.util.Map;
 
 @WebServlet("/user/profile")
 public class UserProfileServlet extends HttpServlet {
+
     private final Map<String, Command> commandNameToCommand;
     private final Command defaultCommand;
 
@@ -22,7 +23,6 @@ public class UserProfileServlet extends HttpServlet {
         this.commandNameToCommand = applicationContextInjector.getUserProfileCommand();
         this.defaultCommand = commandNameToCommand.get("show-profile");
     }
-
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

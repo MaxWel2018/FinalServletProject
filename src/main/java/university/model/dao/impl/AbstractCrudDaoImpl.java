@@ -13,6 +13,7 @@ import java.util.*;
 import java.util.function.BiConsumer;
 
 public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
+
     private static final Logger LOGGER = Logger.getLogger(AbstractCrudDaoImpl.class);
 
     private static final BiConsumer<PreparedStatement, String> STRING_CONSUMER
@@ -70,7 +71,6 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
         }
     }
 
-
     @Override
     public void save(E entity) {
         try (Connection connection = connector.getConnection();
@@ -120,9 +120,7 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
         return findByIntParam(id, findByIdQuery);
     }
 
-
     protected abstract E mapResultSetToEntity(ResultSet resultSet) throws SQLException;
-
 
     protected abstract void mapForInsertStatement(PreparedStatement preparedStatement, E entity) throws SQLException;
 

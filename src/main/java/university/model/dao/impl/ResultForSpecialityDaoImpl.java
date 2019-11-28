@@ -3,7 +3,7 @@ package university.model.dao.impl;
 import org.apache.log4j.Logger;
 import university.model.dao.ResultForSpecialityDao;
 import university.model.dao.connection.HikariConnectionPool;
-import university.model.dao.entity.SpecialityRequestEntity;
+import university.model.dao.entity.UserResultEntity;
 import university.model.dao.exception.DataBaseRuntimeException;
 
 import java.sql.Connection;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResultForSpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityRequestEntity> implements ResultForSpecialityDao {
+public class ResultForSpecialityDaoImpl extends AbstractCrudDaoImpl<UserResultEntity> implements ResultForSpecialityDao {
 
     private static final Logger LOGGER = Logger.getLogger(SpecialityDaoImpl.class);
 
@@ -43,27 +43,25 @@ public class ResultForSpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityRe
         super(connector, INSERT_RESULT, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY);
     }
 
-
     @Override
-    protected SpecialityRequestEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
+    protected UserResultEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
         return mapResultSetToSpecialityReqEntity(resultSet);
     }
 
-
     @Override
-    protected void mapForInsertStatement(PreparedStatement preparedStatement, SpecialityRequestEntity entity) throws SQLException {
+    protected void mapForInsertStatement(PreparedStatement preparedStatement, UserResultEntity entity) throws SQLException {
         preparedStatement.setInt(1, entity.getFinalMark());
         preparedStatement.setInt(2, entity.getSpecialityId());
         preparedStatement.setInt(3, entity.getUserId());
         preparedStatement.setBoolean(4, mapConfirmed(entity));
     }
 
-    private boolean mapConfirmed(SpecialityRequestEntity entity) {
+    private boolean mapConfirmed(UserResultEntity entity) {
         return entity.getConfirmed() == null ? false : entity.getConfirmed();
     }
 
     @Override
-    protected void mapForUpdateStatement(PreparedStatement preparedStatement, SpecialityRequestEntity entity) throws SQLException {
+    protected void mapForUpdateStatement(PreparedStatement preparedStatement, UserResultEntity entity) throws SQLException {
         mapForInsertStatement(preparedStatement, entity);
         preparedStatement.setInt(5, entity.getId());
     }
@@ -83,8 +81,8 @@ public class ResultForSpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityRe
     }
 
     @Override
-    public List<SpecialityRequestEntity> generateRating(Integer start, Integer recordsPerPage, Integer specialityId) {
-        List<SpecialityRequestEntity> rating = new ArrayList<>();
+    public List<UserResultEntity> generateRating(Integer start, Integer recordsPerPage, Integer specialityId) {
+        List<UserResultEntity> rating = new ArrayList<>();
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY_BY_ID_SPEC)) {
             preparedStatement.setInt(1, specialityId);
@@ -103,12 +101,12 @@ public class ResultForSpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityRe
     }
 
     @Override
-    public void setResultForSpeciality(SpecialityRequestEntity specialityRequestEntity) {
+    public void setResultForSpeciality(UserResultEntity userResultEntity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement("UPDATE result_for_speciality SET Final_Grade=? where User_Id = ?")) {
-            preparedStatement.setInt(1, specialityRequestEntity.getFinalMark());
-            preparedStatement.setInt(2, specialityRequestEntity.getUserId());
+            preparedStatement.setInt(1, userResultEntity.getFinalMark());
+            preparedStatement.setInt(2, userResultEntity.getUserId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Update  is failed", e);
@@ -117,13 +115,13 @@ public class ResultForSpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityRe
     }
 
     @Override
-    public SpecialityRequestEntity findByUserId(Integer userId) {
+    public UserResultEntity findByUserId(Integer userId) {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_USER_ID)) {
             preparedStatement.setInt(1, userId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 return resultSet.next() ? mapResultSetToSpecialityReqEntity(resultSet)
-                        : SpecialityRequestEntity.newBuilder().build();
+                        : UserResultEntity.newBuilder().build();
             }
         } catch (SQLException e) {
             LOGGER.error("Update is failed", e);
@@ -132,8 +130,8 @@ public class ResultForSpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityRe
     }
 
     @Override
-    public List<SpecialityRequestEntity> findToEnrollmentBySpecId(Integer specId, Integer governmentOrder) {
-        List<SpecialityRequestEntity> rating = new ArrayList<>();
+    public List<UserResultEntity> findToEnrollmentBySpecId(Integer specId, Integer governmentOrder) {
+        List<UserResultEntity> rating = new ArrayList<>();
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_TO_ENROLLMENT_BY_SPEC_ID)) {
             preparedStatement.setInt(1, specId);
@@ -164,8 +162,8 @@ public class ResultForSpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityRe
         }
     }
 
-    private SpecialityRequestEntity mapResultSetToSpecialityReqEntity(ResultSet resultSet) throws SQLException {
-        return SpecialityRequestEntity.newBuilder()
+    private UserResultEntity mapResultSetToSpecialityReqEntity(ResultSet resultSet) throws SQLException {
+        return UserResultEntity.newBuilder()
                 .withId(resultSet.getInt("Result_For_Speciality_ID"))
                 .withUserId(resultSet.getInt("User_Id"))
                 .withUserName(resultSet.getString("First_Name"))

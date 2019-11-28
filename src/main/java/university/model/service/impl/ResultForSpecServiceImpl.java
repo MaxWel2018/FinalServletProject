@@ -1,8 +1,8 @@
 package university.model.service.impl;
 
-import university.domain.SpecialityRequest;
+import university.domain.UserResult;
 import university.model.dao.ResultForSpecialityDao;
-import university.model.dao.entity.SpecialityRequestEntity;
+import university.model.dao.entity.UserResultEntity;
 import university.model.mapper.SpecialityReqMapper;
 import university.model.service.Page;
 import university.model.service.ResultForSpecService;
@@ -16,14 +16,13 @@ public class ResultForSpecServiceImpl implements ResultForSpecService {
 
     private final SpecialityReqMapper specialityReqMapper;
 
-
     public ResultForSpecServiceImpl(ResultForSpecialityDao resultForSpecialityDao, SpecialityReqMapper specialityRequestEntities) {
         this.resultForSpecialityDao = resultForSpecialityDao;
         this.specialityReqMapper = specialityRequestEntities;
     }
 
     @Override
-    public List<SpecialityRequest> generateRating(Page page, Integer specialityId) {
+    public List<UserResult> generateRating(Page page, Integer specialityId) {
         Integer defaultStart = 0;
         Integer defaultRecordsPerPage = 10;
         Integer currentPage = page.getCurrentPage();
@@ -39,21 +38,21 @@ public class ResultForSpecServiceImpl implements ResultForSpecService {
     }
 
     @Override
-    public void setResultForSpeciality(SpecialityRequest specialityRequest) {
-        if (findByUserId(specialityRequest.getUserId()).getUserId()== null) {
-            resultForSpecialityDao.save(specialityReqMapper.mapDomainToEntity(specialityRequest));
+    public void setResultForSpeciality(UserResult userResult) {
+        if (findByUserId(userResult.getUserId()).getUserId()== null) {
+            resultForSpecialityDao.save(specialityReqMapper.mapDomainToEntity(userResult));
         }else{
-            resultForSpecialityDao.setResultForSpeciality(specialityReqMapper.mapDomainToEntity(specialityRequest));
+            resultForSpecialityDao.setResultForSpeciality(specialityReqMapper.mapDomainToEntity(userResult));
         }
     }
 
     @Override
-    public SpecialityRequest findByUserId(Integer userId) {
+    public UserResult findByUserId(Integer userId) {
         return specialityReqMapper.mapEntityToDomain(resultForSpecialityDao.findByUserId(userId));
     }
 
     @Override
-    public List<SpecialityRequest> findToEnrollmentBySpecId(Integer specId, Integer governmentOrder) {
+    public List<UserResult> findToEnrollmentBySpecId(Integer specId, Integer governmentOrder) {
         return resultForSpecialityDao.findToEnrollmentBySpecId(specId, governmentOrder).stream()
                 .map(specialityReqMapper::mapEntityToDomain)
                 .collect(Collectors.toList());
@@ -64,8 +63,8 @@ public class ResultForSpecServiceImpl implements ResultForSpecService {
         resultForSpecialityDao.updateConfirmedByUserId(id, confirmed);
     }
 
-    private List<SpecialityRequest> returnRating(Integer recordsPerPage, Integer start, Integer specialityId) {
-        List<SpecialityRequestEntity> requestEntities = resultForSpecialityDao.generateRating(start, recordsPerPage, specialityId);
+    private List<UserResult> returnRating(Integer recordsPerPage, Integer start, Integer specialityId) {
+        List<UserResultEntity> requestEntities = resultForSpecialityDao.generateRating(start, recordsPerPage, specialityId);
         return requestEntities.isEmpty() ? Collections.emptyList() : requestEntities.stream()
                 .map(specialityReqMapper::mapEntityToDomain)
                 .collect(Collectors.toList());

@@ -23,8 +23,8 @@ public class ShowUsersGradeCommand implements Command {
     public String execute(HttpServletRequest request) {
         request.setAttribute("allCourses", courseService.findAll());
         Integer courseSelectedId = Integer.valueOf(request.getParameter("courseSelected"));
-        LocalDate dataExam = LocalDate.parse(request.getParameter("data-exam"));
-        List<ExamResult> allResultExamByCourseIdAndData = resultService.findAllByCourseIdAndData(courseSelectedId, dataExam);
+        LocalDate examDate = LocalDate.parse(request.getParameter("data-exam"));
+        List<ExamResult> allResultExamByCourseIdAndData = resultService.findAllByCourseIdAndData(courseSelectedId, examDate);
 
         request.setAttribute("allResult", allResultExamByCourseIdAndData);
         request.setAttribute("select", courseSelectedId);

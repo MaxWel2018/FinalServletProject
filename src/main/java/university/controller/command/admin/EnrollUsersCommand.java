@@ -1,7 +1,7 @@
 package university.controller.command.admin;
 
 import university.controller.command.Command;
-import university.domain.SpecialityRequest;
+import university.domain.UserResult;
 import university.model.service.ResultForSpecService;
 import university.model.service.SpecialityService;
 import university.util.PagesConstant;
@@ -24,9 +24,9 @@ public class EnrollUsersCommand implements Command {
     public String execute(HttpServletRequest request) {
         Integer specId = parseReqToIdSpec(request);
         Integer governmentOrderFromSpec = specialityService.findById(specId).getStudentsNumber();
-        List<SpecialityRequest> toEnrollmentBySpecId = resultForSpecService.findToEnrollmentBySpecId(specId, governmentOrderFromSpec);
-        for (SpecialityRequest specialityRequest : toEnrollmentBySpecId) {
-            resultForSpecService.updateConfirmedByUserId(specialityRequest.getUserId(), true);
+        List<UserResult> toEnrollmentBySpecId = resultForSpecService.findToEnrollmentBySpecId(specId, governmentOrderFromSpec);
+        for (UserResult userResult : toEnrollmentBySpecId) {
+            resultForSpecService.updateConfirmedByUserId(userResult.getUserId(), true);
         }
         return PagesConstant.ADMIN_PROFILE;
     }
