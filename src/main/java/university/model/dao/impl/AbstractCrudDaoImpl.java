@@ -16,8 +16,7 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
 
     private static final Logger LOGGER = Logger.getLogger(AbstractCrudDaoImpl.class);
 
-    private static final BiConsumer<PreparedStatement, String> STRING_CONSUMER
-            = (PreparedStatement pr, String param) -> {
+    private static final BiConsumer<PreparedStatement, String> STRING_CONSUMER = (PreparedStatement pr, String param) -> {
         try {
             pr.setString(1, param);
         } catch (SQLException e) {
@@ -25,8 +24,7 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
         }
     };
 
-    private static final BiConsumer<PreparedStatement, Integer> INT_CONSUMER
-            = (PreparedStatement pr, Integer param) -> {
+    private static final BiConsumer<PreparedStatement, Integer> INT_CONSUMER = (PreparedStatement pr, Integer param) -> {
         try {
             pr.setInt(1, param);
         } catch (SQLException e) {
@@ -51,7 +49,6 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
 
     protected Optional<E> findByIntParam(Integer id, String query) {
         return findByParam(id, query, INT_CONSUMER);
-
     }
 
     protected Optional<E> findByStringParam(String param, String query) {
@@ -105,7 +102,9 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 Set<E> entities = new HashSet<>();
                 while (resultSet.next()) {
+                    int row = resultSet.getRow();
                     entities.add(mapResultSetToEntity(resultSet));
+                    resultSet.absolute(row);
                 }
                 return new ArrayList<>(entities);
             }

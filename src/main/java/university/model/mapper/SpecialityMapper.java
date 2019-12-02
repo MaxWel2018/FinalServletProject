@@ -1,25 +1,19 @@
 package university.model.mapper;
 
 
-import university.context.ApplicationContextInjector;
 import university.domain.Course;
 import university.domain.Speciality;
-import university.model.dao.SpecialityDao;
-import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.entity.CourseEntity;
 import university.model.dao.entity.SpecialityEntity;
-import university.model.dao.impl.SpecialityDaoImpl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class SpecialityMapper implements Mapper<Speciality, SpecialityEntity> {
     private final CourseMapper courseMapper;
 
-    public SpecialityMapper() {
-        ApplicationContextInjector injector = ApplicationContextInjector.getInstance();
-        courseMapper = injector.getCourseMapper();
+    public SpecialityMapper(CourseMapper courseMapper) {
+        this.courseMapper = courseMapper;
     }
 
     @Override
@@ -33,17 +27,8 @@ public class SpecialityMapper implements Mapper<Speciality, SpecialityEntity> {
                 .withEmployments(specialityEntity.getEmployments())
                 .withExamsStart(specialityEntity.getExamsStart())
                 .withExamsEnd(specialityEntity.getExamsEnd())
-                .withRequiredCourses(mapSpecEntityToDomain(specialityEntity))
+                .withRequiredCourses(mapSpecialityCoursesEntityToDomain(specialityEntity))
                 .build();
-    }
-
-    private List<Course> mapSpecEntityToDomain(SpecialityEntity specialityEntity) {
-        List<CourseEntity> requiredCourses = specialityEntity.getRequiredCourses();
-        return requiredCourses.isEmpty() ?
-                Collections.emptyList() :
-                requiredCourses.stream()
-                        .map(courseMapper::mapEntityToDomain)
-                        .collect((Collectors.toList()));
     }
 
     @Override
@@ -56,6 +41,22 @@ public class SpecialityMapper implements Mapper<Speciality, SpecialityEntity> {
                 .withBackground(speciality.getBackground())
                 .withEmployments(speciality.getEmployments())
                 .withExamsStart(speciality.getExamsStart())
+                .withRequiredCourses(mapSpecialityEntityToDomain(speciality))
                 .build();
+    }
+
+    private List<CourseEntity> mapSpecialityEntityToDomain(Speciality speciality) {
+        List<Course> requiredCourses = speciality.getRequiredCourses();
+        return requiredCourses
+                .stream()
+                .map(courseMapper::mapDomainToEntity)
+                .collect(Collectors.toList());
+    }
+
+    private List<Course> mapSpecialityCoursesEntityToDomain(SpecialityEntity specialityEntity) {
+        List<CourseEntity> requiredCourses = specialityEntity.getRequiredCourses();
+        return requiredCourses.stream()
+                .map(courseMapper::mapEntityToDomain)
+                .collect((Collectors.toList()));
     }
 }

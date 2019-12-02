@@ -171,6 +171,8 @@ public class ExamResultDaoImpl extends AbstractCrudDaoImpl<ExamResultEntity> imp
                 .withCourseEntity(courseEntityMapper.mapResultSetToEntity(resultSet))
                 .withUserId(userId)
                 .withCourseId(courseId)
+                .withUserEntity(userEntityMapper.mapResultSetToEntity(resultSet))
+                .withCourseEntity(courseEntityMapper.mapResultSetToEntity(resultSet))
                 .withMark((Integer) resultSet.getObject("Grade"))
                 .build()) : Optional.empty();
     }

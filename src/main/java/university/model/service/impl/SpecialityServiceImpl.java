@@ -45,9 +45,9 @@ public class SpecialityServiceImpl implements SpecialityService {
 
     @Override
     public List<Speciality> findAll() {
-        List<SpecialityEntity> specialityEntities = specialityDao.findAll();
-        return specialityEntities.isEmpty() ? Collections.emptyList() : specialityEntities
-                .stream().map(specialityMapper::mapEntityToDomain)
+        return  specialityDao.findAll()
+                .stream()
+                .map(specialityMapper::mapEntityToDomain)
                 .collect(Collectors.toList());
 
     }

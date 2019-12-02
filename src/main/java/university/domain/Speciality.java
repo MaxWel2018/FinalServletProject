@@ -146,14 +146,8 @@ public class Speciality {
         }
         Speciality that = (Speciality) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(studentsNumber, that.studentsNumber) &&
-                Objects.equals(activity, that.activity) &&
-                Objects.equals(background, that.background) &&
-                Objects.equals(employments, that.employments) &&
-                Objects.equals(examsStart, that.examsStart) &&
-                Objects.equals(examsEnd, that.examsEnd) &&
-                Objects.equals(requiredCourses, that.requiredCourses);
+                Objects.equals(name, that.name);
+
     }
 
     @Override

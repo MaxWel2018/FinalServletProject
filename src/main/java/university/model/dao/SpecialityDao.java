@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface SpecialityDao extends CrudDao<SpecialityEntity, Integer> {
 
-
 }

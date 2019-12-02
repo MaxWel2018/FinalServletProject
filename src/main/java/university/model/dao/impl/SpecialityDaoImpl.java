@@ -47,7 +47,7 @@ public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> imp
                 .withEmployments(resultSet.getString("Employments"))
                 .withExamsStart((resultSet.getDate("Exams_Start")).toLocalDate())
                 .withExamsEnd((resultSet.getDate("Exams_End")).toLocalDate())
-                .withRequiredCourses(mapResultSetToSpecCourse(resultSet))
+                .withRequiredCourses(mapResultSetToSpecCourse(resultSet,resultSet.getString("Speciality_Name")))
                 .build();
     }
 
@@ -72,9 +72,11 @@ public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> imp
         return new CourseEntity(resultSet.getInt("Course_Id"),resultSet.getString("Course_Name"));
     }
 
-    private List<CourseEntity> mapResultSetToSpecCourse(ResultSet resultSet) throws SQLException {
+    private List<CourseEntity> mapResultSetToSpecCourse(ResultSet resultSet, String speciality_name) throws SQLException {
         List<CourseEntity> courses = new ArrayList<>();
+        resultSet.beforeFirst();
         while (resultSet.next()) {
+            if(resultSet.getString("Speciality_Name").equals(speciality_name))
             courses.add(mapResultSetToCourse(resultSet));
         }
         return courses;

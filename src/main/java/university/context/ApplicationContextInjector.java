@@ -14,9 +14,9 @@ import university.model.dao.*;
 import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.impl.*;
 import university.model.dao.mapper.CourseEntityMapper;
+import university.model.dao.mapper.RoleEntityMapper;
 import university.model.dao.mapper.SpecialityEntityMapper;
 import university.model.dao.mapper.UserEntityMapper;
-import university.model.dao.mapper.RoleEntityMapper;
 import university.model.dao.mapper.impl.CourseEntityMapperImpl;
 import university.model.dao.mapper.impl.RoleEntityMapperImpl;
 import university.model.dao.mapper.impl.SpecialityEntityMapperImpl;
@@ -43,9 +43,9 @@ public final class ApplicationContextInjector {
 
     private static final SpecialityReqMapper SPECIALITY_REQ_MAPPER = new SpecialityReqMapper();
 
-    private static final SpecialityMapper SPECIALITY_DOMAIN_MAPPER = new SpecialityMapper();
-
     private static final CourseMapper COURSE_MAPPER = new CourseMapper();
+
+    private static final SpecialityMapper SPECIALITY_DOMAIN_MAPPER = new SpecialityMapper(COURSE_MAPPER);
 
     private static final CourseEntityMapper COURSE_ENTITY_MAPPER = new CourseEntityMapperImpl();
 
@@ -55,7 +55,7 @@ public final class ApplicationContextInjector {
 
     private static final SpecialityService SPECIALITY_SERVICE = new SpecialityServiceImpl(SPECIALITY_DAO, SPECIALITY_DOMAIN_MAPPER,  RESULT_FOR_SPECIALITY_DAO);
 
-    private static final SpecialityMapper SPECIALITY_MAPPER = new SpecialityMapper();
+    private static final SpecialityMapper SPECIALITY_MAPPER = new SpecialityMapper(COURSE_MAPPER);
 
     private static final UserMapper USER_MAPPER = new UserMapper(SPECIALITY_MAPPER);
 
@@ -67,13 +67,13 @@ public final class ApplicationContextInjector {
 
     private static final ExamResultDao EXAM_RESULT_DAO = new ExamResultDaoImpl(HIKARI_CONNECTION_POOL, USER_ENTITY_MAPPER, COURSE_ENTITY_MAPPER);
 
-    private static final UserDao USER_DAO = new UserDaoImpl(HIKARI_CONNECTION_POOL, USER_ENTITY_MAPPER);
+    private static final UserDao USER_DAO = new UserDaoImpl(HIKARI_CONNECTION_POOL);
 
     private static final UserService USER_SERVICE = new UserServiceImpl(USER_DAO, USER_VALIDATOR, USER_MAPPER);
 
     private static final ExamResultMapper EXAM_RESULT_MAPPER = new ExamResultMapper(COURSE_MAPPER,USER_MAPPER);
 
-    private static final ResultService RESULT_SERVICE = new ResultServiceImpl(RESULT_FOR_SPECIALITY_DAO, EXAM_RESULT_DAO, SPECIALITY_REQ_MAPPER, EXAM_RESULT_MAPPER);
+    private static final ResultService RESULT_SERVICE = new ResultServiceImpl(EXAM_RESULT_DAO, EXAM_RESULT_MAPPER);
 
     private static final ResultForSpecService RESULT_FOR_SPEC_SERVICE = new ResultForSpecServiceImpl(RESULT_FOR_SPECIALITY_DAO, SPECIALITY_REQ_MAPPER);
 

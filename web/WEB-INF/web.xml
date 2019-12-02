@@ -28,10 +28,10 @@
         <servlet-name>admin</servlet-name>
         <url-pattern>/admin/profile</url-pattern>
     </servlet-mapping>
-<filter>
-    <filter-name>SecurityFilter</filter-name>
-    <filter-class>university.controller.filter.AdminSecurityFilter</filter-class>
-</filter>
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>university.controller.filter.AdminSecurityFilter</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>SecurityFilter</filter-name>
         <url-pattern>/admin/*</url-pattern>

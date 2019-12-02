@@ -62,6 +62,8 @@ public class RegisterForSpecialityCommand implements Command {
     private ExamResult mapExamResult(User user, Course course, LocalDate date) {
         return ExamResult.newBuilder()
                 .withUserId(user.getId())
+                .withUser(user)
+                .withCourse(course)
                 .withCourse(course)
                 .withDate(date)
                 .build();
