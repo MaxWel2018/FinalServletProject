@@ -38,7 +38,7 @@ public class ExamResultDaoImpl extends AbstractCrudDaoImpl<ExamResultEntity> imp
             "         LEFT JOIN course c on exam_result.Id_Course = c.Course_Id" +
             "         LEFT JOIN users u on exam_result.Id_User = u.User_Id" +
             "         LEFT JOIN speciality on u.Id_Speciality = speciality.Speciality_Id" +
-            "         LEFT JOIN role r on u.Role_Id = r.Role_Id";
+            "         LEFT JOIN role r on u.Role_Id = r.Role_Id WHERE u.Role_Id = 1";
     private static final String UPDATE_QUERY = "UPDATE exam_result SET  Date =?, Grade = ?,Id_Course = ? , Id_User = ?" +
             " where Exam_Result_Id";
     private static final String INSERT_EXAM_RESULT = "INSERT INTO exam_result(Date, Grade, Id_Course, Id_User) VALUES (?,?,?,?)";
@@ -93,7 +93,7 @@ public class ExamResultDaoImpl extends AbstractCrudDaoImpl<ExamResultEntity> imp
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_BY_COURSE_ID_AND_DATA)) {
             preparedStatement.setInt(1, id);
-            preparedStatement.setObject(2, Date.valueOf(date));
+            preparedStatement.setDate(2, Date.valueOf(date));
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 return mapResultSetToListExamResult(resultSet);

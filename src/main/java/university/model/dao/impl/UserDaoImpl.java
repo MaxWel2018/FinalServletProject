@@ -26,11 +26,11 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<UserEntity> implements User
     private static final String UPDATE_QUERY = "UPDATE users" +
             " SET Email = ?,Password = ?, First_Name = ? ,Second_Name=?, Role_Id = ?, Id_Speciality = ? WHERE  User_Id = ?";
     private static final String INSERT_USER = "INSERT INTO users(Email, Password, First_Name, Second_Name, Role_Id) VALUES(?,?,?,?,?)";
-    private static final String FIND_BY_EMAIL = "SELECT *\n" +
+    private static final String FIND_BY_EMAIL = "SELECT * " +
             "FROM users" +
             " INNER JOIN role r on users.Role_Id = r.Role_Id" +
             " LEFT JOIN speciality s on users.Id_Speciality = s.Speciality_Id " +
-            "INNER JOIN speciality_course sc on s.Speciality_Id = sc.Speciality_Id " +
+            "LEFT JOIN speciality_course sc on s.Speciality_Id = sc.Speciality_Id " +
             "LEFT JOIN course c on sc.Course_Id = c.Course_Id " +
             "where Email = ?";
 

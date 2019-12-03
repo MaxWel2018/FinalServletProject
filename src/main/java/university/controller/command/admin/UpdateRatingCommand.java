@@ -37,11 +37,11 @@ public class UpdateRatingCommand implements Command {
         List<ExamResult> allExamResult = resultService.findAll();
         Map<Integer, List<ExamResult>> userIdToExamResult = allExamResult.stream().collect(Collectors.groupingBy(ExamResult::getUserId));
         for (Integer integer : userIdToExamResult.keySet()) {
-            mapToResultForSpec(userIdToExamResult, integer);
+            setExamResult(userIdToExamResult, integer);
         }
     }
 
-    private void mapToResultForSpec(Map<Integer, List<ExamResult>> collect, Integer integer) {
+    private void setExamResult(Map<Integer, List<ExamResult>> collect, Integer integer) {
         resultForSpecService.setResultForSpeciality(UserResult.newBuilder()
                 .withSpecialityId(getSpecialityId(integer))
                 .withFinalMark(calculateFinalMark(collect.get(integer)))
@@ -58,11 +58,8 @@ public class UpdateRatingCommand implements Command {
     }
 
     private Integer calculateFinalMark(List<ExamResult> examResults) {
-        Integer finalMark = 0;
-        for (ExamResult examResult : examResults) {
-            finalMark += examResult.getMark();
-        }
-        return finalMark;
+        return  examResults.stream().map(ExamResult::getMark).reduce(0, Integer::sum);
+
     }
 
 }

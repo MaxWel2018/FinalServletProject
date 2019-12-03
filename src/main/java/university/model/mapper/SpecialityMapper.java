@@ -55,7 +55,7 @@ public class SpecialityMapper implements Mapper<Speciality, SpecialityEntity> {
 
     private List<Course> mapSpecialityCoursesEntityToDomain(SpecialityEntity specialityEntity) {
         List<CourseEntity> requiredCourses = specialityEntity.getRequiredCourses();
-        return requiredCourses.stream()
+        return requiredCourses==null?null:requiredCourses.stream()
                 .map(courseMapper::mapEntityToDomain)
                 .collect((Collectors.toList()));
     }

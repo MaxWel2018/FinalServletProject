@@ -29,7 +29,7 @@ public class ExamResultMapper implements Mapper<ExamResult, ExamResultEntity> {
                 .withMark(examResultEntity.getMark())
                 .withUserId(examResultEntity.getUserId())
                 .withCourse(mapCourseEntityToDomain(examResultEntity))
-                .withUser(mapUserEntityToDomain(examResultEntity))
+                .withUser(mapExamResultEntityToUser(examResultEntity))
                 .build();
     }
 
@@ -41,8 +41,8 @@ public class ExamResultMapper implements Mapper<ExamResult, ExamResultEntity> {
                 .withDate(examResult.getDate())
                 .withMark(examResult.getMark())
                 .withUserId(examResult.getUserId())
-                .withUserEntity(mapUserToEntity(examResult))
-                .withCourseEntity(mapCourseToEntity(examResult))
+                .withUserEntity(mapExamResultToUserEntity(examResult))
+                .withCourseEntity(mapExamResultToCourseEntity(examResult))
                 .build();
     }
 
@@ -50,15 +50,15 @@ public class ExamResultMapper implements Mapper<ExamResult, ExamResultEntity> {
         return Optional.ofNullable(courseMapper.mapEntityToDomain(examResultEntity.getCourseEntity())).orElse(new Course());
     }
 
-    private User mapUserEntityToDomain(ExamResultEntity examResultEntity) {
+    private User mapExamResultEntityToUser(ExamResultEntity examResultEntity) {
         return Optional.ofNullable(userMapper.mapEntityToDomain(examResultEntity.getUserEntity())).orElse(User.newBuilder().build());
     }
 
-    private CourseEntity mapCourseToEntity(ExamResult examResult) {
+    private CourseEntity mapExamResultToCourseEntity(ExamResult examResult) {
         return Optional.ofNullable(courseMapper.mapDomainToEntity(examResult.getCourse())).orElse(new CourseEntity());
     }
 
-    private UserEntity mapUserToEntity(ExamResult examResult) {
+    private UserEntity mapExamResultToUserEntity(ExamResult examResult) {
         return Optional.ofNullable(userMapper.mapDomainToEntity(examResult.getUser())).orElse(UserEntity.newBuilder().build());
     }
 
