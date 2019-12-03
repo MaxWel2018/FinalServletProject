@@ -36,8 +36,8 @@ public class AboutUserCommand implements Command {
             for (Course requiredCourse : requiredCourses) {
                 examResults.add(resultService.findExamResultByUserIdAndCourseId(id, requiredCourse.getId()));
             }
-            request.getSession().setAttribute("examResults", examResults);
             request.getSession().setAttribute("userSpec", speciality);
+            request.getSession().setAttribute("examResults", examResults);
         }
 
         return PagesConstant.PROFILE_ABOUT_PAGE;

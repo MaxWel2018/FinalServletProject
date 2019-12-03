@@ -80,7 +80,7 @@ public class ExamResultDaoImpl extends AbstractCrudDaoImpl<ExamResultEntity> imp
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, courseId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                return mapResultSetToExamResultEntity(userId, courseId, resultSet);
+                return Optional.ofNullable(mapResultSetToEntity(resultSet));
             }
         } catch (SQLException e) {
             LOGGER.error("Finding  is failed", e);
@@ -162,20 +162,5 @@ public class ExamResultDaoImpl extends AbstractCrudDaoImpl<ExamResultEntity> imp
                 .map(ExamResultEntity::getMark)
                 .orElse(null);
     }
-
-    private Optional<ExamResultEntity> mapResultSetToExamResultEntity(Integer userId, Integer courseId, ResultSet resultSet) throws SQLException {
-        return resultSet.next() ? Optional.of(ExamResultEntity.newBuilder()
-                .withId(resultSet.getInt("Exam_Result_Id"))
-                .withDate((resultSet.getDate("Date")).toLocalDate())
-                .withUserEntity(userEntityMapper.mapResultSetToEntity(resultSet))
-                .withCourseEntity(courseEntityMapper.mapResultSetToEntity(resultSet))
-                .withUserId(userId)
-                .withCourseId(courseId)
-                .withUserEntity(userEntityMapper.mapResultSetToEntity(resultSet))
-                .withCourseEntity(courseEntityMapper.mapResultSetToEntity(resultSet))
-                .withMark((Integer) resultSet.getObject("Grade"))
-                .build()) : Optional.empty();
-    }
-
 
 }

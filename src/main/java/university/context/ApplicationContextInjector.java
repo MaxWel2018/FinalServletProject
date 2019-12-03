@@ -39,15 +39,15 @@ public final class ApplicationContextInjector {
 
     private static final SpecialityDao SPECIALITY_DAO = new SpecialityDaoImpl(HIKARI_CONNECTION_POOL);
 
-    private static final CourseDao COURSE_DAO = new CourseDaoImpl(HIKARI_CONNECTION_POOL);
+    private static final CourseEntityMapper COURSE_ENTITY_MAPPER = new CourseEntityMapperImpl();
+
+    private static final CourseDao COURSE_DAO = new CourseDaoImpl(HIKARI_CONNECTION_POOL,COURSE_ENTITY_MAPPER);
 
     private static final SpecialityReqMapper SPECIALITY_REQ_MAPPER = new SpecialityReqMapper();
 
     private static final CourseMapper COURSE_MAPPER = new CourseMapper();
 
     private static final SpecialityMapper SPECIALITY_DOMAIN_MAPPER = new SpecialityMapper(COURSE_MAPPER);
-
-    private static final CourseEntityMapper COURSE_ENTITY_MAPPER = new CourseEntityMapperImpl();
 
     private static final CourseService COURSE_SERVICE = new CourseServiceImpl(COURSE_DAO, COURSE_MAPPER);
 

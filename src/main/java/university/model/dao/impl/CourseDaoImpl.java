@@ -3,6 +3,7 @@ package university.model.dao.impl;
 import university.model.dao.CourseDao;
 import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.entity.CourseEntity;
+import university.model.dao.mapper.CourseEntityMapper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,15 +17,17 @@ public class CourseDaoImpl extends AbstractCrudDaoImpl<CourseEntity> implements 
     private static final String UPDATE_QUERY = "UPDATE course SET Course_Name = ? WHERE  Course_Id = ?";
     private static final String INSERT_COURSE = "INSERT INTO exam_result(Date, Grade, Course_Id, User_Id)" +
             " VALUES (?,?,?,?)";
+    private  final CourseEntityMapper courseEntityMapper;
 
-    public CourseDaoImpl(HikariConnectionPool connector) {
+    public CourseDaoImpl(HikariConnectionPool connector,CourseEntityMapper courseEntityMapper) {
         super(connector, INSERT_COURSE, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY);
+        this.courseEntityMapper = courseEntityMapper;
+
     }
 
     @Override
     protected CourseEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-        return new CourseEntity(resultSet.getInt("Course_Id"),
-                resultSet.getString("Course_Name"));
+        return courseEntityMapper.mapResultSetToEntity(resultSet);
     }
 
     @Override

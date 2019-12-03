@@ -2,11 +2,9 @@ package university.model.service.impl;
 
 import university.domain.ExamResult;
 import university.model.dao.ExamResultDao;
-import university.model.dao.ResultForSpecialityDao;
 import university.model.dao.entity.ExamResultEntity;
 import university.model.dao.exception.EntityNotFoundException;
 import university.model.mapper.ExamResultMapper;
-import university.model.mapper.SpecialityReqMapper;
 import university.model.service.ResultService;
 
 import java.time.LocalDate;

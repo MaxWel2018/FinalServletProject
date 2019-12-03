@@ -9,7 +9,6 @@ import java.sql.SQLException;
 public class CourseEntityMapperImpl implements CourseEntityMapper {
     @Override
     public CourseEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-
         return new CourseEntity(resultSet.getInt("Course_Id"),
                 resultSet.getString("Course_Name"));
     }
