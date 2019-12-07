@@ -13,7 +13,19 @@
         <a href="/user/home?command=info">
             <fmt:message key="home.header.home"/>
         </a>
-        <a href="/user/profile?command=show-profile"><fmt:message key="home.header.profile"/></a>
+        <a  id ="profile" href="#"><fmt:message key="home.header.profile"/></a>
+
+        <script type="text/javascript">
+            document.getElementById("profile").onclick = function() {
+                if(${user.role == "ADMIN"}) {
+                    document.getElementById("profile").href="/admin/profile?command=show-profile";
+                }else {
+                    document.getElementById("profile").href="/user/profile?command=show-profile";
+                }
+            }
+
+      </script>
+
         <a href="/user/result?command=show-speciality"><fmt:message
                 key="home.header.resultExam"/></a>
         <c:choose>

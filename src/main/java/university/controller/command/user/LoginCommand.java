@@ -30,6 +30,9 @@ public class LoginCommand implements Command {
         } catch (AuthorisationFailException e) {
             return reAuth(request);
         }
+        if ("ADMIN".equalsIgnoreCase(user.getRole().toString())) {
+            return PagesConstant.ADMIN_PROFILE;
+        }
         return PagesConstant.PROFILE_PAGE;
     }
 

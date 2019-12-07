@@ -74,7 +74,6 @@ a:hover {
 .flex-header>a:hover{
     border-bottom: 1px solid #58c5f0;
     text-decoration: none;!important;
-    color: #004eff;!important;
 }
 
 .menu-element-select {

@@ -9,9 +9,7 @@
     <title>Profile</title>
     <c:import url="/views/Style.jsp"/>
 </head>
-
 <body>
-
 <div class="flex-wrapper">
     <c:import url="/views/part/Header.jsp"/>
     <div class="content">
@@ -31,5 +29,16 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<script type="text/javascript">
+    window.onload = function () {
+
+        if (${isRegistered==true}) {
+            alert("<fmt:message key="user.allready.registered"/>");
+        }
+
+    }
+
+</script>
+
 </body>
 </html>

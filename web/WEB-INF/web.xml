@@ -68,16 +68,12 @@
         <filter-name>HomeSecurity</filter-name>
         <url-pattern>/home</url-pattern>
     </filter-mapping>
-    <filter>
-        <filter-name>ProfileSecurityFilter</filter-name>
-        <filter-class>university.controller.filter.ProfileSecurityFilter</filter-class>
-    </filter>
     <filter-mapping>
-        <filter-name>ProfileSecurityFilter</filter-name>
+        <filter-name>HomeSecurity</filter-name>
         <url-pattern>/user/profile</url-pattern>
     </filter-mapping>
     <filter-mapping>
-        <filter-name>ProfileSecurityFilter</filter-name>
+        <filter-name>HomeSecurity</filter-name>
         <servlet-name>admin</servlet-name>
     </filter-mapping>
     <filter>
@@ -93,6 +89,10 @@
     <error-page>
         <error-code>404</error-code>
         <location>/views/error/Error404.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>university.model.service.exception.InCorrectDateRuntimeException</exception-type>
+        <location>/views/error/inCorrectDate.jsp </location>
     </error-page>
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>

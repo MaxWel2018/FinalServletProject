@@ -13,12 +13,10 @@ public class EncodingFilter implements Filter {
     public void init(FilterConfig filterConfig) {
 
     }
-//TODO пофиксить копипаст
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         getPassword(req, "password", "passwordEncode");
-
         getPassword(req, "confirmPassword", "confirmPassword");
         filterChain.doFilter(req, servletResponse);
     }

@@ -2,10 +2,9 @@ package university.model.validator;
 
 import university.domain.User;
 import university.model.service.exception.InvalidDateException;
-import university.model.service.exception.InvalidEmailException;
-import university.model.service.exception.InvalidPasswordException;
 
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 
@@ -23,40 +22,19 @@ public class UserValidator implements Validator<User> {
             Pattern.compile(REGEX_FOR_NAME);
 
     @Override
-    public void validate(User entity) {
-        emailValidate(entity);
-        passwordValidate(entity);
-        validateFirstName(entity);
-        validateSecondName(entity);
+    public void validate(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User is null");
+        }
+        validateByParam(User::getPassword, PASSWORD_PATTERN, "Password invalidate", user);
+        validateByParam(User::getSecondName, REGEX_FOR_NAME_PATERN, "Second name invalidate", user);
+        validateByParam(User::getFirstName, REGEX_FOR_NAME_PATERN, "First name invalidate", user);
+        validateByParam(User::getEmail, EMAIL_PATTERN, "Email invalidate", user);
     }
 
-    private void validateSecondName(User entity) {
-        Optional.ofNullable(entity)
-                .map(User::getSecondName)
-                .filter(x -> REGEX_FOR_NAME_PATERN.matcher(x).matches())
-                .orElseThrow(() -> new InvalidDateException("Second name invalidate"));
-    }
-
-    private void validateFirstName(User entity) {
-        Optional.ofNullable(entity)
-                .map(User::getFirstName)
-                .filter(x -> REGEX_FOR_NAME_PATERN.matcher(x).matches())
-                .orElseThrow(() -> new InvalidDateException("First name  invalidate"));
-    }
-
-    private void passwordValidate(User entity) {
-        Optional.ofNullable(entity)
-                .map(User::getPassword)
-                .filter((x -> PASSWORD_PATTERN.matcher(x).matches()))
-                .orElseThrow(() -> new InvalidPasswordException("Password  invalidate"));
-    }
-
-    private void emailValidate(User entity) {
-        Optional.ofNullable(entity)
-                .map(User::getEmail)
-                .filter(x -> EMAIL_PATTERN.matcher(x).matches())
-                .orElseThrow(() -> new InvalidEmailException("Email  invalidate"));
+    private void validateByParam(Function<User, String> param, Pattern pattern, String errorMessage, User user) {
+        Optional.ofNullable(param.apply(user))
+                .filter(x -> pattern.matcher(x).matches())
+                .orElseThrow(() -> new InvalidDateException(errorMessage));
     }
 }
-
-

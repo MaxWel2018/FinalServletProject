@@ -41,12 +41,11 @@
                         <fmt:message key="profile.information.exams"/></p>
                     <div>
                         <c:forEach items="${examResults}" var="exRes">
-
                             <p>
                                     ${exRes.course.name}:
                                 <span>
                                     <c:choose>
-                                        <c:when test="${exRes.mark==null}">
+                                        <c:when test="${exRes.mark==0}">
                                             <fmt:message key="profile.information.exam"/>: ${exRes.date}
                                         </c:when>
                                         <c:otherwise>
@@ -55,8 +54,17 @@
                                     </c:choose>
                                     </span>
                             </p>
-
                         </c:forEach>
+                        <div>
+                            <p><fmt:message key="result.user.final.mark"/>: <span>${finalResult.finalMark}</span></p>
+                            <p><fmt:message key="entry.confirm"/>:
+                                <c:if test="${finalResult.confirmed==false}">
+                                    ❌
+                                </c:if>
+                                <c:if test="${finalResult.confirmed==true}">
+                                    ✅
+                                </c:if></p>
+                        </div>
                     </div>
                 </div>
             </div>

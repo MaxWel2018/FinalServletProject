@@ -23,7 +23,9 @@ public class HomeSecurityFilter implements Filter {
         final User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             request.getRequestDispatcher(PagesConstant.AUTHORIZATION_PAGE).forward(request, servletResponse);
-        }else{
+        } else if ("ADMIN".equalsIgnoreCase(user.getRole().toString())) {
+            request.getRequestDispatcher(PagesConstant.ADMIN_PROFILE).forward(request, servletResponse);
+        } else {
             filterChain.doFilter(request, servletResponse);
         }
     }

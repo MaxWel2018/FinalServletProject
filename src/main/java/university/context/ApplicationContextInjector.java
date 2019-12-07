@@ -37,9 +37,9 @@ public final class ApplicationContextInjector {
 
     private static final Validator<User> USER_VALIDATOR = new UserValidator();
 
-    private static final SpecialityDao SPECIALITY_DAO = new SpecialityDaoImpl(HIKARI_CONNECTION_POOL);
-
     private static final CourseEntityMapper COURSE_ENTITY_MAPPER = new CourseEntityMapperImpl();
+
+    private static final SpecialityDao SPECIALITY_DAO = new SpecialityDaoImpl(HIKARI_CONNECTION_POOL, COURSE_ENTITY_MAPPER);
 
     private static final CourseDao COURSE_DAO = new CourseDaoImpl(HIKARI_CONNECTION_POOL,COURSE_ENTITY_MAPPER);
 
@@ -59,7 +59,7 @@ public final class ApplicationContextInjector {
 
     private static final UserMapper USER_MAPPER = new UserMapper(SPECIALITY_MAPPER);
 
-    private static final SpecialityEntityMapper SPECIALITY_ENTITY_MAPPER = new SpecialityEntityMapperImpl();
+    private static final SpecialityEntityMapper SPECIALITY_ENTITY_MAPPER = new SpecialityEntityMapperImpl(COURSE_ENTITY_MAPPER);
 
     private static final RoleEntityMapper ROLE_ENTITY_MAPPER = new RoleEntityMapperImpl();
 
@@ -67,7 +67,7 @@ public final class ApplicationContextInjector {
 
     private static final ExamResultDao EXAM_RESULT_DAO = new ExamResultDaoImpl(HIKARI_CONNECTION_POOL, USER_ENTITY_MAPPER, COURSE_ENTITY_MAPPER);
 
-    private static final UserDao USER_DAO = new UserDaoImpl(HIKARI_CONNECTION_POOL);
+    private static final UserDao USER_DAO = new UserDaoImpl(HIKARI_CONNECTION_POOL, SPECIALITY_ENTITY_MAPPER);
 
     private static final UserService USER_SERVICE = new UserServiceImpl(USER_DAO, USER_VALIDATOR, USER_MAPPER);
 
@@ -93,11 +93,11 @@ public final class ApplicationContextInjector {
 
     private static final Command SHOW_PROFILE_COMMAND = new ShowProfileCommand();
 
-    private static final Command ABOUT_USER_COMMAND = new AboutUserCommand(RESULT_SERVICE, USER_SERVICE);
+    private static final Command ABOUT_USER_COMMAND = new AboutUserCommand(RESULT_SERVICE, RESULT_FOR_SPEC_SERVICE, USER_SERVICE);
 
     private static final Command EXAM_REGISTRATION = new RegisterForSpecialityCommand(RESULT_SERVICE, USER_SERVICE);
 
-    private static final Command REGISTER_FORM_FOR_EXAM = new RegisterForExamShowFormCommand();
+    private static final Command REGISTER_FORM_FOR_EXAM = new RegisterForExamShowFormCommand(USER_SERVICE);
 
     private static final Command REGISTER_FORM = new ShowRegisterFormCommand();
 
@@ -188,14 +188,6 @@ public final class ApplicationContextInjector {
         return ADMIN_COMMAND_NAME_TO_COMMAND;
     }
 
-    public HikariConnectionPool getHikariConnectionPool() {
-        return HIKARI_CONNECTION_POOL;
-    }
-
-    public SpecialityService getSpecialityService() {
-        return SPECIALITY_SERVICE;
-    }
-
     public Map<String, Command> getHomeCommandNameToCommand() {
         return HOME_COMMAND_NAME_TO_COMMAND;
     }
@@ -204,37 +196,6 @@ public final class ApplicationContextInjector {
         return USER_COMMAND_NAME_TO_COMMAND;
     }
 
-    public UserService getUserService() {
-        return USER_SERVICE;
-    }
-
-    public UserMapper getUserMapper() {
-        return USER_MAPPER;
-    }
-
-    public Validator<User> getUserValidator() {
-        return USER_VALIDATOR;
-    }
-
-    public CourseMapper getCourseMapper() {
-        return COURSE_MAPPER;
-    }
-
-    public Command getLoginCommand() {
-        return LOGIN_COMMAND;
-    }
-
-    public Command getRegisterCommand() {
-        return REGISTER_COMMAND;
-    }
-
-    public Command getRatingCommand() {
-        return RATING_COMMAND;
-    }
-
-    public ResultForSpecService getResultForSpecService() {
-        return RESULT_FOR_SPEC_SERVICE;
-    }
 
     public Map<String, Command> getRatingCommandNameToCommand() {
         return RATING_COMMAND_NAME_TO_COMMAND;

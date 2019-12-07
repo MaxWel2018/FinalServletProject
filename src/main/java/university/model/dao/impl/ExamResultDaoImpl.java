@@ -80,8 +80,9 @@ public class ExamResultDaoImpl extends AbstractCrudDaoImpl<ExamResultEntity> imp
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, courseId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                return Optional.ofNullable(mapResultSetToEntity(resultSet));
+                return resultSet.next() ? Optional.ofNullable(mapResultSetToEntity(resultSet)) : Optional.empty();
             }
+
         } catch (SQLException e) {
             LOGGER.error("Finding  is failed", e);
             throw new DataBaseRuntimeException(e);
@@ -118,8 +119,8 @@ public class ExamResultDaoImpl extends AbstractCrudDaoImpl<ExamResultEntity> imp
                 .withMark(resultSet.getInt("Grade"))
                 .withCourseId(resultSet.getInt("Id_Course"))
                 .withCourseEntity(getCourseWithResultSet(resultSet))
-                .withUserEntity(getUserWithResultSet(resultSet))
                 .withUserId(resultSet.getInt("Id_User"))
+                .withUserEntity(getUserWithResultSet(resultSet))
                 .build();
     }
 

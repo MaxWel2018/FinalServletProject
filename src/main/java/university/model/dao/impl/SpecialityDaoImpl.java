@@ -1,10 +1,10 @@
 package university.model.dao.impl;
 
-import org.apache.log4j.Logger;
 import university.model.dao.SpecialityDao;
 import university.model.dao.connection.HikariConnectionPool;
 import university.model.dao.entity.CourseEntity;
 import university.model.dao.entity.SpecialityEntity;
+import university.model.dao.mapper.CourseEntityMapper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,8 +32,12 @@ public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> imp
             "INTO speciality(SPECIALITY_NAME, STUDENTS_NUMBER, ACTIVITY, BACKGROUND, EMPLOYMENTS, EXAMS_START, EXAMS_END) " +
             "VALUES (?,?,?,?,?,?,?)";
 
-    public SpecialityDaoImpl(HikariConnectionPool connector) {
+    private final CourseEntityMapper courseEntityMapper;
+
+
+    public SpecialityDaoImpl(HikariConnectionPool connector, CourseEntityMapper courseEntityMapper) {
         super(connector, INSERT_SPECIALITY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY);
+        this.courseEntityMapper = courseEntityMapper;
     }
 
     @Override
@@ -68,16 +72,12 @@ public class SpecialityDaoImpl extends AbstractCrudDaoImpl<SpecialityEntity> imp
         preparedStatement.setInt(8, entity.getId());
     }
 
-    private CourseEntity mapResultSetToCourse(ResultSet resultSet) throws SQLException {
-        return new CourseEntity(resultSet.getInt("Course_Id"),resultSet.getString("Course_Name"));
-    }
-
     private List<CourseEntity> mapResultSetToSpecCourse(ResultSet resultSet, String speciality_name) throws SQLException {
         List<CourseEntity> courses = new ArrayList<>();
         resultSet.beforeFirst();
         while (resultSet.next()) {
             if(resultSet.getString("Speciality_Name").equals(speciality_name))
-            courses.add(mapResultSetToCourse(resultSet));
+            courses.add(courseEntityMapper.mapResultSetToEntity(resultSet));
         }
         return courses;
     }
