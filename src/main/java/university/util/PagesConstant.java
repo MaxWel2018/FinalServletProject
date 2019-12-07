@@ -11,7 +11,6 @@ public final class PagesConstant {
     public static String REGISTRATION_EXAM_PAGE = "/views/user/RegistrationForSpecialityExam.jsp";
     public static String REGISTRATION_PAGE = "/views/user/form/Registration.jsp";
     public static String AUTHORIZATION_PAGE = "/views/user/form/Authorization.jsp";
-    public static String ERROR_404_PAGE = "/views/error/Error404.jsp";
     public static String NO_ADMIN_PAGE = "/views/error/NoAdmin.jsp";
 
     private PagesConstant() {
