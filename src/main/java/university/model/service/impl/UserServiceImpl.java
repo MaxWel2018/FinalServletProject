@@ -29,7 +29,6 @@ public class UserServiceImpl implements UserService {
         this.validator = validator;
         this.userMapper = userMapper;
 
-
     }
 
     @Override

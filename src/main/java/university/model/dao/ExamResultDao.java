@@ -13,6 +13,4 @@ public interface ExamResultDao extends CrudDao<ExamResultEntity, Integer> {
 
     void updateGrade(Integer id,Integer grade);
 
-
-
 }
