@@ -4,7 +4,6 @@ import university.domain.Speciality;
 import university.domain.User;
 import university.model.dao.entity.SpecialityEntity;
 import university.model.dao.entity.UserEntity;
-import university.model.service.PasswordInCode;
 
 import java.util.Optional;
 

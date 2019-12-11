@@ -16,7 +16,6 @@ public class ShowSetGradesPageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         request.setAttribute("allCourses", courseService.findAll());
-
         return PagesConstant.SET_GRADES_PAGE;
     }
 }

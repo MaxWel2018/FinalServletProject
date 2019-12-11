@@ -19,12 +19,12 @@ public abstract class AbstractServlet extends HttpServlet {
     AbstractServlet(String command, String defaultCommand) {
         ApplicationContextInjector injector = ApplicationContextInjector.getInstance();
         switch (command) {
-            case "admin": {
-                this.commandNameToCommand = injector.getAdminCommand();
-                break;
-            }
             case "home": {
                 this.commandNameToCommand = injector.getHomeCommandNameToCommand();
+                break;
+            }
+            case "admin-profile": {
+                this.commandNameToCommand = injector.getAdminCommand();
                 break;
             }
             case "result": {
