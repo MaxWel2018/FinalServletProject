@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: krugo
-  Date: 03.11.2019
-  Time: 23:05
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>

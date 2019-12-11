@@ -25,22 +25,12 @@ public class SpecialityServiceImpl implements SpecialityService {
     }
 
     @Override
-    public void register(SpecialityEntity specialityEntity) {
-        throw new UnsupportedOperationException("In developing");
-    }
-
-    @Override
     public Speciality findById(Integer id) {
 
         return specialityDao.findById(id)
                 .map(specialityMapper::mapEntityToDomain)
                 .orElseThrow(() -> new EntityNotFoundException("Speciality with id: " + id + " dont found"));
 
-    }
-
-    @Override
-    public void update(Speciality entity) {
-        throw new UnsupportedOperationException("In developing");
     }
 
     @Override
@@ -57,9 +47,4 @@ public class SpecialityServiceImpl implements SpecialityService {
         return resultForSpecialityDao.countElementOfTableBySpecId(idSpeciality);
     }
 
-
-    @Override
-    public void addCourse(Integer specialityId, Integer courseId) {
-        throw new UnsupportedOperationException("In developing");
-    }
 }
