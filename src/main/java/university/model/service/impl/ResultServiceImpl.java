@@ -34,7 +34,7 @@ public class ResultServiceImpl implements ResultService {
         List<ExamResultEntity> allByCourseIdAndData = examResultDao.findAllByCourseIdAndData(id, date);
         return allByCourseIdAndData.stream()
                 .map(examResultMapper::mapEntityToDomain)
-                .collect(Collectors.toList());
+                    .collect(Collectors.toList());
     }
 
     @Override

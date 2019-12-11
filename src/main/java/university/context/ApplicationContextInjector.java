@@ -136,6 +136,7 @@ public final class ApplicationContextInjector {
         userCommandNameToCommand.put("show-auth", AUTH_FORM);
         userCommandNameToCommand.put("show-register", REGISTER_FORM);
         userCommandNameToCommand.put("logout", LOG_OUT_COMMAND);
+
         return Collections.unmodifiableMap(userCommandNameToCommand);
     }
 
