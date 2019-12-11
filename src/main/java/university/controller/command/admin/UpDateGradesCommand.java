@@ -5,9 +5,6 @@ import university.model.service.ResultService;
 import university.util.PagesConstant;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UpDateGradesCommand implements Command {
     private final ResultService resultService;
@@ -27,7 +24,7 @@ public class UpDateGradesCommand implements Command {
 
     private void updateGrade( String[] grades, String[] ids) {
         for (int i = 0; i < ids.length; i++) {
-            resultService.updateGrade(Integer.parseInt(grades[i]), Integer.parseInt(ids[i]));
+            resultService.updataGrade(Integer.parseInt(grades[i]), Integer.parseInt(ids[i]));
         }
     }
 

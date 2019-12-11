@@ -36,16 +36,16 @@ public class UpdateRatingCommand implements Command {
     private void setFinalMark() {
         List<ExamResult> allExamResult = resultService.findAll();
         Map<Integer, List<ExamResult>> userIdToExamResult = allExamResult.stream().collect(Collectors.groupingBy(ExamResult::getUserId));
-        for (Integer integer : userIdToExamResult.keySet()) {
-            setExamResult(userIdToExamResult, integer);
+        for (Integer id : userIdToExamResult.keySet()) {
+            setExamResult(userIdToExamResult, id);
         }
     }
 
-    private void setExamResult(Map<Integer, List<ExamResult>> collect, Integer integer) {
+    private void setExamResult(Map<Integer, List<ExamResult>> collect, Integer id) {
         resultForSpecService.setResultForSpeciality(UserResult.newBuilder()
-                .withSpecialityId(getSpecialityId(integer))
-                .withFinalMark(calculateFinalMark(collect.get(integer)))
-                .withUserId(getUserId(collect, integer))
+                .withSpecialityId(getSpecialityId(id))
+                .withFinalMark(calculateFinalMark(collect.get(id)))
+                .withUserId(getUserId(collect, id))
                 .build());
     }
 

@@ -30,11 +30,6 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    public void updateExamResult(ExamResult examResult) {
-        examResultDao.update(examResultMapper.mapDomainToEntity(examResult));
-    }
-
-    @Override
     public List<ExamResult> findAllByCourseIdAndData(Integer id, LocalDate date) {
         List<ExamResultEntity> allByCourseIdAndData = examResultDao.findAllByCourseIdAndData(id, date);
         return allByCourseIdAndData.stream()
@@ -56,7 +51,7 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    public boolean updateGrade(Integer id, Integer grade) {
+    public boolean updataGrade(Integer id, Integer grade) {
         if (id > 0 && grade > 0 && grade<=100) {
             examResultDao.updateGrade(id, grade);
             return true;
